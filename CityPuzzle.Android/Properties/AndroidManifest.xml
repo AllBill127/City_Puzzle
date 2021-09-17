@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.citypuzzle">
     <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
     <application android:label="CityPuzzle.Android" android:theme="@style/MainTheme">
-		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyAnS6uuoqNRiQtiEk7ZrkJj24tkogcxACo"/>
+		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyDbGfPrV-6ymMR63L70paZik5bR8UBqiB0"/>
 	</application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>
