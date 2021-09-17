@@ -34,5 +34,12 @@
     <string>CityPuzzle</string>
     <key>XSAppIconAssets</key>
     <string>Assets.xcassets/AppIcon.appiconset</string>
+
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Use location at all times</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Use location when app in use</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Use location at all times</string>
 </dict>
 </plist>
