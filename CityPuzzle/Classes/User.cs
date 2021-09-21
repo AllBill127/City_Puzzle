@@ -11,6 +11,7 @@ namespace CityPuzzle.Classes
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string Pass { get; set; }
+        public string Email { get; set; }
         public User() { }
         public static Boolean CheckPassword(string name, string pass)
         {
@@ -41,7 +42,7 @@ namespace CityPuzzle.Classes
             return false;
         }
         public static Boolean CheckUser(string name)
-        {
+        { 
             using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
             {
                 conn.CreateTable<User>();

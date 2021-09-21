@@ -4,7 +4,7 @@
              x:Class="CityPuzzle.MainPage">
 
     <Grid>
-        <map:Map MapType="Street" HasZoomEnabled="True">
+        <map:Map MapType="Street" HasZoomEnabled="True" IsShowingUser="true" >
             <map:Map.ItemTemplate>
                 <DataTemplate>
                     <map:Pin Position="{Binding Position}"
