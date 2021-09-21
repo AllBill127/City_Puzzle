@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using Foundation;
@@ -24,7 +25,11 @@ namespace CityPuzzle.iOS
         {
             Xamarin.FormsMaps.Init();
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            string fileName = "App_data.db3";
+            string folderPath = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "..", "Library");
+            string completePath = Path.Combine(folderPath, fileName);
+
+            LoadApplication(new App(completePath));
 
             return base.FinishedLaunching(app, options);
         }

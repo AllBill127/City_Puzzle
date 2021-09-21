@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BackgroundImage="https://lh3.googleusercontent.com/9kPRJFhtVyE-zL4ZW4yLVeRmouruVrQ9dtndegtQIOpOfTHrVefn7oguY0jgvm911-tgpDcJXr6C2zOd7JSVA84ZriBee--zqVXkgtpE-uFLrWWNkhseKGFvrl__j2Zm50r8U_BikA_pyFoqkq7s0GyPt8kXo1EvFdvrl2eMlf-3YNkV5vyGrufqDqtHQKGJSUTap91TNiBL0OXsBCwkRXzg7G0klEjwaiv5azbK-x1nG3DgxX5nX-t03lUwDevgr1V2hefDwFU--RyFc19WsYGeKFpZSdgUi3qXk2yIx_3r56vB28NMprK92xqEf6880udCb5qlEl37S0Lcaxsq_OH6JDX3up-AdH5iAFv4pZB6lVhHRdbsqXO36UND68DGf7mnOgCtrLs3dlStXIxAwrcAxP5UTNgjcSalvhy6GS4iGJ58lvkoeckz_bIAC5KHPb3_gVncfM-VFWNSbUAKbkahp1SukQMn741-oSyxhzr68ONCfbo7Mvwl1dLgq_lLmAelmVh1z0qzu01SRA1IkaJYnN_7GLAfwh_idI3FnaQht0XeaKz9EuAo94QUgaFR9KuaUWBTvRmPjSD0AkfV5J8fwRHEcY9_YOKHpkGxDUhzx59oUsLERZgAyHTzYiLKevGotVL6Zn3Jju2ij5-hibcG73qiYaAPTui3yrSKTcUwE3ah1I2geT37E8jmrZ4Zw4qfCKPPgqYj1ue07MSUwJA=w546-h747-no?authuser=0"
+            x:Class="CityPuzzle.SignUpPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
+                <Label Text="Registruotis" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+            </Frame>
+            <Entry x:Name="usernameEntry" Placeholder="Vartotojo vardas" BackgroundColor="White"></Entry>
+            <Entry x:Name="nameEntry" Placeholder="Vardas" BackgroundColor="White"></Entry>
+            <Entry x:Name="lastnameEntry" Placeholder="Pavarde" BackgroundColor="White"></Entry>
+            <Entry x:Name="emailEntry" Placeholder="Pastas" BackgroundColor="White"></Entry>
+            <Entry x:Name="passEntry" Placeholder="Slaptazodis" BackgroundColor="White"></Entry>
+            <Label Padding="0,0,0,50"></Label>
+            <Button x:Name="Registration_Button" Text="Registruotis" Clicked="Registration_Click"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

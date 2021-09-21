@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityPuzzle.Android", "CityP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityPuzzle.iOS", "CityPuzzle.iOS\CityPuzzle.iOS.csproj", "{9755681C-884F-43D4-A44F-7FAAA15BF6E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityPuzzle", "CityPuzzle\CityPuzzle.csproj", "{06BB0818-DF06-49D8-96DE-E9D3DBA5BBB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityPuzzle", "CityPuzzle\CityPuzzle.csproj", "{06BB0818-DF06-49D8-96DE-E9D3DBA5BBB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
