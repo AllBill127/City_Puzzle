@@ -26,10 +26,12 @@ namespace CityPuzzle.iOS
             Xamarin.FormsMaps.Init();
             global::Xamarin.Forms.Forms.Init();
             string fileName = "App_data.db3";
+            string fileName2 = "App_data2.db3";
             string folderPath = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "..", "Library");
             string completePath = Path.Combine(folderPath, fileName);
 
-            LoadApplication(new App(completePath));
+            string completePath2 = Path.Combine(folderPath, fileName2);
+            LoadApplication(new App(completePath, completePath2));
 
             return base.FinishedLaunching(app, options);
         }

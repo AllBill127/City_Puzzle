@@ -42,6 +42,7 @@ namespace CityPuzzle
                         LastName = lastnameEntry.Text,
                         UserName = usernameEntry.Text,
                         Pass = passEntry.Text,
+                        QuestsComlited = ""
 
                     };
                     using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
@@ -49,7 +50,10 @@ namespace CityPuzzle
                         conn.CreateTable<User>();
                         int rowsAdded = conn.Insert(user);
                     };
-                    Navigation.PushAsync(new LoginPage());
+
+                    Navigation.PopAsync();
+                    
+
 
                 }
             }

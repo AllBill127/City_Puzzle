@@ -139,4 +139,7 @@
       <Name>CityPuzzle</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1.png" />
+  </ItemGroup>
 </Project>

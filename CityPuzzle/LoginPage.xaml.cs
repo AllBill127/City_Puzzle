@@ -19,7 +19,7 @@ namespace CityPuzzle
         void Login_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Prisijungia");
-            if (User.CheckPassword(Vartotojo_vardas.Text, Slaptazodis.Text)) Navigation.PushAsync(new MapPage());
+            if (User.CheckPassword(Vartotojo_vardas.Text, Slaptazodis.Text)) Navigation.PushAsync(new GameEntryPage());
             else
             {
                 Vartotojo_vardas.Text = "";
@@ -34,7 +34,7 @@ namespace CityPuzzle
         }
         void Sign_Click(object sender, EventArgs e)
         {
-
+            Slaptazodis.Text = "";
             Navigation.PushAsync(new SignUpPage());
 
         }

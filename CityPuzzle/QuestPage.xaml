@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CityPuzzle.QuestPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name="MissionLabel" FontSize="20" Text=""
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="QuestField" FontSize="20" Text=""
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <Button Text="Kaip arti?" Clicked="check_Click" BackgroundColor="#F3BD21"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

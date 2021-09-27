@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CityPuzzle.LoginPage"
-             BackgroundImage="login_img.png">
+             BackgroundImageSource="https://lh3.googleusercontent.com/LaamISmmg7Qsqlt1EbAij1jsfEBFdKWIYWUYJ6jLxeqvCbzLeRoVeVMMGwa-5yX1ghF81ouviZZx7o0tkO-bld-sONyEb_gmNZTyvPKq6BAMQmaWqXAYANoi5cyMfRVjwUD-KbE44M-XOBzVNe9LumhGT1_OTM6NQhtjqhYDAP0fd3w8TNm0fhyXFrOEn9ZdcnhDHpICSMDnnSST9d5O5nbtE4Pn2u7iYqqMLDYt3_7AJ-bOSui0wbUBn8g5aGrIfAOGoRGXay_Gy4Tjxf3Qssn6tODCnKWCW4waeS5Bhg3W5DCD20BA3FEpH3FDJ8bAsL9XFLgoRQ9rWct1YZy8gUIy81T164werewPGBO5MzQYqVIt1--FFqiqwq0sBoa5vSwf_-tCNqkHlY4p84xJkkQ_VDsCiX_Hm7D4BitdYuiffinYhz3c-T9mTEHu6oUcSOUH3I7rspjDbEbsOEjVKRJfm23xqeL-4HbjQDm_pWKebKT6GJeiIesW1L7ZXuHj6ajIXaJnDVLqNBuYZvxWgWdXId6RRHcCwWg9YEYc10Tx65J9v6feildDG4qRJteGCv0Ro_NW4y958D48RaAMN6mUOdrbw3m83GcissoROnAlpsSoYRZbvDJe0cV4JV2VtfrozQEcy9jWwWVSYjQ1tA2laj0otnYspUqCYH3s9sGCIv6X85s4J5NBzcz0jME8dd1lqHWMcVccFI0iFOoZErg=w546-h747-no?authuser=0" WidthRequest="600" HeightRequest="200">
     <StackLayout>
         <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
             <Label Text="Sveiki atvykę į CityPuzzle!" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="36"/>

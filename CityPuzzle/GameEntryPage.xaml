@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CityPuzzle.GameEntryPage">
+    <StackLayout>
+        <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
+            <Label Text="Ar norite pradeti zaidima?" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="36"/>
+        </Frame>
+        <Label Padding="0,0,0,50"></Label>
+
+        <Button x:Name="StartButton" Text="Pradeti" Clicked="StartButton_click" BackgroundColor="#F3BD21"></Button>
+        <Button x:Name="AddButton" Text="Prideti objekta" Clicked="Add_Click" BackgroundColor="#F3BD21"></Button>
+        <Button  Text="Perziureti ojektus" Clicked="Look_Click" BackgroundColor="#F3BD21"></Button>
+
+    </StackLayout>
+</ContentPage>

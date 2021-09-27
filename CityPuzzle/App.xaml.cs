@@ -8,6 +8,7 @@ namespace CityPuzzle
     public partial class App : Application
     {
         public static string FilePath;
+        public static string ObjectPath;
         public static User CurrentUser { get; set; }
         public App()
         {
@@ -15,13 +16,14 @@ namespace CityPuzzle
 
             MainPage = new MainPage();
         }
-     public App(string filePath)
+     public App(string filePath, string objectPath)
         {
             InitializeComponent();
 
             MainPage = new NavigationPage(new LoginPage());
 
             FilePath = filePath;
+            ObjectPath = objectPath;
         }
 
         protected override void OnStart()

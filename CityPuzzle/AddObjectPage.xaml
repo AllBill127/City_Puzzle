@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CityPuzzle.AddObjectPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BackgroundColor="#2196F3" Padding="10" CornerRadius="0">
+                <Label Text="Objektu idejimas" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+            </Frame>
+            <Label Padding="0,0,0,50"></Label>
+            <Entry x:Name="ObjectName" Placeholder="Objecto pavadinimas" BackgroundColor="White"></Entry>
+            <Entry x:Name="ObjectAbout" Placeholder="Objecto aprasas" BackgroundColor="White"></Entry>
+            <Entry x:Name="ObjectQuest" Placeholder="Objecto uzduotis" BackgroundColor="White"></Entry>
+            <Entry x:Name="ObjectImg" Placeholder="Objecto img adresas" BackgroundColor="White"></Entry>
+            <Entry x:Name="ObjectX" Placeholder="Objecto X kordinates" BackgroundColor="White"></Entry>
+            <Entry x:Name="ObjectY" Placeholder="Objecto Y kordinates" BackgroundColor="White"></Entry>
+            <Label Padding="0,0,0,50"></Label>
+            <Button Text="Issaugoti" Clicked="Save_Click" BackgroundColor="Black" TextColor="White"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

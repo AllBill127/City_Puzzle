@@ -1,5 +1,6 @@
 ﻿using SQLite;
 using System;
+using System.Linq;
 
 namespace CityPuzzle.Classes
 {
@@ -12,6 +13,7 @@ namespace CityPuzzle.Classes
         public string UserName { get; set; }
         public string Pass { get; set; }
         public string Email { get; set; }
+        public string QuestsComlited { get; set; }
         public User() { }
         public static Boolean CheckPassword(string name, string pass)
         {
@@ -28,18 +30,10 @@ namespace CityPuzzle.Classes
                 conn.CreateTable<User>();
 
                 var info = conn.Table<User>().ToList();
-                foreach (User n in info)
-                {
-                    if (n.UserName.ToLower().Equals(name.ToLower()) && n.Pass.ToLower().Equals(pass.ToLower()))
-                    {
-                        App.CurrentUser = n;
-                        return true;
-                    }
-
-
-                }
+                App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && x.Pass.ToLower().Equals(pass.ToLower()));
+            
             };
-            return false;
+            return App.CurrentUser != null;
         }
         public static Boolean CheckUser(string name)
         { 

@@ -1,20 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             BackgroundImage="https://lh3.googleusercontent.com/9kPRJFhtVyE-zL4ZW4yLVeRmouruVrQ9dtndegtQIOpOfTHrVefn7oguY0jgvm911-tgpDcJXr6C2zOd7JSVA84ZriBee--zqVXkgtpE-uFLrWWNkhseKGFvrl__j2Zm50r8U_BikA_pyFoqkq7s0GyPt8kXo1EvFdvrl2eMlf-3YNkV5vyGrufqDqtHQKGJSUTap91TNiBL0OXsBCwkRXzg7G0klEjwaiv5azbK-x1nG3DgxX5nX-t03lUwDevgr1V2hefDwFU--RyFc19WsYGeKFpZSdgUi3qXk2yIx_3r56vB28NMprK92xqEf6880udCb5qlEl37S0Lcaxsq_OH6JDX3up-AdH5iAFv4pZB6lVhHRdbsqXO36UND68DGf7mnOgCtrLs3dlStXIxAwrcAxP5UTNgjcSalvhy6GS4iGJ58lvkoeckz_bIAC5KHPb3_gVncfM-VFWNSbUAKbkahp1SukQMn741-oSyxhzr68ONCfbo7Mvwl1dLgq_lLmAelmVh1z0qzu01SRA1IkaJYnN_7GLAfwh_idI3FnaQht0XeaKz9EuAo94QUgaFR9KuaUWBTvRmPjSD0AkfV5J8fwRHEcY9_YOKHpkGxDUhzx59oUsLERZgAyHTzYiLKevGotVL6Zn3Jju2ij5-hibcG73qiYaAPTui3yrSKTcUwE3ah1I2geT37E8jmrZ4Zw4qfCKPPgqYj1ue07MSUwJA=w546-h747-no?authuser=0"
+             BackgroundImage="https://lh3.googleusercontent.com/SMd38jGLDsC3rR4U-mMmoNlGEdk9H19PKyFEKc5B0sf8NfIj-Gy_TDH4yl42RMWCE02zT1mCsQaZWJigZmwRR8AxOLOmylLBlHKgA2Ixn9Rji_54CK2srf4PEsrEqCvwddKMenzzNiKPnhF_b5I6_TppOVUekpffZAoE3QOL5iC0aYim4ufUyfFq1SS_aUg5J8rIiSyN01I-rDLqXAKdWd2gpJmEwlm_YNa0OdXB6URf-lKZsLvSli8090B6U0zVvzAB9Iay_FY3l6hm4GY6P8cWRqKxpA7fb0K1U8N8El0jfbzmoCJyEbG7NJi-JpQKQNcOTnfc2EhRKuQ08yqwc8Ddk7f8c4OY29sJUrJZViYWV9Dhc6jrpJJtXfV9cVaqTWbSKajN-Efm-D7QxgJDLA0ivPdi03TcM3G7ZY3dDSvN6QuXNjC9-HlZz8_XEeYL55dgh9GxRAM6SNBcOP47XaXWBjET-7ANMsYutluYMLX4t6gBbsa8QQYKJHBh1Dk44o5ZwIO7spiZi2oZmo57JLkALMxk6tsaOIM6CfWwh4oAOvJpBFvcrqVJJa-9Nk14zM1SGHjuP6e7kkg8h8oh5cl3Nw9t5fXKLA5LDawXZsTIVBxakwRKeyPBN4SWxg1lheO9915OCrDnmyZKhCk6qtFALeqsPVxBhK5XOAPgf78ki8HNJA0DFUI2NLnAy18I1fYPZVsqx_ekryG5qVmrgXY=w511-h621-no?authuser=0"
             x:Class="CityPuzzle.SignUpPage">
     <ContentPage.Content>
         <StackLayout>
-            <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-                <Label Text="Registruotis" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+            <Frame BackgroundColor="#2196F3" Padding="10" CornerRadius="0">
+                <Label Text="Registracija" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
             </Frame>
+            <Label Padding="0,0,0,50"></Label>
             <Entry x:Name="usernameEntry" Placeholder="Vartotojo vardas" BackgroundColor="White"></Entry>
             <Entry x:Name="nameEntry" Placeholder="Vardas" BackgroundColor="White"></Entry>
             <Entry x:Name="lastnameEntry" Placeholder="Pavarde" BackgroundColor="White"></Entry>
             <Entry x:Name="emailEntry" Placeholder="Pastas" BackgroundColor="White"></Entry>
             <Entry x:Name="passEntry" Placeholder="Slaptazodis" BackgroundColor="White"></Entry>
             <Label Padding="0,0,0,50"></Label>
-            <Button x:Name="Registration_Button" Text="Registruotis" Clicked="Registration_Click"></Button>
+            <Button x:Name="Registration_Button" Text="Registruotis" Clicked="Registration_Click" BackgroundColor="Black" TextColor="White"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
