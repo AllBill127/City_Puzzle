@@ -56,9 +56,10 @@ namespace CityPuzzle.Classes
             };
             return true;
         }
+        /*
         public static void EncryptPass(string pass)
         {
-            var text = "opa";
+            var text = pass;
 
             var encryptedText = EncryptPlainTextToCipherText(text);
             var decryptedText = DecryptCipherTextToPlainText(encryptedText);
@@ -69,7 +70,8 @@ namespace CityPuzzle.Classes
             Console.WriteLine("DecryptedText = " + decryptedText);
             Console.ReadLine();
         }
-        private const string SecurityKey = "ComplexKeyHere_12121";
+        */
+        private const string SecurityKey = "SecurityKey_1212";
         public static string EncryptPlainTextToCipherText(string PlainText)
         {
            
