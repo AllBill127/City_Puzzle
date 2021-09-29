@@ -16,10 +16,10 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class QuestPage : ContentPage
     {
-        private double Location_X;
-        private double Location_Y;
-        private double PlaceLocation_X;
-        private double PlaceLocation_Y;
+        private double UserLat;
+        private double UserLng;
+        private double QuestLat;
+        private double QuestLng;
         private Puzzle[] Target;
         async void UpdateCurrentLocation()
         {
@@ -34,8 +34,8 @@ namespace CityPuzzle
                 {
                     Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
                     string x = " " + location.Latitude + " " + location.Longitude + " " + location.Altitude;
-                    Location_X = location.Latitude;
-                    Location_Y = location.Longitude;
+                    UserLat = location.Latitude;
+                    UserLng = location.Longitude;
                 }
                 else CurrentLocationError();
 
@@ -100,13 +100,13 @@ namespace CityPuzzle
         }
         public double GetDistance()
         {
-            return Math.Sqrt(Math.Pow((Location_X - PlaceLocation_X),2)+ Math.Pow((Location_Y - PlaceLocation_Y), 2));
+            return Math.Sqrt(Math.Pow((UserLat - QuestLat),2)+ Math.Pow((UserLng - QuestLng), 2));
         }
 
         public void SetTargetLocation(int num)
         {
-            PlaceLocation_X = Target[num].X;
-            PlaceLocation_Y = Target[num].Y;
+            QuestLat = Target[num].Latitude;
+            QuestLng = Target[num].Longitude;
         }
         void check_Click(object sender, EventArgs e) {
             UpdateCurrentLocation();
