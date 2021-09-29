@@ -25,7 +25,7 @@ namespace CityPuzzle
         {
             try
             {
-
+               
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
                 var cts = new CancellationTokenSource();
                 var location = await Geolocation.GetLocationAsync(request, cts.Token);
@@ -65,33 +65,32 @@ namespace CityPuzzle
         public QuestPage()
         {
             InitializeComponent();
-            //reikia padaryti salyga jei tuscias
             using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
             {
                 conn.CreateTable<Puzzle>();
                 var obj = conn.Table<Puzzle>().ToArray();
                 Target = obj;
             }
-            if (Target == null)
+            if (Target.Length == 0)
             {
                 Navigation.PushAsync(new AddObjectPage());
             }
-            int num = GetQuestNumber();
-            SetTargetLocation(num);
+            else
+            {
+               
+                int num = GetQuestNumber();
+                SetTargetLocation(num);
+
+                string vieta = Target[num].ImgAdress + ".png";
+                objimg.Source = vieta;
+
+                MissionLabel.Text = "Tavo uzduotis- surasti mane!";
+                QuestField.Text = Target[num].Quest;
 
 
-            MissionLabel.Text = "Tavo uzduotis- surasti mane!";
-            QuestField.Text = Target[num].Quest ;
 
-
-
-            UpdateCurrentLocation();
-                double dist = GetDistance();
-                
-         
-                
-            
-            UpdateCurrentLocation();
+                UpdateCurrentLocation();
+            }
         }
         
         //Nera jeigu netuscias( nepabaigtas- reikia is stringo isrinti kurie nebaigti)
@@ -117,7 +116,12 @@ namespace CityPuzzle
         async void printdistance()
 
         {
-            await DisplayAlert("Tau liko:", "" + GetDistance()* 110.574+" km", "OK") ;
+            string vienetai = "km";
+            double dis = GetDistance() *110.574;
+            if (dis<1) {
+                vienetai = "metrai";
+                dis = dis * 1000;}
+             await DisplayAlert("Tau liko:"," "+ dis+" "+ vienetai, "OK") ;
         }
 
     }

@@ -10,10 +10,10 @@ namespace CityPuzzle.Classes
         public static int Quantity=0;
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        public String About { get; set; }
-        public String Quest { get; set; }
-        public String Name { get; set; }
-        public String ImgAdress { get; set; }
+        public string About { get; set; }
+        public string Quest { get; set; }
+        public string Name { get; set; }
+        public string ImgAdress { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
 

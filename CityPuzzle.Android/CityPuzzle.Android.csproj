@@ -94,13 +94,16 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
+    <AndroidResource Include="Resources\drawable\puntukas.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CityPuzzle\CityPuzzle.csproj">
       <Project>{08654DAE-5D20-459E-9731-027092C3B5DE}</Project>
       <Name>CityPuzzle</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\logos.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

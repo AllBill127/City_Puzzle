@@ -17,7 +17,7 @@ namespace CityPuzzle
         {
             try
             {
-                if (nameEntry.Text.Length < 1 || lastnameEntry.Text.Length < 1 || usernameEntry.Text.Length < 1)
+                if (String.IsNullOrWhiteSpace(nameEntry.Text) || String.IsNullOrWhiteSpace(lastnameEntry.Text) || String.IsNullOrWhiteSpace(usernameEntry.Text))
                 {
 
                     MissInfoError();
@@ -41,7 +41,7 @@ namespace CityPuzzle
                         Name = nameEntry.Text,
                         LastName = lastnameEntry.Text,
                         UserName = usernameEntry.Text,
-                        Pass = passEntry.Text,
+                        Pass = User.EncryptPlainTextToCipherText(passEntry.Text),
                         QuestsComlited = ""
 
                     };

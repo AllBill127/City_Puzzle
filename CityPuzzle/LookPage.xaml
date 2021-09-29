@@ -2,13 +2,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CityPuzzle.LookPage">
-    <ContentPage.Content>
-        <ListView x:Name="ObjectsListView">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Name}"></TextCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </ContentPage.Content>
+  
+    <StackLayout>
+
+            <ListView x:Name="ObjectsListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Name}"></TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+    <Button  Text="Istrinti sarasa" Clicked="deleate_click" BackgroundColor="#F3BD21"></Button>
+    </StackLayout>
 </ContentPage>

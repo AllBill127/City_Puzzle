@@ -19,14 +19,12 @@ namespace CityPuzzle.Classes
         public User() { }
         public static Boolean CheckPassword(string name, string pass)
         {
-             if (name == null || pass == null)
+             if (String.IsNullOrWhiteSpace(name) || String.IsNullOrWhiteSpace(pass))
             {
                 return false;
             }
-            else if (name.Length == 0 || pass.Length == 0 )
-            {
-                return false;
-            }
+
+            pass = EncryptPlainTextToCipherText(pass);                                   //encrypt
             using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
             {
                 conn.CreateTable<User>();

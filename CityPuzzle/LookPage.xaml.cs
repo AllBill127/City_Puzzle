@@ -28,5 +28,17 @@ namespace CityPuzzle
 
             }
         }
+        void deleate_click(object sender, EventArgs e)
+        {
+            base.OnAppearing();
+            using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
+            {
+                conn.CreateTable<Puzzle>();
+                conn.DeleteAll<Puzzle>();
+                //conn.Delete()
+            }
+
+
+        }
     }
 }
