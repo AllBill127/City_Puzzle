@@ -35,7 +35,7 @@ namespace CityPuzzle
         void Sign_Click(object sender, EventArgs e)
         {
             Slaptazodis.Text = "";
-            Navigation.PushAsync(new GamePage());
+            Navigation.PushAsync(new SignUpPage());
 
         }
     }
