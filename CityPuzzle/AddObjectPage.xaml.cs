@@ -27,8 +27,8 @@ namespace CityPuzzle
                 Quest = ObjectQuest.Text,
                 Name = ObjectName.Text,
                 ImgAdress = ObjectImg.Text,
-                X= Convert.ToDouble(ObjectX.Text),
-                Y= Convert.ToDouble(ObjectY.Text),
+                Latitude= Convert.ToDouble(ObjectX.Text),
+                Longitude= Convert.ToDouble(ObjectY.Text),
 
             };
             using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
