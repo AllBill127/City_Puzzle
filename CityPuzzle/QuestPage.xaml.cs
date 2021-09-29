@@ -32,7 +32,7 @@ namespace CityPuzzle
 
                 if (location != null)
                 {
-                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                    Console.WriteLine($"UserLatitude: {location.Latitude}, UserLongitude: {location.Longitude}, Altitude: {location.Altitude}");
                     string x = " " + location.Latitude + " " + location.Longitude + " " + location.Altitude;
                     UserLat = location.Latitude;
                     UserLng = location.Longitude;
@@ -77,17 +77,14 @@ namespace CityPuzzle
             }
             else
             {
-               
                 int num = GetQuestNumber();
                 SetTargetLocation(num);
 
-                string vieta = Target[num].ImgAdress + ".png";
+                string vieta = Target[num].ImgAdress;
                 objimg.Source = vieta;
 
                 MissionLabel.Text = "Tavo uzduotis- surasti mane!";
                 QuestField.Text = Target[num].Quest;
-
-
 
                 UpdateCurrentLocation();
             }
@@ -98,9 +95,24 @@ namespace CityPuzzle
             if (App.CurrentUser.QuestsComlited == "") return 0;
             else return 0;
         }
+
+        //Calculate distance between two map point in kilometers
         public double GetDistance()
         {
-            return Math.Sqrt(Math.Pow((UserLat - QuestLat),2)+ Math.Pow((UserLng - QuestLng), 2));
+            const int R = 6371;
+            var lat1 = UserLat * Math.PI / 180;
+            var lat2 = QuestLat * Math.PI / 180;
+            var dLat = (UserLat - QuestLat) * Math.PI / 180;
+            var dLng = (UserLng - QuestLng) * Math.PI / 180;
+
+            var Q = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +               //Haversines formula for distance between two points on a sphere
+                Math.Cos(lat1) * Math.Cos(lat2) *
+                Math.Sin(dLng / 2) * Math.Sin(dLng / 2);
+
+            var havQ = 2 * Math.Atan2(Math.Sqrt(Q), Math.Sqrt(1 - Q));
+
+            var distance = R * havQ;
+            return distance;
         }
 
         public void SetTargetLocation(int num)
@@ -110,19 +122,17 @@ namespace CityPuzzle
         }
         void check_Click(object sender, EventArgs e) {
             UpdateCurrentLocation();
-            printdistance();
+            PrintDistance();
             
         }
-        async void printdistance()
-
+        async void PrintDistance()
         {
             string vienetai = "km";
-            double dis = GetDistance() *110.574;
+            double dis = GetDistance();
             if (dis<1) {
                 vienetai = "metrai";
                 dis = dis * 1000;}
              await DisplayAlert("Tau liko:"," "+ dis+" "+ vienetai, "OK") ;
         }
-
     }
 }
