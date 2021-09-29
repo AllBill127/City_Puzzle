@@ -16,10 +16,10 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class QuestPage : ContentPage
     {
-        private double Location_X;
-        private double Location_Y;
-        private double PlaceLocation_X;
-        private double PlaceLocation_Y;
+        private double UserLat;
+        private double UserLng;
+        private double QuestLat;
+        private double QuestLng;
         private Puzzle[] Target;
         async void UpdateCurrentLocation()
         {
@@ -34,8 +34,8 @@ namespace CityPuzzle
                 {
                     Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
                     string x = " " + location.Latitude + " " + location.Longitude + " " + location.Altitude;
-                    Location_X = location.Latitude;
-                    Location_Y = location.Longitude;
+                    UserLat = location.Latitude;
+                    UserLng = location.Longitude;
                 }
                 else CurrentLocationError();
 
@@ -65,59 +65,67 @@ namespace CityPuzzle
         public QuestPage()
         {
             InitializeComponent();
-            //reikia padaryti salyga jei tuscias
             using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
             {
                 conn.CreateTable<Puzzle>();
                 var obj = conn.Table<Puzzle>().ToArray();
                 Target = obj;
             }
-            if (Target == null)
+            if (Target.Length == 0)
             {
                 Navigation.PushAsync(new AddObjectPage());
             }
-            int num = GetQuestNumber();
-            SetTargetLocation(num);
+            else
+            {
+
+                int num = GetQuestNumber();
+                SetTargetLocation(num);
+
+                string vieta = Target[num].ImgAdress + ".png";
+                objimg.Source = vieta;
+
+                MissionLabel.Text = "Tavo uzduotis- surasti mane!";
+                QuestField.Text = Target[num].Quest;
 
 
-            MissionLabel.Text = "Tavo uzduotis- surasti mane!";
-            QuestField.Text = Target[num].Quest ;
 
-
-
-            UpdateCurrentLocation();
-                double dist = GetDistance();
-                
-         
-                
-            
-            UpdateCurrentLocation();
+                UpdateCurrentLocation();
+            }
         }
-        
+
         //Nera jeigu netuscias( nepabaigtas- reikia is stringo isrinti kurie nebaigti)
-        public int GetQuestNumber() {
+        public int GetQuestNumber()
+        {
             if (App.CurrentUser.QuestsComlited == "") return 0;
             else return 0;
         }
         public double GetDistance()
         {
-            return Math.Sqrt(Math.Pow((Location_X - PlaceLocation_X),2)+ Math.Pow((Location_Y - PlaceLocation_Y), 2));
+            return Math.Sqrt(Math.Pow((UserLat - QuestLat), 2) + Math.Pow((UserLng - QuestLng), 2));
         }
 
         public void SetTargetLocation(int num)
         {
-            PlaceLocation_X = Target[num].X;
-            PlaceLocation_Y = Target[num].Y;
+            QuestLat = Target[num].Latitude;
+            QuestLng = Target[num].Longitude;
         }
-        void check_Click(object sender, EventArgs e) {
+        void check_Click(object sender, EventArgs e)
+        {
             UpdateCurrentLocation();
             printdistance();
-            
+
         }
         async void printdistance()
 
         {
-            await DisplayAlert("Tau liko:", "" + GetDistance()* 110.574+" km", "OK") ;
+            string vienetai = "km";
+            double dis = GetDistance() * 110.574;
+            if (dis < 1)
+            {
+                vienetai = "metrai";
+                dis = dis * 1000;
+            }
+            await DisplayAlert("Tau liko:", " " + dis + " " + vienetai, "OK");
         }
 
     }
