@@ -21,12 +21,12 @@ namespace CityPuzzle
         private double QuestLat;
         private double QuestLng;
         private Puzzle[] Target;
-        async void UpdateCurrentLocation()
+        async Task UpdateCurrentLocation()
         {
             try
             {
                
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(60));
                 var cts = new CancellationTokenSource();
                 var location = await Geolocation.GetLocationAsync(request, cts.Token);
 
@@ -36,6 +36,7 @@ namespace CityPuzzle
                     string x = " " + location.Latitude + " " + location.Longitude + " " + location.Altitude;
                     UserLat = location.Latitude;
                     UserLng = location.Longitude;
+                    //CurrentLocationprint(" "+ UserLat+" "+ UserLng);
                 }
                 else CurrentLocationError();
 
@@ -97,6 +98,7 @@ namespace CityPuzzle
         }
 
         //Calculate distance between two map point in kilometers
+       /*
         public double GetDistance()
         {
             const int R = 6371;
@@ -114,21 +116,22 @@ namespace CityPuzzle
             var distance = R * havQ;
             return distance;
         }
-
+       */
         public void SetTargetLocation(int num)
         {
             QuestLat = Target[num].Latitude;
             QuestLng = Target[num].Longitude;
         }
         void check_Click(object sender, EventArgs e) {
-            UpdateCurrentLocation();
-            PrintDistance();
-            
+            PrintDistance(); 
         }
         async void PrintDistance()
         {
+            await UpdateCurrentLocation();
+            Location start = new Location(UserLat, UserLng);
+            Location end = new Location(QuestLat, QuestLng);
             string vienetai = "km";
-            double dis = GetDistance();
+            double dis = Location.CalculateDistance(start, end,0);
             if (dis<1) {
                 vienetai = "metrai";
                 dis = dis * 1000;}
