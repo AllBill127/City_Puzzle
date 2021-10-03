@@ -4,7 +4,15 @@
              xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              x:Class="CityPuzzle.GamePage">
     <Grid>
-        
+        <map:Map MapType="Street" HasZoomEnabled="True" IsShowingUser="true" x:Name="map">
+            <map:Map.ItemTemplate>
+                <DataTemplate>
+                    <map:Pin Position="{Binding Position}"
+                              Address="{Binding Address}"
+                              Label="{Binding PlaceName}"/>
+                </DataTemplate>
+            </map:Map.ItemTemplate>
+        </map:Map>
     </Grid>
 
 </ContentPage>
