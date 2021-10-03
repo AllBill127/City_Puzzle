@@ -96,35 +96,17 @@ namespace CityPuzzle
             if (App.CurrentUser.QuestsComlited == "") return 0;
             else return 0;
         }
-
-        //Calculate distance between two map point in kilometers
-       /*
-        public double GetDistance()
-        {
-            const int R = 6371;
-            var lat1 = UserLat * Math.PI / 180;
-            var lat2 = QuestLat * Math.PI / 180;
-            var dLat = (UserLat - QuestLat) * Math.PI / 180;
-            var dLng = (UserLng - QuestLng) * Math.PI / 180;
-
-            var Q = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +               //Haversines formula for distance between two points on a sphere
-                Math.Cos(lat1) * Math.Cos(lat2) *
-                Math.Sin(dLng / 2) * Math.Sin(dLng / 2);
-
-            var havQ = 2 * Math.Atan2(Math.Sqrt(Q), Math.Sqrt(1 - Q));
-
-            var distance = R * havQ;
-            return distance;
-        }
-       */
+        
         public void SetTargetLocation(int num)
         {
             QuestLat = Target[num].Latitude;
             QuestLng = Target[num].Longitude;
         }
+        
         void check_Click(object sender, EventArgs e) {
             PrintDistance(); 
         }
+        
         async void PrintDistance()
         {
             await UpdateCurrentLocation();
