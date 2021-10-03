@@ -21,12 +21,12 @@ namespace CityPuzzle
         private double QuestLat;
         private double QuestLng;
         private Puzzle[] Target;
-        async void UpdateCurrentLocation()
+        async Task UpdateCurrentLocation()
         {
             try
             {
                
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(60));
                 var cts = new CancellationTokenSource();
                 var location = await Geolocation.GetLocationAsync(request, cts.Token);
 
@@ -36,6 +36,7 @@ namespace CityPuzzle
                     string x = " " + location.Latitude + " " + location.Longitude + " " + location.Altitude;
                     UserLat = location.Latitude;
                     UserLng = location.Longitude;
+                    //CurrentLocationprint(" "+ UserLat+" "+ UserLng);
                 }
                 else CurrentLocationError();
 
@@ -95,40 +96,24 @@ namespace CityPuzzle
             if (App.CurrentUser.QuestsComlited == "") return 0;
             else return 0;
         }
-
-        //Calculate distance between two map point in kilometers
-        public double GetDistance()
-        {
-            const int R = 6371;
-            var lat1 = UserLat * Math.PI / 180;
-            var lat2 = QuestLat * Math.PI / 180;
-            var dLat = (UserLat - QuestLat) * Math.PI / 180;
-            var dLng = (UserLng - QuestLng) * Math.PI / 180;
-
-            var Q = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +               //Haversines formula for distance between two points on a sphere
-                Math.Cos(lat1) * Math.Cos(lat2) *
-                Math.Sin(dLng / 2) * Math.Sin(dLng / 2);
-
-            var havQ = 2 * Math.Atan2(Math.Sqrt(Q), Math.Sqrt(1 - Q));
-
-            var distance = R * havQ;
-            return distance;
-        }
-
+        
         public void SetTargetLocation(int num)
         {
             QuestLat = Target[num].Latitude;
             QuestLng = Target[num].Longitude;
         }
+        
         void check_Click(object sender, EventArgs e) {
-            UpdateCurrentLocation();
-            PrintDistance();
-            
+            PrintDistance(); 
         }
+        
         async void PrintDistance()
         {
+            await UpdateCurrentLocation();
+            Location start = new Location(UserLat, UserLng);
+            Location end = new Location(QuestLat, QuestLng);
             string vienetai = "km";
-            double dis = GetDistance();
+            double dis = Location.CalculateDistance(start, end,0);
             if (dis<1) {
                 vienetai = "metrai";
                 dis = dis * 1000;}
