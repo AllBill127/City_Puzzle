@@ -98,10 +98,8 @@ namespace CityPuzzle
                 MissionLabel.Text = "Tavo uzduotis- surasti mane!";
                 QuestField.Text = Target[num].Quest;
 
-                // TO DO: RevealImg() every smth interval of the game
-                RevealImg();
+                RevealImg();    // Start the quest completion loop
             }
-
         }
 
         // Get a random index of a quest that is within given distance and is not already complete
@@ -118,7 +116,7 @@ namespace CityPuzzle
                 // Currently 3km is set for distance
                 // TO DO: allow user to change distance (Add Distance for objects in User class)
                 // TO DO: make User class QuestComlited to List<string> type
-                if (dist <= 80 /*&& !(App.CurrentUser.QuestComlited.Contains(all[i].Name))*/)
+                if (dist <= 3 /*&& !(App.CurrentUser.QuestComlited.Contains(all[i].Name))*/)
                 {
                     inRange.Add(i);
                     Console.WriteLine("\n\nAdding object\n\n");
@@ -131,12 +129,10 @@ namespace CityPuzzle
                 int index = random.Next(inRange.Count);
 
                 int num = inRange[index];
-                Console.WriteLine("\n\nReturning number:" + num + "\n\n");
                 return num;
             }
             else
             {
-                Console.WriteLine("\n\nReturn ERROR\n\n");
                 return -1;
             }
         }
@@ -158,91 +154,65 @@ namespace CityPuzzle
             Location end = new Location(QuestLat, QuestLng);
 
             string vienetai = "km";
-            double dis = Location.CalculateDistance(start, end,0);
+            double dis = Location.CalculateDistance(start, end, 0);
             Console.WriteLine("\n\nDistanceLeft: " + dis + "\n\n");
-            if (dis<1)
+            if (dis < 1)
             {
                 vienetai = "metrai";
                 dis = dis * 1000;
             }
-            await DisplayAlert("Tau liko:"," "+ dis+" "+ vienetai, "OK") ;
+            await DisplayAlert("Tau liko:", " " + dis + " " + vienetai, "OK") ;
         }
 
 
         // When called hide all img masks and then reveal random masks depending on distance left
         // (when mask amount increases new random masks will be shown)
-        
         async private void RevealImg()
         {
-            await UpdateCurrentLocation();
-            double allDistance = GetDistance();
-            double distStep = allDistance / 9;    // TO DO: change 3 to User Distance option
-            double distLeft = allDistance;
+            double distStep = 3 / 9F;       // TO DO: change 3 to User Distance option
+            double distLeft = 3;
     
             int maskCount = 0;
 
             List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
             var random = new Random();
 
-            while (distLeft > 0.001) {
+            while (distLeft > 0.001)        // Quest completion loop that reveals parts of image depending on distance left
+            {
                 await UpdateCurrentLocation();
-                distLeft = GetDistance();
-  
-                int newMaskCount = 9 - (int)(distLeft / distStep);
-               
-                if (newMaskCount > maskCount)      // if maskCount increased then show new set of masks. Else skip
+
+                Location start = new Location(UserLat, UserLng);
+                Location end = new Location(QuestLat, QuestLng);
+                distLeft = Location.CalculateDistance(start, end, 0);
+
+                int newMaskCount = 9 - (int)(distLeft / distStep);      // How many masks should be hiden
+                
+                if (newMaskCount - maskCount > 1)        // Hide more than one mask at once if it is necessary
+                {
+                    int count = newMaskCount - maskCount;
+                    for (int i = 0; i < count; ++i)
+                    {
+                        maskCount += 1;
+                        int index = random.Next(masks.Count);       // select random mask from the list to hide
+                        masks[index].IsVisible = false;
+
+                        masks.Remove(masks[index]);
+                    }
+                }
+
+                if (newMaskCount > maskCount)      // If newMaskCount increased then hide one more mask. Else if newMaskCount decreased then "wrong direction"
                 {
                     maskCount +=1;
-                    int index = random.Next(masks.Count);
+                    int index = random.Next(masks.Count);       // select random mask from the list to hide
                     masks[index].IsVisible = false;
-                    //Console.WriteLine(newMaskCount + " " + maskCount + " "+ masks[index].Source+" " + distLeft);
+
                     masks.Remove(masks[index]);
                     Thread.Sleep(500);
-                    // TO DO: show indexed mask
                 }
                 else if(newMaskCount < maskCount)
                 {
-
+                    //TO DO: Message "going in the wrong direction"
                 }
-            }
-        }
-        public double GetDistance()
-        {
-            Location start = new Location(UserLat, UserLng);
-            Location end = new Location(QuestLat, QuestLng);
-            return Location.CalculateDistance(start, end, 0);
-
-        }
-        public double GetDistance(double StratLat, double StartLng)
-        {
-            Location start = new Location(StratLat, StartLng);
-            Location end = new Location(QuestLat, QuestLng);
-            return Location.CalculateDistance(start, end, 0);
-
-        }
-
-        public void ImageReveal()
-        {
-
-            double distamce_left = GetDistance();
-            double length = distamce_left / 9;
-            double user_point_Lat = UserLat;
-            double user_point_Lng = UserLng;
-            int i = 0;
-            while (distamce_left > 0.003)
-            {
-
-                double traveled = GetDistance(user_point_Lat, user_point_Lng);
-
-                if (traveled > length)
-                {
-                    i += 1;
-                    distamce_left -= length;
-                    user_point_Lat = UserLat;
-                    user_point_Lng = UserLng;
-
-                }
-
             }
         }
     }
