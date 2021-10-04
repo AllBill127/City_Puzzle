@@ -68,7 +68,7 @@ namespace CityPuzzle
                 var obj = conn.Table<Puzzle>().ToArray();
                 Target = obj;
             }
-
+            
             if (Target.Length == 0)
             {
                 Navigation.PushAsync(new AddObjectPage());
@@ -100,6 +100,7 @@ namespace CityPuzzle
                 QuestField.Text = Target[num].Quest;
 
                 // TO DO: RevealImg() every smth interval of the game
+                RevealImg();
             }
 
         }
@@ -118,7 +119,7 @@ namespace CityPuzzle
                 // Currently 3km is set for distance
                 // TO DO: allow user to change distance (Add Distance for objects in User class)
                 // TO DO: make User class QuestComlited to List<string> type
-                if (dist <= 3 /*&& !(App.CurrentUser.QuestComlited.Contains(all[i].Name))*/)
+                if (dist <= 80 /*&& !(App.CurrentUser.QuestComlited.Contains(all[i].Name))*/)
                 {
                     inRange.Add(i);
                     Console.WriteLine("\n\nAdding object\n\n");
@@ -171,30 +172,86 @@ namespace CityPuzzle
 
         // When called hide all img masks and then reveal random masks depending on distance left
         // (when mask amount increases new random masks will be shown)
-        int maskCount = 0;
-        private void RevealImg()
+        
+        async private void RevealImg()
         {
-            double distStep = 3 / 9;    // TO DO: change 3 to User Distance option
+            await UpdateCurrentLocation();
+            double allDistance = GetDistance();
+            double distStep = allDistance / 9;    // TO DO: change 3 to User Distance option
+            double distLeft = allDistance;
+    
+            int maskCount = 10;
 
+            List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
+            var random = new Random();
+
+            while (distLeft > 0.04) {
+                await UpdateCurrentLocation();
+                distLeft = GetDistance();
+                
+
+                int newMaskCount = 9 - (int)(distLeft / distStep);
+
+                if (newMaskCount > maskCount)      // if maskCount increased then show new set of masks. Else skip
+                {
+                    maskCount = newMaskCount;
+
+                    // TO DO: hide all masks
+                    CurrentLocationError();
+
+                    int index = random.Next(masks.Count);
+                        masks[index].IsVisible = false;
+                      
+                        masks.Remove(masks[index]);
+                        // TO DO: show indexed mask
+                        
+
+                    
+                
+                }
+                else if(newMaskCount < maskCount)
+                {
+
+                }
+            }
+        }
+        public double GetDistance()
+        {
             Location start = new Location(UserLat, UserLng);
             Location end = new Location(QuestLat, QuestLng);
-            double distLeft = (int)Location.CalculateDistance(start, end, 0);
+            return Location.CalculateDistance(start, end, 0);
 
-            int newMaskCount = 9 - (int)(distLeft / distStep);
-            if (newMaskCount != maskCount)      // if maskCount increased then show new set of masks. Else skip
+        }
+        public double GetDistance(double StratLat, double StartLng)
+        {
+            Location start = new Location(StratLat, StartLng);
+            Location end = new Location(QuestLat, QuestLng);
+            return Location.CalculateDistance(start, end, 0);
+
+        }
+
+        public void ImageReveal()
+        {
+
+            double distamce_left = GetDistance();
+            double length = distamce_left / 9;
+            double user_point_Lat = UserLat;
+            double user_point_Lng = UserLng;
+            int i = 0;
+            while (distamce_left > 0.04)
             {
-                maskCount = newMaskCount;
 
-                // TO DO: hide all masks
-                List<int> masks = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-                var random = new Random();
+                double traveled = GetDistance(user_point_Lat, user_point_Lng);
 
-                for (int i = 0; i < newMaskCount; ++i)
+                if (traveled > length)
                 {
-                    int index = random.Next(masks.Count);
-                    masks.Remove(index);
-                    // TO DO: show indexed mask
+                    i += 1;
+                    distamce_left -= length;
+                    user_point_Lat = UserLat;
+                    user_point_Lng = UserLng;
+
                 }
+
             }
         }
     }
