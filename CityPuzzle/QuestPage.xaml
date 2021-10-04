@@ -20,9 +20,7 @@
                 <Image x:Name="mask8" Source="mask8.png"></Image>
                 <Image x:Name="mask9" Source="mask9.png"></Image>
         
-             
-                <Image Source="Mask1.png"></Image>
-                <Image Source="Mask2.png"></Image>
+       
             </Grid>
             <Label x:Name="QuestField" FontSize="20" Text=""
                 VerticalOptions="CenterAndExpand" 

@@ -32,7 +32,6 @@ namespace CityPuzzle
 
                 if (location != null)
                 {
-                    Console.WriteLine($"UserLatitude: {location.Latitude}, UserLongitude: {location.Longitude}, Altitude: {location.Altitude}");
                     string x = " " + location.Latitude + " " + location.Longitude + " " + location.Altitude;
                     UserLat = location.Latitude;
                     UserLng = location.Longitude;
@@ -180,34 +179,26 @@ namespace CityPuzzle
             double distStep = allDistance / 9;    // TO DO: change 3 to User Distance option
             double distLeft = allDistance;
     
-            int maskCount = 10;
+            int maskCount = 0;
 
             List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
             var random = new Random();
 
-            while (distLeft > 0.04) {
+            while (distLeft > 0.001) {
                 await UpdateCurrentLocation();
                 distLeft = GetDistance();
-                
-
+  
                 int newMaskCount = 9 - (int)(distLeft / distStep);
-
+               
                 if (newMaskCount > maskCount)      // if maskCount increased then show new set of masks. Else skip
                 {
-                    maskCount = newMaskCount;
-
-                    // TO DO: hide all masks
-                    CurrentLocationError();
-
+                    maskCount +=1;
                     int index = random.Next(masks.Count);
-                        masks[index].IsVisible = false;
-                      
-                        masks.Remove(masks[index]);
-                        // TO DO: show indexed mask
-                        
-
-                    
-                
+                    masks[index].IsVisible = false;
+                    //Console.WriteLine(newMaskCount + " " + maskCount + " "+ masks[index].Source+" " + distLeft);
+                    masks.Remove(masks[index]);
+                    Thread.Sleep(500);
+                    // TO DO: show indexed mask
                 }
                 else if(newMaskCount < maskCount)
                 {
@@ -238,7 +229,7 @@ namespace CityPuzzle
             double user_point_Lat = UserLat;
             double user_point_Lng = UserLng;
             int i = 0;
-            while (distamce_left > 0.04)
+            while (distamce_left > 0.003)
             {
 
                 double traveled = GetDistance(user_point_Lat, user_point_Lng);
