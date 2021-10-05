@@ -27,13 +27,13 @@ namespace CityPuzzle.Classes
                 return false;
             }
 
-            pass = PassToHash(pass);                                   //encrypt
+           // pass = PassToHash(pass);//     //                              //encrypt
             using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
             {
                 conn.CreateTable<User>();
 
                 var info = conn.Table<User>().ToList();
-                App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && x.Pass.ToLower().Equals(pass.ToLower()));
+                App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && PassVerification(pass,x.Pass));
             
             };
             return App.CurrentUser != null;
