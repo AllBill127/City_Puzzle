@@ -1,5 +1,6 @@
 ﻿using SQLite;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -16,7 +17,9 @@ namespace CityPuzzle.Classes
         public string UserName { get; set; }
         public string Pass { get; set; }
         public string Email { get; set; }
-        public List<string> QuestComlited = new List<string>();
+
+        public List<int> QuestsComlited { get; set; }
+      
         public User() { }
         public static Boolean CheckPassword(string name, string pass)
         {
@@ -29,8 +32,9 @@ namespace CityPuzzle.Classes
             using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
             {
                 conn.CreateTable<User>();
-
+                //conn.DeleteAll<User>();
                 var info = conn.Table<User>().ToList();
+                
                 App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && x.Pass.ToLower().Equals(pass.ToLower()));
             
             };

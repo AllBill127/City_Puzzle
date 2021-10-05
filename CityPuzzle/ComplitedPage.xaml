@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CityPuzzle.ComplitedPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
+                <Label x:Name="Complitedname" HorizontalOptions="CenterAndExpand" FontSize="36" TextColor="Black" ></Label>
+            </Frame>
+                <Image x:Name="ComplitedImg" WidthRequest="300" HeightRequest="300"></Image>
+            <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
+                <Label x:Name="Complitedinfo" HorizontalOptions="CenterAndExpand" FontSize="25" TextColor="Black" ></Label>
+            </Frame>
+            <Button Text="Delioti kita puzzle" Clicked="new_puzzle"></Button>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
