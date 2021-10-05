@@ -18,8 +18,8 @@ namespace CityPuzzle.Classes
         public string Pass { get; set; }
         public string Email { get; set; }
 
-        public List<int> QuestsComlited { get; set; }
-      
+        public List<string> QuestComlited = new List<string>();
+
         public User() { }
         public static Boolean CheckPassword(string name, string pass)
         {
