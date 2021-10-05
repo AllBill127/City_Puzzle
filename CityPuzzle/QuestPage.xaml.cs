@@ -21,6 +21,7 @@ namespace CityPuzzle
         private double QuestLat;
         private double QuestLng;
         private Puzzle[] Target;
+        private double distOption;
 
         async Task UpdateCurrentLocation()
         {
@@ -80,12 +81,14 @@ namespace CityPuzzle
 
         async private void ShowQuest()
         {
+            distOption = double.Parse(await DisplayPromptAsync("Distance option", "Please enter the number of kilometers you are willing to go to reach a possible destination"));
+            
             await UpdateCurrentLocation();
 
             int num = GetQuestNumber(Target);
             if (num == -1)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
             {
-                await DisplayAlert("No destinations in " + 3 + " km radius", "Consider creating a nearby destination yourself.", "OK");
+                await DisplayAlert("No destinations in " + distOption + " km radius", "Consider creating a nearby destination yourself.", "OK");
                 await Navigation.PopAsync();
             }
             else
@@ -98,7 +101,9 @@ namespace CityPuzzle
                 MissionLabel.Text = "Tavo uzduotis- surasti mane!";
                 QuestField.Text = Target[num].Quest;
 
-                RevealImg();    // Start the quest completion loop
+                await RevealImg();    // Start the quest completion loop
+                App.CurrentUser.QuestComlited.Add(Target[num].Name);            // TO DO: save user data to database after finishing quest or loging out
+                await DisplayAlert("Congratulations", "You have reached the destination", "OK");
             }
         }
 
@@ -112,14 +117,10 @@ namespace CityPuzzle
                 Location start = new Location(UserLat, UserLng);
                 Location end = new Location(all[i].Latitude, all[i].Longitude);
                 double dist = Location.CalculateDistance(start, end, DistanceUnits.Kilometers);
-                Console.WriteLine("\n\nIndex: " + i + " Distance: " + dist + "\n\n");
-                // Currently 3km is set for distance
-                // TO DO: allow user to change distance (Add Distance for objects in User class)
-                // TO DO: make User class QuestComlited to List<string> type
-                if (dist <= 3 /*&& !(App.CurrentUser.QuestComlited.Contains(all[i].Name))*/)
+                
+                if (dist <= distOption && !App.CurrentUser.QuestComlited.Contains(all[i].Name))
                 {
                     inRange.Add(i);
-                    Console.WriteLine("\n\nAdding object\n\n");
                 }
             }
 
@@ -155,7 +156,7 @@ namespace CityPuzzle
 
             string vienetai = "km";
             double dis = Location.CalculateDistance(start, end, 0);
-            Console.WriteLine("\n\nDistanceLeft: " + dis + "\n\n");
+
             if (dis < 1)
             {
                 vienetai = "metrai";
@@ -165,25 +166,25 @@ namespace CityPuzzle
         }
 
 
-        // When called hide all img masks and then reveal random masks depending on distance left
+        // When called show all img masks and then reveal random masks depending on distance left
         // (when mask amount increases new random masks will be shown)
-        async private void RevealImg()
+        async private Task RevealImg()
         {
-            double distStep = 3 / 9F;       // TO DO: change 3 to User Distance option
-            double distLeft = 3;
-    
+            /*double distStep = distOption / 9F;      
+            double distLeft = distOption;*/
+
+            double distLeft = DistanceLeft();
+            double distStep = distLeft / 9F;        
+
             int maskCount = 0;
 
             List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
             var random = new Random();
 
-            while (distLeft > 0.001)        // Quest completion loop that reveals parts of image depending on distance left
+            while (distLeft > 0.01)        // Quest completion loop that reveals parts of image depending on distance left
             {
                 await UpdateCurrentLocation();
-
-                Location start = new Location(UserLat, UserLng);
-                Location end = new Location(QuestLat, QuestLng);
-                distLeft = Location.CalculateDistance(start, end, 0);
+                distLeft = DistanceLeft();
 
                 int newMaskCount = 9 - (int)(distLeft / distStep);      // How many masks should be hiden
                 
@@ -214,6 +215,13 @@ namespace CityPuzzle
                     //TO DO: Message "going in the wrong direction"
                 }
             }
+        }
+
+        private double DistanceLeft()
+        {
+            Location start = new Location(UserLat, UserLng);
+            Location end = new Location(QuestLat, QuestLng);
+            return Location.CalculateDistance(start, end, 0);
         }
     }
 }
