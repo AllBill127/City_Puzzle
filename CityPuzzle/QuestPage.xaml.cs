@@ -22,6 +22,7 @@ namespace CityPuzzle
         private double QuestLng;
         private Puzzle[] Target;
         private double distOption;
+        public static Puzzle Questinprogress;
 
         async Task UpdateCurrentLocation()
         {
@@ -94,7 +95,7 @@ namespace CityPuzzle
             else
             {
                 SetTargetLocation(num);
-
+                Questinprogress = Target[num];
                 string vieta = Target[num].ImgAdress;
                 objimg.Source = vieta;
 
@@ -213,6 +214,12 @@ namespace CityPuzzle
                 else if(newMaskCount < maskCount)
                 {
                     //TO DO: Message "going in the wrong direction"
+                }
+                else if (newMaskCount == 9)
+                {
+                    Thread.Sleep(1000); //Kad pamatytume ka keiciasi- tik testavimui
+                    Navigation.PushAsync(new ComplitedPage(Questinprogress));
+                    distLeft = 0;
                 }
             }
         }
