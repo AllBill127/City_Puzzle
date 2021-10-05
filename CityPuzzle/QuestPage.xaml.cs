@@ -21,45 +21,41 @@ namespace CityPuzzle
         private double QuestLat;
         private double QuestLng;
         private Puzzle[] Target;
+        private double distOption;
+
         async Task UpdateCurrentLocation()
         {
             try
             {
-               
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(60));
                 var cts = new CancellationTokenSource();
                 var location = await Geolocation.GetLocationAsync(request, cts.Token);
 
                 if (location != null)
                 {
-                    Console.WriteLine($"UserLatitude: {location.Latitude}, UserLongitude: {location.Longitude}, Altitude: {location.Altitude}");
                     string x = " " + location.Latitude + " " + location.Longitude + " " + location.Altitude;
                     UserLat = location.Latitude;
                     UserLng = location.Longitude;
-                    //CurrentLocationprint(" "+ UserLat+" "+ UserLng);
+                    //CurrentLocationPrint(" "+ UserLat+" "+ UserLng);
                 }
                 else CurrentLocationError();
-
-
             }
             catch (Exception ex)
             {
-                CurrentLocationError();
-                // Unable to get location
+                CurrentLocationError();     // Unable to get location
             }
         }
+
         async void CurrentLocationError()
         {
             await DisplayAlert("Error", "Nepavyksta aptikti jusu buvimo vietos.", "OK");
 
         }
-        async void CurrentLocationprint(string x)
+
+        async void CurrentLocationPrint(string x)
         {
             await DisplayAlert("Error", x, "OK");
-
         }
-
-
 
 
 
@@ -72,13 +68,31 @@ namespace CityPuzzle
                 var obj = conn.Table<Puzzle>().ToArray();
                 Target = obj;
             }
+            
             if (Target.Length == 0)
             {
                 Navigation.PushAsync(new AddObjectPage());
             }
             else
             {
-                int num = GetQuestNumber();
+                ShowQuest();
+            }
+        }
+
+        async private void ShowQuest()
+        {
+            distOption = double.Parse(await DisplayPromptAsync("Distance option", "Please enter the number of kilometers you are willing to go to reach a possible destination"));
+            
+            await UpdateCurrentLocation();
+
+            int num = GetQuestNumber(Target);
+            if (num == -1)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
+            {
+                await DisplayAlert("No destinations in " + distOption + " km radius", "Consider creating a nearby destination yourself.", "OK");
+                await Navigation.PopAsync();
+            }
+            else
+            {
                 SetTargetLocation(num);
 
                 string vieta = Target[num].ImgAdress;
@@ -87,14 +101,41 @@ namespace CityPuzzle
                 MissionLabel.Text = "Tavo uzduotis- surasti mane!";
                 QuestField.Text = Target[num].Quest;
 
-                UpdateCurrentLocation();
+                await RevealImg();    // Start the quest completion loop
+                App.CurrentUser.QuestComlited.Add(Target[num].Name);            // TO DO: save user data to database after finishing quest or loging out
+                await DisplayAlert("Congratulations", "You have reached the destination", "OK");
             }
         }
-        
-        //Nera jeigu netuscias( nepabaigtas- reikia is stringo isrinti kurie nebaigti)
-        public int GetQuestNumber() {
-            if (App.CurrentUser.QuestsComlited == "") return 0;
-            else return 0;
+
+        // Get a random index of a quest that is within given distance and is not already complete
+        private int GetQuestNumber(Puzzle[] all)
+        {
+            List<int> inRange = new List<int>();
+
+            for (int i = 0; i < all.Length; ++i)
+            {
+                Location start = new Location(UserLat, UserLng);
+                Location end = new Location(all[i].Latitude, all[i].Longitude);
+                double dist = Location.CalculateDistance(start, end, DistanceUnits.Kilometers);
+                
+                if (dist <= distOption && !App.CurrentUser.QuestComlited.Contains(all[i].Name))
+                {
+                    inRange.Add(i);
+                }
+            }
+
+            if (inRange.Count != 0)
+            {
+                var random = new Random();
+                int index = random.Next(inRange.Count);
+
+                int num = inRange[index];
+                return num;
+            }
+            else
+            {
+                return -1;
+            }
         }
         
         public void SetTargetLocation(int num)
@@ -112,12 +153,75 @@ namespace CityPuzzle
             await UpdateCurrentLocation();
             Location start = new Location(UserLat, UserLng);
             Location end = new Location(QuestLat, QuestLng);
+
             string vienetai = "km";
-            double dis = Location.CalculateDistance(start, end,0);
-            if (dis<1) {
+            double dis = Location.CalculateDistance(start, end, 0);
+
+            if (dis < 1)
+            {
                 vienetai = "metrai";
-                dis = dis * 1000;}
-             await DisplayAlert("Tau liko:"," "+ dis+" "+ vienetai, "OK") ;
+                dis = dis * 1000;
+            }
+            await DisplayAlert("Tau liko:", " " + dis + " " + vienetai, "OK") ;
+        }
+
+
+        // When called show all img masks and then reveal random masks depending on distance left
+        // (when mask amount increases new random masks will be shown)
+        async private Task RevealImg()
+        {
+            /*double distStep = distOption / 9F;      
+            double distLeft = distOption;*/
+
+            double distLeft = DistanceLeft();
+            double distStep = distLeft / 9F;        
+
+            int maskCount = 0;
+
+            List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
+            var random = new Random();
+
+            while (distLeft > 0.01)        // Quest completion loop that reveals parts of image depending on distance left
+            {
+                await UpdateCurrentLocation();
+                distLeft = DistanceLeft();
+
+                int newMaskCount = 9 - (int)(distLeft / distStep);      // How many masks should be hiden
+                
+                if (newMaskCount - maskCount > 1)        // Hide more than one mask at once if it is necessary
+                {
+                    int count = newMaskCount - maskCount;
+                    for (int i = 0; i < count; ++i)
+                    {
+                        maskCount += 1;
+                        int index = random.Next(masks.Count);       // select random mask from the list to hide
+                        masks[index].IsVisible = false;
+
+                        masks.Remove(masks[index]);
+                    }
+                }
+
+                if (newMaskCount > maskCount)      // If newMaskCount increased then hide one more mask. Else if newMaskCount decreased then "wrong direction"
+                {
+                    maskCount +=1;
+                    int index = random.Next(masks.Count);       // select random mask from the list to hide
+                    masks[index].IsVisible = false;
+
+                    masks.Remove(masks[index]);
+                    Thread.Sleep(500);
+                }
+                else if(newMaskCount < maskCount)
+                {
+                    //TO DO: Message "going in the wrong direction"
+                }
+            }
+        }
+
+        private double DistanceLeft()
+        {
+            Location start = new Location(UserLat, UserLng);
+            Location end = new Location(QuestLat, QuestLng);
+            return Location.CalculateDistance(start, end, 0);
         }
     }
 }

@@ -7,7 +7,21 @@
             <Label x:Name="MissionLabel" FontSize="20" Text=""
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-            <Image x:Name="objimg"> </Image>
+            <Grid>
+                <Image x:Name="objimg"></Image>
+
+                <Image x:Name="mask1" Source="mask1.png"></Image>
+                <Image x:Name="mask2" Source="Mask2.png"></Image>
+                <Image x:Name="mask3" Source="mask3.png"></Image>
+                <Image x:Name="mask4" Source="mask4.png"></Image>
+                <Image x:Name="mask5" Source="mask5.png"></Image>
+                <Image x:Name="mask6" Source="mask6.png"></Image>
+                <Image x:Name="mask7" Source="mask7.png"></Image>
+                <Image x:Name="mask8" Source="mask8.png"></Image>
+                <Image x:Name="mask9" Source="mask9.png"></Image>
+        
+       
+            </Grid>
             <Label x:Name="QuestField" FontSize="20" Text=""
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />

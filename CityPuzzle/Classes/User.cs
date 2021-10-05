@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Collections.Generic;
 
 namespace CityPuzzle.Classes
 {
@@ -15,7 +16,7 @@ namespace CityPuzzle.Classes
         public string UserName { get; set; }
         public string Pass { get; set; }
         public string Email { get; set; }
-        public string QuestsComlited { get; set; }
+        public List<string> QuestComlited = new List<string>();
         public User() { }
         public static Boolean CheckPassword(string name, string pass)
         {
