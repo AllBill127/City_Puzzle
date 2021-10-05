@@ -41,7 +41,7 @@ namespace CityPuzzle
                         Name = nameEntry.Text,
                         LastName = lastnameEntry.Text,
                         UserName = usernameEntry.Text,
-                        Pass = User.EncryptPlainTextToCipherText(passEntry.Text),
+                        Pass = User.PassToHash(passEntry.Text),
 
                     };
                     using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
