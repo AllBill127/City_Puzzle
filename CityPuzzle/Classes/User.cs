@@ -1,9 +1,12 @@
 ﻿using SQLite;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Collections.Generic;
+
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace CityPuzzle.Classes
 {
@@ -16,7 +19,9 @@ namespace CityPuzzle.Classes
         public string UserName { get; set; }
         public string Pass { get; set; }
         public string Email { get; set; }
+
         public List<string> QuestComlited = new List<string>();
+
         public User() { }
         public static Boolean CheckPassword(string name, string pass)
         {
@@ -25,14 +30,17 @@ namespace CityPuzzle.Classes
                 return false;
             }
 
-            pass = EncryptPlainTextToCipherText(pass);                                   //encrypt
+           // pass = PassToHash(pass);//     //                              //encrypt
             using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
             {
                 conn.CreateTable<User>();
-
+                //conn.DeleteAll<User>();
                 var info = conn.Table<User>().ToList();
-                App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && x.Pass.ToLower().Equals(pass.ToLower()));
-            
+
+                App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && PassVerification(pass,x.Pass));
+
+                
+
             };
             return App.CurrentUser != null;
         }
@@ -55,22 +63,10 @@ namespace CityPuzzle.Classes
             };
             return true;
         }
-        /*
-        public static void EncryptPass(string pass)
-        {
-            var text = pass;
 
-            var encryptedText = EncryptPlainTextToCipherText(text);
-            var decryptedText = DecryptCipherTextToPlainText(encryptedText);
-
-
-            Console.WriteLine("Passed Text = " + text);
-            Console.WriteLine("EncryptedText = " + encryptedText);
-            Console.WriteLine("DecryptedText = " + decryptedText);
-            Console.ReadLine();
-        }
-        */
+        /* Saved for later use
         private const string SecurityKey = "SecurityKey_1212";
+
         public static string EncryptPlainTextToCipherText(string PlainText)
         {
            
@@ -97,32 +93,20 @@ namespace CityPuzzle.Classes
             objTripleDESCryptoService.Clear();
             return Convert.ToBase64String(resultArray, 0, resultArray.Length);
         }
-        
-        public static string DecryptCipherTextToPlainText(string CipherText)
+        */
+
+        public static string PassToHash(string pass)
         {
-            byte[] toEncryptArray = Convert.FromBase64String(CipherText);
-            MD5CryptoServiceProvider objMD5CryptoService = new MD5CryptoServiceProvider();
-
-           
-            byte[] securityKeyArray = objMD5CryptoService.ComputeHash(UTF8Encoding.UTF8.GetBytes(SecurityKey));
-            objMD5CryptoService.Clear();
-
-            var objTripleDESCryptoService = new TripleDESCryptoServiceProvider();
-            
-            objTripleDESCryptoService.Key = securityKeyArray;
-            
-            objTripleDESCryptoService.Mode = CipherMode.ECB;
-           
-            objTripleDESCryptoService.Padding = PaddingMode.PKCS7;
-
-            var objCrytpoTransform = objTripleDESCryptoService.CreateDecryptor();
-            
-            byte[] resultArray = objCrytpoTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-            objTripleDESCryptoService.Clear();
-
-            
-            return UTF8Encoding.UTF8.GetString(resultArray);
+            string passwordHash = BCryptNet.HashPassword(pass);
+            return passwordHash;
         }
+
+        public static bool PassVerification(string pass, string passwordHash)
+        {
+            bool verified = BCryptNet.Verify(pass, passwordHash);
+            return verified;
+        }
+
     }
 
 

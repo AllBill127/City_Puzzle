@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              x:Class="CityPuzzle.QuestPage">
     <ContentPage.Content>
         <StackLayout>
@@ -19,12 +20,22 @@
                 <Image x:Name="mask7" Source="mask7.png"></Image>
                 <Image x:Name="mask8" Source="mask8.png"></Image>
                 <Image x:Name="mask9" Source="mask9.png"></Image>
-        
-       
+
+                <map:Map MapType="Street" HasZoomEnabled="True" IsShowingUser="true" x:Name="map" IsVisible="False">
+                    <map:Map.ItemTemplate>
+                        <DataTemplate>
+                            <map:Pin Position="{Binding Position}"
+                              Address="{Binding Address}"
+                              Label="{Binding PlaceName}"/>
+                        </DataTemplate>
+                    </map:Map.ItemTemplate>
+                </map:Map>
             </Grid>
             <Label x:Name="QuestField" FontSize="20" Text=""
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            <Button x:Name="helpbutton" Text="Pagalba"  Clicked="help_Click" IsVisible="False"></Button>
+            <Button x:Name="nothelpbutton" Text="Rodyti puzzle"  Clicked="nothelpbutton_Click" IsVisible="False"></Button>
             <Button Text="Kaip arti?" Clicked="check_Click" BackgroundColor="#F3BD21"></Button>
         </StackLayout>
     </ContentPage.Content>

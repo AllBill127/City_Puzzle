@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CityPuzzle.Classes
 {
-    class Puzzle
+    public class Puzzle
     {
         public static int Quantity=0;
         [PrimaryKey, AutoIncrement]
