@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
+using Xamarin.Forms.Maps;
 namespace CityPuzzle
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -148,7 +148,33 @@ namespace CityPuzzle
         void check_Click(object sender, EventArgs e) {
             PrintDistance(); 
         }
+        void nothelpbutton_Click(object sender, EventArgs e)
+        {
+            nothelpbutton.IsVisible = false;
+            map.IsVisible = false;
+
+        }
         
+        void help_Click(object sender, EventArgs e)
+        {
+            Position pos = new Position(UserLat, UserLng);
+            Position targetPosition = new Position(QuestLat, QuestLng);
+            MapSpan targetSpan = MapSpan.FromCenterAndRadius(targetPosition, Distance.FromKilometers(.5));
+
+            Pin targetPin = new Pin
+            {
+                Label = "Target",
+                Position = targetPosition,
+                Type = PinType.Generic
+            };
+
+            map.Pins.Add(targetPin);
+            map.MoveToRegion(targetSpan);
+            map.IsVisible = true;
+            helpbutton.IsVisible = false;
+            nothelpbutton.IsVisible = true;
+
+        }
         async void PrintDistance()
         {
             await UpdateCurrentLocation();
@@ -211,9 +237,9 @@ namespace CityPuzzle
                     masks.Remove(masks[index]);
                     Thread.Sleep(500);
                 }
-                else if(newMaskCount < maskCount)
+                else if(newMaskCount < 0 && helpbutton.IsVisible == false && nothelpbutton.IsVisible == false)
                 {
-                    //TO DO: Message "going in the wrong direction"
+                    helpbutton.IsVisible = true;
                 }
                 else if (newMaskCount == 9)
                 {
