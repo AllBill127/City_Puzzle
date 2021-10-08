@@ -13,6 +13,8 @@
                 </DataTemplate>
             </map:Map.ItemTemplate>
         </map:Map>
+
+    <Button Text="Rodyti puzzle"  Clicked="back_Click" ></Button>
     </Grid>
 
 </ContentPage>

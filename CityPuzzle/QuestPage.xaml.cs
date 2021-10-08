@@ -59,7 +59,6 @@ namespace CityPuzzle
         }
 
 
-
         public QuestPage()
         {
             InitializeComponent();
@@ -83,9 +82,9 @@ namespace CityPuzzle
         async private void ShowQuest()
         {
             distOption = double.Parse(await DisplayPromptAsync("Distance option", "Please enter the number of kilometers you are willing to go to reach a possible destination"));
-            
+            if (distOption == null) await Navigation.PopAsync();
             await UpdateCurrentLocation();
-
+            
             int num = GetQuestNumber(Target);
             if (num == -1)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
             {
@@ -154,9 +153,9 @@ namespace CityPuzzle
             map.IsVisible = false;
 
         }
-        
         void help_Click(object sender, EventArgs e)
         {
+            /*
             Position pos = new Position(UserLat, UserLng);
             Position targetPosition = new Position(QuestLat, QuestLng);
             MapSpan targetSpan = MapSpan.FromCenterAndRadius(targetPosition, Distance.FromKilometers(.5));
@@ -172,8 +171,9 @@ namespace CityPuzzle
             map.MoveToRegion(targetSpan);
             map.IsVisible = true;
             helpbutton.IsVisible = false;
-            nothelpbutton.IsVisible = true;
+            nothelpbutton.IsVisible = true;*/
 
+            Navigation.PushAsync(new GamePage(QuestLat, QuestLng));
         }
         async void PrintDistance()
         {
@@ -183,7 +183,6 @@ namespace CityPuzzle
 
             string vienetai = "km";
             double dis = Location.CalculateDistance(start, end, 0);
-
             if (dis < 1)
             {
                 vienetai = "metrai";
@@ -243,7 +242,7 @@ namespace CityPuzzle
                 }
                 else if (newMaskCount == 9)
                 {
-                    Thread.Sleep(1000); //Kad pamatytume ka keiciasi- tik testavimui
+                    Thread.Sleep(1000); 
                     Navigation.PushAsync(new ComplitedPage(Questinprogress));
                     distLeft = 0;
                 }
