@@ -36,14 +36,17 @@ namespace CityPuzzle
                 }
                 else
                 {
-                    User user = new User()
-                    {
-                        Name = nameEntry.Text,
-                        LastName = lastnameEntry.Text,
-                        UserName = usernameEntry.Text,
-                        Pass = User.PassToHash(passEntry.Text),
+                    User user;
 
-                    };
+                    if (distEntry != null)
+                    {
+                        user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text), maxDist: double.Parse(distEntry.Text));
+                    }
+                    else
+                    {
+                        user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text));
+                    }
+
                     using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
                     {
                         conn.CreateTable<User>();
@@ -51,9 +54,6 @@ namespace CityPuzzle
                     };
 
                     Navigation.PopAsync();
-                    
-
-
                 }
             }
             catch (NullReferenceException ex)
@@ -75,6 +75,19 @@ namespace CityPuzzle
         {
             await DisplayAlert("Error", "Nepakanka duomenų.", "OK");
 
+        }
+        private User CreateUser(string userName, string name, string lastName, string password, double maxDist = 3)
+        {
+            User user = new User()
+            {
+                Name = name,
+                LastName = lastName,
+                UserName = userName,
+                Pass = password,
+                maxQuestDistance = maxDist
+            };
+
+            return user;
         }
     }
 }
