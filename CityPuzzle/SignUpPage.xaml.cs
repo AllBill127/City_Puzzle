@@ -19,7 +19,6 @@ namespace CityPuzzle
             {
                 if (String.IsNullOrWhiteSpace(nameEntry.Text) || String.IsNullOrWhiteSpace(lastnameEntry.Text) || String.IsNullOrWhiteSpace(usernameEntry.Text))
                 {
-
                     MissInfoError();
                 }
                 else if (!User.CheckUser(usernameEntry.Text))
@@ -28,7 +27,7 @@ namespace CityPuzzle
                     passEntry.Text = "";
                     SignErrorAllert();
                 }
-                if (usernameEntry.Text.Length < 5)
+                else if (usernameEntry.Text.Length < 5)
                 {
                     usernameEntry.Text = "";
                     passEntry.Text = "";
