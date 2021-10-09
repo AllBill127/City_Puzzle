@@ -21,7 +21,6 @@ namespace CityPuzzle
         private double QuestLat;
         private double QuestLng;
         private Puzzle[] Target;
-        private double distOption;
         public static Puzzle Questinprogress;
 
         async Task UpdateCurrentLocation()
@@ -81,14 +80,12 @@ namespace CityPuzzle
 
         async private void ShowQuest()
         {
-            distOption = double.Parse(await DisplayPromptAsync("Distance option", "Please enter the number of kilometers you are willing to go to reach a possible destination"));
-            if (distOption == null) await Navigation.PopAsync();
             await UpdateCurrentLocation();
             
             int num = GetQuestNumber(Target);
             if (num == -1)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
             {
-                await DisplayAlert("No destinations in " + distOption + " km radius", "Consider creating a nearby destination yourself.", "OK");
+                await DisplayAlert("No destinations in " + App.CurrentUser.maxQuestDistance + " km radius", "Consider creating a nearby destination yourself.", "OK");
                 await Navigation.PopAsync();
             }
             else
@@ -118,7 +115,7 @@ namespace CityPuzzle
                 Location end = new Location(all[i].Latitude, all[i].Longitude);
                 double dist = Location.CalculateDistance(start, end, DistanceUnits.Kilometers);
                 
-                if (dist <= distOption && !App.CurrentUser.QuestComlited.Contains(all[i].Name))
+                if (dist <= App.CurrentUser.maxQuestDistance && !App.CurrentUser.QuestComlited.Contains(all[i].Name))
                 {
                     inRange.Add(i);
                 }
@@ -243,7 +240,7 @@ namespace CityPuzzle
                 else if (newMaskCount == 9)
                 {
                     Thread.Sleep(1000); 
-                    Navigation.PushAsync(new ComplitedPage(Questinprogress));
+                    await Navigation.PushAsync(new ComplitedPage(Questinprogress));
                     distLeft = 0;
                 }
             }

@@ -38,7 +38,7 @@ namespace CityPuzzle
                 {
                     User user;
 
-                    if (distEntry != null)
+                    if (distEntry.Text != null)
                     {
                         user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text), maxDist: double.Parse(distEntry.Text));
                     }
