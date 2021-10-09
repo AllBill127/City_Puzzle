@@ -49,7 +49,6 @@ namespace CityPuzzle
         async void CurrentLocationError()
         {
             await DisplayAlert("Error", "Nepavyksta aptikti jusu buvimo vietos.", "OK");
-
         }
 
         async void CurrentLocationPrint(string x)
@@ -141,37 +140,16 @@ namespace CityPuzzle
             QuestLng = Target[num].Longitude;
         }
         
-        void check_Click(object sender, EventArgs e) {
+        void check_Click(object sender, EventArgs e) 
+        {
             PrintDistance(); 
         }
-        void nothelpbutton_Click(object sender, EventArgs e)
-        {
-            nothelpbutton.IsVisible = false;
-            map.IsVisible = false;
 
-        }
         void help_Click(object sender, EventArgs e)
         {
-            /*
-            Position pos = new Position(UserLat, UserLng);
-            Position targetPosition = new Position(QuestLat, QuestLng);
-            MapSpan targetSpan = MapSpan.FromCenterAndRadius(targetPosition, Distance.FromKilometers(.5));
-
-            Pin targetPin = new Pin
-            {
-                Label = "Target",
-                Position = targetPosition,
-                Type = PinType.Generic
-            };
-
-            map.Pins.Add(targetPin);
-            map.MoveToRegion(targetSpan);
-            map.IsVisible = true;
-            helpbutton.IsVisible = false;
-            nothelpbutton.IsVisible = true;*/
-
             Navigation.PushAsync(new GamePage(QuestLat, QuestLng));
         }
+
         async void PrintDistance()
         {
             await UpdateCurrentLocation();
@@ -209,7 +187,7 @@ namespace CityPuzzle
                 await UpdateCurrentLocation();
                 distLeft = DistanceLeft();
 
-                int newMaskCount = 9 - (int)(distLeft / distStep);      // How many masks should be hiden
+                int newMaskCount = 9 - (int)(distLeft / distStep);      // How many masks should be hiden (9 - mask count until finish. pvz 1.9km / 0.333 = 5.7 = 5 masks left)
                 
                 if (newMaskCount - maskCount > 1)        // Hide more than one mask at once if it is necessary
                 {
@@ -232,10 +210,6 @@ namespace CityPuzzle
 
                     masks.Remove(masks[index]);
                     Thread.Sleep(500);
-                }
-                else if(newMaskCount < 0 && helpbutton.IsVisible == false && nothelpbutton.IsVisible == false)
-                {
-                    helpbutton.IsVisible = true;
                 }
                 else if (newMaskCount == 9)
                 {
