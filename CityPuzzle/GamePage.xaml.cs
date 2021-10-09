@@ -8,10 +8,10 @@ namespace CityPuzzle
 
     public partial class GamePage : ContentPage
     {
-        public GamePage(double Lng, double Lat)
+        public GamePage(double Lat, double Lon)
         {
             InitializeComponent();
-            RevealLocation(Lng, Lat);
+            RevealLocation(Lat, Lon);
         }
 
         public async void DisplayCurrLoc()
@@ -85,7 +85,7 @@ namespace CityPuzzle
             Position targetPosition = new Position(targetLat, targetLon);
             MapSpan targetSpan = MapSpan.FromCenterAndRadius(targetPosition, Distance.FromKilometers(.5));
 
-            Pin targetPin = new Pin
+            Pin targetPin = new Pin()
             {
                 Label = "Target",
                 Position = targetPosition,
