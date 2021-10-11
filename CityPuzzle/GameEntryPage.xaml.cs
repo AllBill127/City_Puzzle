@@ -21,6 +21,12 @@ namespace CityPuzzle
             Navigation.PushAsync(new QuestPage());
 
         }
+        void Create_Click(object sender, EventArgs e)
+        {
+
+            Navigation.PushAsync(new CreateGamePage());
+
+        }
         void Add_Click(object sender, EventArgs e)
         {
 

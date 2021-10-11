@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using CityPuzzle.Classes;
+using System.IO;
 
 namespace CityPuzzle
 {
@@ -23,6 +24,7 @@ namespace CityPuzzle
             MainPage = new NavigationPage(new LoginPage());
 
             FilePath = filePath;
+            string fullFileName = Path.GetFullPath(FilePath);
             ObjectPath = objectPath;
         }
 
