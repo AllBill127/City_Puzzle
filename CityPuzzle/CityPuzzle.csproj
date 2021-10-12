@@ -36,6 +36,9 @@
     <Compile Update="LookPage.xaml.cs">
       <DependentUpon>LookPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="ComplitedPage.xaml.cs">
+      <DependentUpon>ComplitedPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="QuestPage.xaml.cs">
       <DependentUpon>QuestPage.xaml</DependentUpon>
     </Compile>
@@ -58,6 +61,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="LookPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ComplitedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="QuestPage.xaml">
