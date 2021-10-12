@@ -100,6 +100,8 @@ namespace CityPuzzle.Classes
             bool verified = BCryptNet.Verify(pass, passwordHash);
             return verified;
         }
+        
+
 
     }
 
