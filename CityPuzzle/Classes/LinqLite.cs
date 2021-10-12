@@ -30,6 +30,7 @@ namespace CityPuzzle.Classes
             }
         }
 
+        // Extention method to make a List out of IEnumerable items
         public static List<T> ToList<T>(this IEnumerable<T> items)
         {
             return new List<T>(items);

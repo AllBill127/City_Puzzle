@@ -16,7 +16,7 @@ namespace CityPuzzle
         private double UserLng;
         private double QuestLat;
         private double QuestLng;
-        private Puzzle[] Target;
+        private List<Puzzle> Target;
         public static Puzzle QuestInProgress;
 
         public QuestPage()
@@ -25,11 +25,11 @@ namespace CityPuzzle
             using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
             {
                 conn.CreateTable<Puzzle>();
-                var obj = conn.Table<Puzzle>().ToArray();
+                var obj = conn.Table<Puzzle>().ToList();
                 Target = obj;
             }
             
-            if (Target.Length == 0)
+            if (Target.Count == 0)
             {
                 Navigation.PushAsync(new AddObjectPage());
             }
@@ -67,7 +67,7 @@ namespace CityPuzzle
         }
 
         // Get a random quest that is within given distance and is not already completed by current user
-        private Puzzle GetQuest(Puzzle[] puzzles)
+        private Puzzle GetQuest(List<Puzzle> puzzles)
         {
             bool InRange(Puzzle puzzle)
             {
