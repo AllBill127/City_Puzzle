@@ -78,17 +78,13 @@ namespace CityPuzzle
             }
 
             //Linq query
-            List<Puzzle> inRange =
-            puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestComlited.Contains(puzzle.Name)).Select(puzzle => new Puzzle
-            {
-                ID = puzzle.ID,
-                About = puzzle.About,
-                Quest = puzzle.Quest,
-                Name = puzzle.Name,
-                ImgAdress = puzzle.ImgAdress,
-                Latitude = puzzle.Latitude,
-                Longitude = puzzle.Longitude
-            }).ToList();
+            //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestComlited.Contains(puzzle.Name)).ToList();
+            var inRange =
+                (from puzzle in puzzles
+                where InRange(puzzle)
+                where !App.CurrentUser.QuestComlited.Contains(puzzle.Name)
+                select puzzle)
+                .ToList();
 
             if (inRange.Count != 0)
             {
