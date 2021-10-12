@@ -34,8 +34,7 @@ namespace CityPuzzle
             using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
             {
                 conn.CreateTable<Puzzle>();
-                conn.CreateTable<Puzzle>();
-                int rowsAdded = conn.Insert(obj);
+                conn.Insert(obj);
             };
 
             Navigation.PopAsync();
