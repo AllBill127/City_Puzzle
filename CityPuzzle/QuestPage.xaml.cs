@@ -3,7 +3,6 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -81,63 +80,66 @@ namespace CityPuzzle
         {
             await UpdateCurrentLocation();
             
-            int num = GetQuestNumber(Target);
-            if (num == -1)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
+            Puzzle target = GetQuest(Target);
+            if (target == null)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
             {
                 await DisplayAlert("No destinations in " + App.CurrentUser.maxQuestDistance + " km radius", "Consider creating a nearby destination yourself.", "OK");
                 await Navigation.PopAsync();
             }
             else
             {
-                SetTargetLocation(num);
-                Questinprogress = Target[num];
-                string vieta = Target[num].ImgAdress;
-                objimg.Source = vieta;
+                QuestLat = target.Latitude;
+                QuestLng = target.Longitude;
+                Questinprogress = target;
+                string questImg = target.ImgAdress;
+                objimg.Source = questImg;
 
                 MissionLabel.Text = "Tavo uzduotis- surasti mane!";
-                QuestField.Text = Target[num].Quest;
+                QuestField.Text = target.Quest;
 
                 await RevealImg();    // Start the quest completion loop
-                App.CurrentUser.QuestComlited.Add(Target[num].Name);            // TO DO: save user data to database after finishing quest or loging out
+                App.CurrentUser.QuestComlited.Add(target.Name);            // TO DO: save user data to database after finishing quest or loging out
                 await DisplayAlert("Congratulations", "You have reached the destination", "OK");
             }
         }
 
         // Get a random index of a quest that is within given distance and is not already complete
-        private int GetQuestNumber(Puzzle[] all)
+        private Puzzle GetQuest(Puzzle[] puzzles)
         {
-            List<int> inRange = new List<int>();
-
-            for (int i = 0; i < all.Length; ++i)
+            bool InRange(Puzzle puzzle)
             {
                 Location start = new Location(UserLat, UserLng);
-                Location end = new Location(all[i].Latitude, all[i].Longitude);
+                Location end = new Location(puzzle.Latitude, puzzle.Longitude);
                 double dist = Location.CalculateDistance(start, end, DistanceUnits.Kilometers);
-                
-                if (dist <= App.CurrentUser.maxQuestDistance && !App.CurrentUser.QuestComlited.Contains(all[i].Name))
-                {
-                    inRange.Add(i);
-                }
+                if (dist <= App.CurrentUser.maxQuestDistance)
+                    return true;
+                return false;
             }
+
+            List<Puzzle> inRange =
+            puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestComlited.Contains(puzzle.Name)).Select(puzzle => new Puzzle
+            {
+                ID = puzzle.ID,
+                About = puzzle.About,
+                Quest = puzzle.Quest,
+                Name = puzzle.Name,
+                ImgAdress = puzzle.ImgAdress,
+                Latitude = puzzle.Latitude,
+                Longitude = puzzle.Longitude
+            }).ToList();
 
             if (inRange.Count != 0)
             {
                 var random = new Random();
                 int index = random.Next(inRange.Count);
 
-                int num = inRange[index];
-                return num;
+                var target = inRange[index];
+                return target;
             }
             else
             {
-                return -1;
+                return null;
             }
-        }
-        
-        public void SetTargetLocation(int num)
-        {
-            QuestLat = Target[num].Latitude;
-            QuestLng = Target[num].Longitude;
         }
         
         void check_Click(object sender, EventArgs e) 
