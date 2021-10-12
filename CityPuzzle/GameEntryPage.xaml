@@ -12,7 +12,7 @@
         <Button x:Name="StartButton" Text="Pradeti" Clicked="StartButton_click" BackgroundColor="#F3BD21"></Button>
         <Button  Text="Sukurti puzzle game" Clicked="Create_Click" BackgroundColor="#F3BD21"></Button>
         <Button x:Name="AddButton" Text="Prideti objekta" Clicked="Add_Click" BackgroundColor="#F3BD21"></Button>
-        <Button  Text="Perziureti ojektus" Clicked="Look_Click" BackgroundColor="#F3BD21"></Button>
+        <Button  Text="Ivesti GamePin" Clicked="Entry_Click" BackgroundColor="#F3BD21"></Button>
         
 
     </StackLayout>

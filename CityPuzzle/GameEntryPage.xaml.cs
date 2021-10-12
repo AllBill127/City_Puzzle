@@ -33,7 +33,8 @@ namespace CityPuzzle
             Navigation.PushAsync(new AddObjectPage());
 
         }
-        void Look_Click(object sender, EventArgs e)
+
+        void Entry_Click(object sender, EventArgs e)
         {
 
             Navigation.PushAsync(new LookPage());
