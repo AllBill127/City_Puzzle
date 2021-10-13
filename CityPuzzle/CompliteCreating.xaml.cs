@@ -20,15 +20,11 @@ namespace CityPuzzle
         {
             InitializeComponent();
             MyListView.ItemsSource = CreateGamePage.newroom.Tasks;
-            idplace.Text = CreateGamePage.newroom.ID;
-            /*
-            using (SQLiteConnection conn = new SQLiteConnection(App.GamePath))
-            {
-                conn.CreateTable
-                int rowsAdded = conn.Insert(CreateGamePage.newroom);
-            };*/
-        }
+            idplace.Text = "Game pin: "+CreateGamePage.newroom.ID;
 
+           
+        }
+        
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)
@@ -38,6 +34,17 @@ namespace CityPuzzle
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+        }
+        
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            using (SQLiteConnection conn = new SQLiteConnection(App.GamePath))
+            {
+                conn.CreateTable<Room>();
+                int rowsAdded = conn.Insert(CreateGamePage.newroom);
+            };
+
         }
     }
 }

@@ -8,18 +8,21 @@ namespace CityPuzzle.Classes
 {
     public class Room
     {
-        [PrimaryKey]
-        public int Number { get; set; }
         public String ID { get; set; }
+        [TextBlob("addressesBlobbed")]
         public List<Puzzle> Tasks { get; set; }
-        [TextBlob ("addressesBlobbed")]
-        public List<User> Participants { get; set; }
         public string addressesBlobbed { get; set; }
+        // [TextBlob ("addressesBlobbed")]
+        //[OneToMany(CascadeOperations = CascadeOperation.All)]
+        [TextBlob("addressesBlobbed2")]
+        public List<User> Participants{ get; set; }
+        public string addressesBlobbed2 { get; set; }
 
         public Room(String roomid)
         {
             ID= roomid;
             Tasks = new List<Puzzle>();
+            Participants = new List<User>();
         }
         public void setParticipants(User user)
         {

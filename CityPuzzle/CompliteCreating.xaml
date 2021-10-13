@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CityPuzzle.CompliteCreating">
     <StackLayout>
-        <Label x:Name="idplace" FontSize="30" TextColor="Black" ></Label>
+        <Label x:Name="idplace" FontSize="30" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" ></Label>
         <ListView x:Name="MyListView"
            
             ItemTapped="Handle_ItemTapped"
@@ -12,7 +12,7 @@
         <ListView.ItemTemplate>
       <DataTemplate>
         <ViewCell>
-                    <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
+                    <Grid Padding="10" RowSpacing="1" ColumnSpacing="10">
                         <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
@@ -25,8 +25,8 @@
                
                         <Label Grid.Column="1"
                                        Text="{Binding Name}"
-                                       VerticalOptions="End"/>
-                            <Image Source="{Binding ImgAdress}"></Image>
+                                       VerticalOptions="End" FontSize="20"/>
+                            <Image Source="{Binding ImgAdress}" Aspect="AspectFill"></Image>
                  
                     </Grid>
                 </ViewCell>

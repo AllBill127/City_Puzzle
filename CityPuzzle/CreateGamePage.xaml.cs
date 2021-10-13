@@ -31,7 +31,6 @@ namespace CityPuzzle
 
             InitializeComponent();
 
-
         }
         protected override void OnAppearing()
         {
@@ -44,7 +43,6 @@ namespace CityPuzzle
                 defaultpuzzles = obj;
                 if(status==-1) AddObj_click(null, null);
             }
-
             
         }
 
@@ -97,7 +95,6 @@ namespace CityPuzzle
         {
             if(status==0)
             editList(SelectPuzzles<String>.getList());
-
         }
          public static void editList(List<String> given)
         {
