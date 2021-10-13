@@ -16,16 +16,16 @@ namespace CityPuzzle
     {
         public List<Puzzle> AllPuzzles;
         public static int Nr = 0;
-        public Room CurrentRoom;
-        public AddPage(Room room)
+        public AddPage()
         {
+            Nr = 0;
+            CreateGamePage.newroom.Tasks.Clear();
             InitializeComponent();
             using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
             {
                 conn.CreateTable<Puzzle>();
                 AllPuzzles = conn.Table<Puzzle>().ToList();
             }
-            CurrentRoom = room;
             if (AllPuzzles.Count == 0) EmptyListError();
             else
             {
@@ -41,14 +41,18 @@ namespace CityPuzzle
         }
         void Add_puzzle(object sender, EventArgs e)
         {
-
            
+            CreateGamePage.newroom.Tasks.Add(AllPuzzles[Nr]);
+            Console.WriteLine("Pridejau uzduoti- " + AllPuzzles[Nr].Name);
+            Next_puzzle(sender,e);
+
+
         }
         void Next_puzzle(object sender, EventArgs e)
         {
             if (Nr == AllPuzzles.Count-1)
             {
-                EmptyListError();
+                Navigation.PopAsync();
             }
             else
             {
@@ -57,8 +61,10 @@ namespace CityPuzzle
             }
 
         }
+
         public void Show()
         {
+            
             PuzzleName.Text = AllPuzzles[Nr].Name;
             PuzzleImg.Source = AllPuzzles[Nr].ImgAdress;
             PuzzleInfo.Text = AllPuzzles[Nr].About;

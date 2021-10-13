@@ -1,10 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              BackgroundImageSource="logos.pmg" WidthRequest="600" HeightRequest="200"
              x:Class="CityPuzzle.CreateGamePage">
     <ContentPage.Content>
         <StackLayout>
-            <Button Text="Sudaryti uzduotis" Clicked="AddObj_click" BackgroundColor="#F3BD21"></Button>
+            <Button x:Name="addobj" Text="Sudaryti uzduotis" Clicked="AddObj_click" BackgroundColor="#F3BD21"></Button>
+            <Button x:Name="lookobj" Text="Perziureti uzduotis" Clicked="Look_click" BackgroundColor="#F3BD21" IsVisible="False"></Button>
+            <Button x:Name="approved" Text="Issaugoti" Clicked="Addgamer_click" BackgroundColor="#F3BD21"  IsVisible="False"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

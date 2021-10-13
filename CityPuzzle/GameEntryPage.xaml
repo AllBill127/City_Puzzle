@@ -3,7 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CityPuzzle.GameEntryPage"
              BackgroundImageSource="logos.pmg" WidthRequest="600" HeightRequest="200">
+    <NavigationPage.TitleView>
+        <AbsoluteLayout VerticalOptions="CenterAndExpand">
+            <Button Image="create.png" AbsoluteLayout.LayoutFlags="PositionProportional" Padding="0,0,100,0"/>
+            <Button Image="join.png"  AbsoluteLayout.LayoutFlags="PositionProportional" Padding="0,0,100,0" />
+            <Button Image="settings.png" AbsoluteLayout.LayoutFlags="PositionProportional" Padding="0,0,200,0"/>
+        </AbsoluteLayout>
+    </NavigationPage.TitleView>
     <StackLayout>
+
+
+
         <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
             <Label Text="Ar norite pradeti zaidima?" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="36"/>
         </Frame>
@@ -12,7 +22,8 @@
         <Button x:Name="StartButton" Text="Pradeti" Clicked="StartButton_click" BackgroundColor="#F3BD21"></Button>
         <Button  Text="Sukurti puzzle game" Clicked="Create_Click" BackgroundColor="#F3BD21"></Button>
         <Button x:Name="AddButton" Text="Prideti objekta" Clicked="Add_Click" BackgroundColor="#F3BD21"></Button>
-        <Button  Text="Perziureti ojektus" Clicked="Look_Click" BackgroundColor="#F3BD21"></Button>
+        <Button  Text="Ivesti GamePin" Clicked="Entry_Click" BackgroundColor="#F3BD21"></Button>
+        <Button  Text="Remote server" Clicked="button_Click" BackgroundColor="#F3BD21"></Button>
         
 
     </StackLayout>
