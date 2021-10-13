@@ -9,7 +9,7 @@
             </Frame>
                 <Image x:Name="ComplitedImg" WidthRequest="300" HeightRequest="300"></Image>
             <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
-                <Label x:Name="Complitedinfo" HorizontalOptions="CenterAndExpand" FontSize="25" TextColor="Black" ></Label>
+                <Label x:Name="Complitedinfo" HorizontalOptions="CenterAndExpand" FontSize="18" TextColor="Black" ></Label>
             </Frame>
             <Button Text="Delioti kita puzzle" Clicked="new_puzzle"></Button>
 

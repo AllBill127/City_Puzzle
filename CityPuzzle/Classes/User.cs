@@ -22,6 +22,8 @@ namespace CityPuzzle.Classes
 
         public List<string> QuestComlited = new List<string>();
 
+        public double maxQuestDistance { get; set; }
+
         public User() { }
         public static Boolean CheckPassword(string name, string pass)
         {
