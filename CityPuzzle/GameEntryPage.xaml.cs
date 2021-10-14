@@ -43,7 +43,7 @@ namespace CityPuzzle
 
         }
 
-        void button_Click(object sender, EventArgs e)
+        void Button_Click(object sender, EventArgs e)
         {
             WebClient wc = new WebClient();
             string theTextFile = wc.DownloadString("https://onedrive.live.com/?authkey=%21AFs2jqf6YPPLw7k&cid=E3EB53E039BE7E4D&id=E3EB53E039BE7E4D%21540&parId=root&o=OneUp");

@@ -24,28 +24,28 @@
     <Compile Update="Login And SingUp\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="GamePage.xaml.cs">
+    <Compile Update="Side Pages\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
     <Compile Update="GameEntryPage.xaml.cs">
       <DependentUpon>GameEntryPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="AddObjectPage.xaml.cs">
+    <Compile Update="Side Pages\AddObjectPage.xaml.cs">
       <DependentUpon>AddObjectPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="LookPage.xaml.cs">
+    <Compile Update="Side Pages\LookPage.xaml.cs">
       <DependentUpon>LookPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="ComplitedPage.xaml.cs">
+    <Compile Update="Main Game\ComplitedPage.xaml.cs">
       <DependentUpon>ComplitedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="CreateGamePage.xaml.cs">
+    <Compile Update="Game Room\CreateGamePage.xaml.cs">
       <DependentUpon>CreateGamePage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="AddPage.xaml.cs">
+    <Compile Update="Game Room\AddPage.xaml.cs">
       <DependentUpon>AddPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="QuestPage.xaml.cs">
+    <Compile Update="Main Game\QuestPage.xaml.cs">
       <DependentUpon>QuestPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Login And SingUp\SignUpPage.xaml.cs">
@@ -54,40 +54,40 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="CompliteCreating.xaml">
+    <EmbeddedResource Update="Game Room\CompliteCreating.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="EntryGameRoomPage.xaml">
+    <EmbeddedResource Update="Game Room\EntryGameRoomPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Login And SingUp\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="GamePage.xaml">
+    <EmbeddedResource Update="Side Pages\GamePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="GameEntryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="AddObjectPage.xaml">
+    <EmbeddedResource Update="Side Pages\AddObjectPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="LookPage.xaml">
+    <EmbeddedResource Update="Side Pages\LookPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="ComplitedPage.xaml">
+    <EmbeddedResource Update="Main Game\ComplitedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="CreateGamePage.xaml">
+    <EmbeddedResource Update="Game Room\CreateGamePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="AddPage.xaml">
+    <EmbeddedResource Update="Game Room\AddPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="QuestPage.xaml">
+    <EmbeddedResource Update="Main Game\QuestPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="SelectPuzzles.xaml">
+    <EmbeddedResource Update="Game Room\SelectPuzzles.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Login And SingUp\SignUpPage.xaml">

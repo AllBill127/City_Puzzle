@@ -21,6 +21,9 @@ namespace CityPuzzle.Classes
         {
             Quantity += 1;
         }
-
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

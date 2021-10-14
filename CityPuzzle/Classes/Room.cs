@@ -32,7 +32,5 @@ namespace CityPuzzle.Classes
         public void SetTask(Puzzle puzzle)
         {
             Tasks.Add(puzzle);
-        }
-
-}
+        }}
 }

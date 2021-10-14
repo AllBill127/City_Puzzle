@@ -20,7 +20,7 @@ namespace CityPuzzle
             Complitedinfo.Text = quest.About;
             ComplitedImg.Source = quest.ImgAdress;
         }
-        void new_puzzle(object sender, EventArgs e)
+        void NewPuzzle(object sender, EventArgs e)
         {
             Navigation.PushAsync(new QuestPage());
         }

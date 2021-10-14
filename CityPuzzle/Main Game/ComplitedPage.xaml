@@ -11,7 +11,7 @@
             <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
                 <Label x:Name="Complitedinfo" HorizontalOptions="CenterAndExpand" FontSize="18" TextColor="Black" ></Label>
             </Frame>
-            <Button Text="Delioti kita puzzle" Clicked="new_puzzle"></Button>
+            <Button Text="Delioti kita puzzle" Clicked="NewPuzzle"></Button>
 
         </StackLayout>
     </ContentPage.Content>
