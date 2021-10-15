@@ -5,7 +5,7 @@
   
     <StackLayout>
 
-            <ListView x:Name="ObjectsListView">
+            <ListView x:Name="ObjectsListView" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding Name}"></TextCell>

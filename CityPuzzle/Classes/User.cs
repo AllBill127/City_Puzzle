@@ -40,9 +40,6 @@ namespace CityPuzzle.Classes
                 var info = conn.Table<User>().ToList();
 
                 App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && PassVerification(pass,x.Pass));
-
-                
-
             };
             return App.CurrentUser != null;
         }
@@ -61,7 +58,6 @@ namespace CityPuzzle.Classes
                         return false;
                     }
                 }
-
             };
             return true;
         }
@@ -108,11 +104,5 @@ namespace CityPuzzle.Classes
             bool verified = BCryptNet.Verify(pass, passwordHash);
             return verified;
         }
-        
-
-
     }
-
-
-
 }

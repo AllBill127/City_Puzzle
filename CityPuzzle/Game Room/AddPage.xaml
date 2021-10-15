@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CityPuzzle.AddPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
+                <Label x:Name="PuzzleName" HorizontalOptions="CenterAndExpand" FontSize="36" TextColor="Black" ></Label>
+            </Frame>
+            <Image x:Name="PuzzleImg" WidthRequest="300" HeightRequest="300"></Image>
+            <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
+                <Label x:Name="PuzzleInfo" HorizontalOptions="CenterAndExpand" FontSize="18" TextColor="Black" ></Label>
+            </Frame>
+            <Button Text="Prideti" Clicked="Add_puzzle"></Button>
+            <Button Text="Kitas" Clicked="Next_puzzle"></Button>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
