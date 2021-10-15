@@ -19,6 +19,16 @@ namespace CityPuzzle
         private List<Puzzle> Target;
         public static Puzzle QuestInProgress;
 
+        enum Radar
+        {
+            Ugnis,
+            Krašta,
+            Šilta,
+            Vidutine,
+            Šalta,
+            Ledas
+        }
+
         public QuestPage()
         {
             InitializeComponent();
@@ -176,12 +186,12 @@ namespace CityPuzzle
             return Location.CalculateDistance(start, end, 0);
         }
 
-        void check_Click(object sender, EventArgs e)
+        void Check_Click(object sender, EventArgs e)
         {
             PrintDistance();
         }
 
-        void help_Click(object sender, EventArgs e)
+        void Help_Click(object sender, EventArgs e)
         {
             Navigation.PushAsync(new GamePage(QuestLat, QuestLng));
         }
@@ -198,6 +208,7 @@ namespace CityPuzzle
                 vienetai = "metrai";
                 dist = dist * 1000;
             }
+            
             await DisplayAlert("Tau liko:", " " + dist + " " + vienetai, "OK");
         }
     }

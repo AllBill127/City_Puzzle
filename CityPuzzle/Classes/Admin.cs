@@ -9,7 +9,6 @@ namespace CityPuzzle.Classes
         public User User;
         public String RoomId;
 
-
         public Admin(String roomid,User user)
         {
             this.User = user;
@@ -20,6 +19,5 @@ namespace CityPuzzle.Classes
         {
             RoomId = id;
         }
-
     }
 }
