@@ -15,6 +15,7 @@
 
         <Button x:Name="StartButton" Text="Pradeti" Clicked="StartButton_click" BackgroundColor="#F3BD21"></Button>
         <Button x:Name="AddButton" Text="Prideti objekta" Clicked="Add_Click" BackgroundColor="#F3BD21"></Button>
+        <Button x:Name="Leaderboard" Text="Zaideju top 10" Clicked="Leaderboard_Clicked" BackgroundColor="#F3BD21"></Button>
         <Button  Text="Remote server" Clicked="Button_Click" BackgroundColor="#F3BD21"></Button>
         
 
