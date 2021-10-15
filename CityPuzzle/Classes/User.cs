@@ -7,7 +7,6 @@ using System.Text;
 using System.Collections.Generic;
 
 using BCryptNet = BCrypt.Net.BCrypt;
-using System.Collections;
 
 namespace CityPuzzle.Classes
 {
@@ -28,27 +27,24 @@ namespace CityPuzzle.Classes
         public User() { }
         public static Boolean CheckPassword(string name, string pass)
         {
-            if (String.IsNullOrWhiteSpace(name) || String.IsNullOrWhiteSpace(pass))
+             if (String.IsNullOrWhiteSpace(name) || String.IsNullOrWhiteSpace(pass))
             {
                 return false;
             }
 
-            // pass = PassToHash(pass);//     //                              //encrypt
+           // pass = PassToHash(pass);//     //                              //encrypt
             using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
             {
                 conn.CreateTable<User>();
                 //conn.DeleteAll<User>();
                 var info = conn.Table<User>().ToList();
 
-                App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && PassVerification(pass, x.Pass));
-
-
-
+                App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && PassVerification(pass,x.Pass));
             };
             return App.CurrentUser != null;
         }
         public static Boolean CheckUser(string name)
-        {
+        { 
             using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
             {
                 conn.CreateTable<User>();
@@ -62,10 +58,40 @@ namespace CityPuzzle.Classes
                         return false;
                     }
                 }
-
             };
             return true;
         }
+
+        /* Saved for later use
+        private const string SecurityKey = "SecurityKey_1212";
+
+        public static string EncryptPlainTextToCipherText(string PlainText)
+        {
+           
+            byte[] toEncryptedArray = UTF8Encoding.UTF8.GetBytes(PlainText);
+
+            MD5CryptoServiceProvider objMD5CryptoService = new MD5CryptoServiceProvider();
+            
+            byte[] securityKeyArray = objMD5CryptoService.ComputeHash(UTF8Encoding.UTF8.GetBytes(SecurityKey));
+           
+            objMD5CryptoService.Clear();
+
+            var objTripleDESCryptoService = new TripleDESCryptoServiceProvider();
+            
+            objTripleDESCryptoService.Key = securityKeyArray;
+            
+            objTripleDESCryptoService.Mode = CipherMode.ECB;
+            
+            objTripleDESCryptoService.Padding = PaddingMode.PKCS7;
+
+
+            var objCrytpoTransform = objTripleDESCryptoService.CreateEncryptor();
+            
+            byte[] resultArray = objCrytpoTransform.TransformFinalBlock(toEncryptedArray, 0, toEncryptedArray.Length);
+            objTripleDESCryptoService.Clear();
+            return Convert.ToBase64String(resultArray, 0, resultArray.Length);
+        }
+        */
 
         public static string PassToHash(string pass)
         {
