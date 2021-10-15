@@ -61,7 +61,7 @@ namespace CityPuzzle
                 QuestField.Text = target.Quest;
 
                 await RevealImg();    // Start the quest completion loop
-                App.CurrentUser.QuestComlited.Add(target.Name);            // TO DO: save user data to database after finishing quest or loging out
+                App.CurrentUser.QuestsCompleted.Add(target.Name);            // TO DO: save user data to database after finishing quest or loging out
                 await DisplayAlert("Congratulations", "You have reached the destination", "OK");
             }
         }
@@ -78,11 +78,11 @@ namespace CityPuzzle
             }
 
             //Linq query
-            //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestComlited.Contains(puzzle.Name)).ToList();
+            //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)).ToList();
             var inRange =
                 (from puzzle in puzzles
                 where InRange(puzzle)
-                where !App.CurrentUser.QuestComlited.Contains(puzzle.Name)
+                where !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)
                 select puzzle)
                 .ToList();
 
