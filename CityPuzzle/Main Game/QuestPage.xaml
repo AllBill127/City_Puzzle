@@ -24,8 +24,8 @@
             <Label x:Name="QuestField" FontSize="20" Text=""
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-            <Button x:Name="helpbutton" Text="Pagalba"  Clicked="help_Click" IsVisible="True"></Button>
-            <Button Text="Kaip arti?" Clicked="check_Click" BackgroundColor="#F3BD21"></Button>
+            <Button x:Name="helpbutton" Text="Pagalba"  Clicked="Help_Click" IsVisible="True"></Button>
+            <Button Text="Kaip arti?" Clicked="Check_Click" BackgroundColor="#F3BD21"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
