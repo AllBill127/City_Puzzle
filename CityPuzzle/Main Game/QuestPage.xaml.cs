@@ -1,6 +1,7 @@
 ﻿using CityPuzzle.Classes;
 using SQLite;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,16 @@ namespace CityPuzzle
         private double QuestLng;
         private List<Puzzle> Target;
         public static Puzzle QuestInProgress;
+
+        enum Radar
+        {
+            Ugnis,
+            Krašta,
+            Šilta,
+            Vidutine,
+            Šalta,
+            Ledas
+        }
 
         public QuestPage()
         {
@@ -61,7 +72,7 @@ namespace CityPuzzle
                 QuestField.Text = target.Quest;
 
                 await RevealImg();    // Start the quest completion loop
-                App.CurrentUser.QuestComlited.Add(target.Name);            // TO DO: save user data to database after finishing quest or loging out
+                App.CurrentUser.QuestsCompleted.Add(target.Name);            // TO DO: save user data to database after finishing quest or loging out
                 await DisplayAlert("Congratulations", "You have reached the destination", "OK");
             }
         }
@@ -78,11 +89,11 @@ namespace CityPuzzle
             }
 
             //Linq query
-            //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestComlited.Contains(puzzle.Name)).ToList();
+            //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)).ToList();
             var inRange =
                 (from puzzle in puzzles
                 where InRange(puzzle)
-                where !App.CurrentUser.QuestComlited.Contains(puzzle.Name)
+                where !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)
                 select puzzle)
                 .ToList();
 
@@ -176,12 +187,12 @@ namespace CityPuzzle
             return Location.CalculateDistance(start, end, 0);
         }
 
-        void check_Click(object sender, EventArgs e)
+        void Check_Click(object sender, EventArgs e)
         {
             PrintDistance();
         }
 
-        void help_Click(object sender, EventArgs e)
+        void Help_Click(object sender, EventArgs e)
         {
             Navigation.PushAsync(new GamePage(QuestLat, QuestLng));
         }
@@ -198,6 +209,7 @@ namespace CityPuzzle
                 vienetai = "metrai";
                 dist = dist * 1000;
             }
+            
             await DisplayAlert("Tau liko:", " " + dist + " " + vienetai, "OK");
         }
     }

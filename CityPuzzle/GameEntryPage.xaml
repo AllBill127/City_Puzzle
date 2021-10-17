@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CityPuzzle.GameEntryPage"
              BackgroundImageSource="logos.pmg" WidthRequest="600" HeightRequest="200">
+
     <StackLayout>
+
+
+
         <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
             <Label Text="Ar norite pradeti zaidima?" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="36"/>
         </Frame>
@@ -11,7 +15,23 @@
 
         <Button x:Name="StartButton" Text="Pradeti" Clicked="StartButton_click" BackgroundColor="#F3BD21"></Button>
         <Button x:Name="AddButton" Text="Prideti objekta" Clicked="Add_Click" BackgroundColor="#F3BD21"></Button>
-        <Button  Text="Perziureti ojektus" Clicked="Look_Click" BackgroundColor="#F3BD21"></Button>
+        <Button x:Name="Leaderboard" Text="Zaideju top 10" Clicked="Leaderboard_Clicked" BackgroundColor="#F3BD21"></Button>
+        <Button  Text="Remote server" Clicked="Button_Click" BackgroundColor="#F3BD21"></Button>
+        
 
     </StackLayout>
+    <NavigationPage.TitleView>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="50" />
+
+            </Grid.ColumnDefinitions>
+            <Button Image="create.png" Clicked="Create_Click" AbsoluteLayout.LayoutFlags="PositionProportional" Grid.Column="1"/>
+            <Button Image="join.png" Clicked="Entry_Click" AbsoluteLayout.LayoutFlags="PositionProportional"  Grid.Column="2"/>
+            <Button Image="settings.png" AbsoluteLayout.LayoutFlags="PositionProportional" Grid.Column="3"/>
+        </Grid>
+    </NavigationPage.TitleView>
 </ContentPage>
