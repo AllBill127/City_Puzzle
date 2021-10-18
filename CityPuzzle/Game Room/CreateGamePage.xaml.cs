@@ -17,11 +17,28 @@ namespace CityPuzzle
 
         public CreateGamePage()
         {
-            string roomId = "kambarys" + App.CurrentUser.ID;// Ateityje padaryti random su patikrinimu arba ne;
+            string roomId = "kambarys" + roomID;// Ateityje padaryti random su patikrinimu arba ne;
             NewRoom = new Room();
             NewRoom.ID = roomId;
             NewRoom.Owner = App.CurrentUser.UserName;
-            InitializeComponent();
+
+            private readonly Random _random = new Random(); 
+            public int RandomID(int min, int max)
+            {
+            return _random.Next(min, max);
+            }.
+            int roomID = RandomID(1, 1000000);
+
+            Room existing = AllRooms.SingleOrDefault(x => x.ID.ToLower().Equals(TAVO_ID.ToLower()));
+            if(existing != null)
+            {
+                roomID = RandomID(1, 1000000);
+            }
+
+            
+        InitializeComponent();
+
+
         }
 
         protected override void OnAppearing()

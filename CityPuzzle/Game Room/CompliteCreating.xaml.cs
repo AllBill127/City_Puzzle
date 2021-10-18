@@ -30,7 +30,8 @@ namespace CityPuzzle
                         Size.Big.ToString() + " = " + (int)Size.Big,
                         Size.Medium.ToString() + " = " + (int)Size.Medium,
                         Size.Small.ToString() + " = " + (int)Size.Small
-        };
+                    };
+
             
         }
 
@@ -62,5 +63,7 @@ namespace CityPuzzle
 
 
         }
+
+
     }
 }
