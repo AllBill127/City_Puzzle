@@ -8,7 +8,9 @@ namespace CityPuzzle.Classes
 {
     public class Room
     {
+        [PrimaryKey, AutoIncrement]
         public String ID { get; set; }
+        public int RoomSize { get; set; }
         [TextBlob("addressesBlobbed")]
         public List<Puzzle> Tasks { get; set; }
         public string addressesBlobbed { get; set; }

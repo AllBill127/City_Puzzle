@@ -19,15 +19,16 @@ namespace CityPuzzle
         private double QuestLng;
         private List<Puzzle> Target;
         public static Puzzle QuestInProgress;
+        public const Double HumanSpeed = 2.23;
+        public const int TimeInterval = 3000;
 
         enum Radar
         {
-            Ugnis,
-            Krašta,
-            Šilta,
+            Ledas,
+            Salta,
             Vidutine,
-            Šalta,
-            Ledas
+            Silta,
+            Ugnis
         }
 
         public QuestPage()
@@ -117,6 +118,8 @@ namespace CityPuzzle
         {
             double distLeft = DistanceToPoint(QuestLat, QuestLng);
             double distStep = distLeft / 9F;
+
+            RadarThread();
 
             List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
             var random = new Random();
@@ -212,5 +215,37 @@ namespace CityPuzzle
             
             await DisplayAlert("Tau liko:", " " + dist + " " + vienetai, "OK");
         }
-    }
+        public int CountPages()
+        {
+            var existingPages = Navigation.NavigationStack.ToList();
+            int stackSize = existingPages.Count;
+            return stackSize;
+        }
+        async void RadarThread(){
+            await UpdateCurrentLocation();
+            double distCheck = DistanceToPoint(QuestLat, QuestLng);
+            Radar oldRadar = Radar.Vidutine;
+            int startSize = CountPages();
+            int nowSize = startSize;
+            while (distCheck> 0.1 && startSize== nowSize)
+            {   
+               
+                Thread.Sleep(TimeInterval);
+                await UpdateCurrentLocation();
+                double distChange = DistanceToPoint(QuestLat, QuestLng);
+                double speed = ((distCheck - distChange) / TimeInterval)*1000+ HumanSpeed;
+
+                int direction = (int)(5 * (speed) / (2 * HumanSpeed));
+                if (direction > 4) direction = 4;
+                else if (direction < 0) direction = 0;
+
+                Radar state = (Radar)direction;
+                if(oldRadar != state)radar.Source = state.ToString()+".gif";
+                oldRadar = state;
+                Console.WriteLine("Updatinu radara - i " + state.ToString() + ".gif"+" speed "+ speed+" "+ direction);
+                distCheck = DistanceToPoint(QuestLat, QuestLng);
+                nowSize = CountPages();
+            }
+        }
+        }
 }
