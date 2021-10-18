@@ -18,7 +18,9 @@ namespace CityPuzzle
         public CreateGamePage()
         {
             string roomId = "kambarys" + App.CurrentUser.ID;// Ateityje padaryti random su patikrinimu arba ne;
-            NewRoom = new Room(roomId);
+            NewRoom = new Room();
+            NewRoom.ID = roomId;
+            NewRoom.Owner = App.CurrentUser.UserName;
             InitializeComponent();
         }
 

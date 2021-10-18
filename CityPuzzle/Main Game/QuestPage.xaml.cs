@@ -230,7 +230,6 @@ namespace CityPuzzle
             int nowSize = startSize;
             while (distCheck> 0.1 && startSize== nowSize)
             {   
-               
                 Thread.Sleep(TimeInterval);
                 await UpdateCurrentLocation();
                 double distChange = DistanceToPoint(QuestLat, QuestLng);
@@ -244,7 +243,7 @@ namespace CityPuzzle
                 if(oldRadar != state)radar.Source = state.ToString()+".gif";
                 oldRadar = state;
                 Console.WriteLine("Updatinu radara - i " + state.ToString() + ".gif"+" speed "+ speed+" "+ direction);
-                distCheck = DistanceToPoint(QuestLat, QuestLng);
+                distCheck = distChange;
                 nowSize = CountPages();
             }
         }

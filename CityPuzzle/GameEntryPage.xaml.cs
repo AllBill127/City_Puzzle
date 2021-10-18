@@ -39,7 +39,7 @@ namespace CityPuzzle
         void Entry_Click(object sender, EventArgs e)
         {
 
-            Navigation.PushAsync(new LookPage());
+            Navigation.PushAsync(new EntryGameRoomPage());
 
         }
 
