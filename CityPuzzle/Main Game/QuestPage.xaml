@@ -40,7 +40,7 @@
                 HorizontalOptions="CenterAndExpand" 
                    BackgroundColor="#F3BD21"/>
 
-                    <Button x:Name="helpbutton" Text="Pagalba"  Clicked="Help_Click" IsVisible="True"></Button>
+                    <Button x:Name="helpbutton" Text="Pagalba"  Clicked="Help_Click" IsVisible="False"></Button>
             <Button Text="Kaip arti?" Clicked="Check_Click" BackgroundColor="#F3BD21"></Button>
         </StackLayout>
             </Grid>

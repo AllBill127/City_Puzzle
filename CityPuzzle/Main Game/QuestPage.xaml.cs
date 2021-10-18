@@ -141,10 +141,10 @@ namespace CityPuzzle
                         maskCount += 1;
                         int index = random.Next(masks.Count);
                         masks[index].IsVisible = false;
-
                         masks.Remove(masks[index]);
                     }
                 }
+                else if (count < 0) helpbutton.IsVisible = true;
                 else if (newMaskCount == 9)
                 {
                     distLeft = 0;
@@ -198,6 +198,7 @@ namespace CityPuzzle
         void Help_Click(object sender, EventArgs e)
         {
             Navigation.PushAsync(new GamePage(QuestLat, QuestLng));
+            helpbutton.IsVisible = false;
         }
 
         //Displays distance to quest
