@@ -25,28 +25,32 @@ namespace CityPuzzle
         public void ShowInfo()
         {
         XElement grupedList = new XElement("GameOwners",
-        from user in AllUsers
-        join Room in AllRooms on user.UserName equals Room.Owner into ownerName
+        from User in AllUsers
+        join Room in AllRooms on User.UserName equals Room.Owner into ownerName
         select new XElement("Owner",
-            new XAttribute("FirstName", person.FirstName),
-            new XAttribute("LastName", person.LastName),
-            from subpet in ownerName
-            select new XElement("Pet", subpet.Name)));
+            new XAttribute("OwnerID", User.ID),
+            new XAttribute("OwnerName", User.Name),
+            new XAttribute("OwnerLastName", User.LastName),
+            new XAttribute("OwnerUserName", User.UserName),
+            from Room in ownerName
+            select new XElement("Room",
+            new XAttribute("Size", Room.RoomSize),
+            new XAttribute("Tasks", Room.Tasks),
+            new XAttribute("Participants", Room.Participants)
+            )));
+
+            Console.WriteLine(grupedList);
         }
 
         async void getRoomId()
         {
             string message = await DisplayPromptAsync("Dalyvavimas dalyviu žaidime", "Ivesk Room ID?");
-            try
-            {
+
+
                 CurrentRoom = AllRooms.SingleOrDefault(x => x.ID.ToLower().Equals(message.ToLower()));
                 ShowInfo();
 
-            }
-            catch
-            {
-                await DisplayAlert("Ispejimas: ","Neatrastas atitikmuo", "OK");
-            }
+
 
         }
         protected override void OnAppearing()
@@ -54,6 +58,7 @@ namespace CityPuzzle
             base.OnAppearing();
             using (SQLiteConnection conn = new SQLiteConnection(App.GamePath))
             {
+                //conn.DeleteAll<Room>();
                 conn.CreateTable<Room>();
                 AllRooms = conn.Table<Room>().ToList();
             }
