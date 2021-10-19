@@ -11,25 +11,26 @@ namespace CityPuzzle.Classes
         public static List<UserInfo> Top10(this List<User> users)
         {
             users.Sort(new PointsComparer());
+            users.Reverse();
 
             List<UserInfo> TopUsers = new List<UserInfo>();
 
-            int i = 0; //iteruoja pro listus
-            int j = 1; //nusako rezultato indexa 
-            UserInfo temp = new UserInfo { };
+            User prev = null;
+            int j = 0; //nusako rezultato indexa 
+            UserInfo temp = new UserInfo();
 
-            while (j <= 10 && users[i] != null)
-            {  
-                temp.name = users[i].Name;
-                temp.score = users[i].QuestsCompleted.Count;
-                temp.index = j;
-                
-                TopUsers[i] = temp;
-                
-                if (users[i + 1].Equals(users[i]) == false)
+            foreach (var user in users)
+            {
+                if (user.Equals(prev) == false)
                     ++j;
 
-                ++i;
+                temp.username = user.UserName;
+                temp.score = user.QuestsCompleted.Count;
+                temp.index = j;
+                
+                TopUsers.Add(temp);
+
+                prev = user;
             }
             return TopUsers;
         }

@@ -7,7 +7,7 @@
                 ItemsSource="{Binding Items}"
                 ItemTapped="Handle_ItemTapped"
                 CachingStrategy="RecycleElement"
-                RowHeight="60"
+                RowHeight="100"
                 SeparatorColor="#F3BD21">
 
             <ListView.Header>
@@ -23,10 +23,12 @@
                 <DataTemplate >
                     <ViewCell>
                         <StackLayout Padding="10, -5, 10, 5" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="{Binding index}" 
+                       Style="{DynamicResource ListItemTextStyle}" HorizontalTextAlignment="Center" TextColor="Black" FontSize="24"/>
                             <Label Text="{Binding username}" 
-                       Style="{DynamicResource ListItemTextStyle}" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="18"/>
+                       Style="{DynamicResource ListItemTextStyle}" HorizontalTextAlignment="Center" TextColor="Black" FontSize="18"/>
                             <Label Text="{Binding score}" 
-                       Style="{DynamicResource ListItemDetailTextStyle}" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="14"/>
+                       Style="{DynamicResource ListItemDetailTextStyle}" HorizontalTextAlignment="Center" TextColor="Black" FontSize="14"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

@@ -9,19 +9,13 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static CityPuzzle.Classes.Structs;
 
 namespace CityPuzzle
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LeaderboardPage : ContentPage
     {
-        public struct Spot
-        {
-            //int place;
-            public string username { get; set; }
-            public int score { get; set; }
-        }
-
         public LeaderboardPage()
         {
             InitializeComponent();
@@ -29,20 +23,11 @@ namespace CityPuzzle
             using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
             {
                 conn.CreateTable<Puzzle>();
-                List<User> top10 = conn.Table<User>().ToList().Top10();
+                List<UserInfo> top10 = conn.Table<User>().ToList().Top10();
 
-                ObservableCollection<Spot> spots = new ObservableCollection<Spot>();
-                foreach (var spot in top10)
-                {
-                    spots.Add(new Spot
-                    {
-                        username = spot.UserName, 
-                        score = spot.QuestsCompleted.Count()
-                    }
-                    );
-                }
+                ObservableCollection<UserInfo> leaderboard = new ObservableCollection<UserInfo>(top10);
 
-                Leaderboard.ItemsSource = spots;
+                Leaderboard.ItemsSource = leaderboard;
             }
         }
 

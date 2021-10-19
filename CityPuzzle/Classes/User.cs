@@ -76,9 +76,11 @@ namespace CityPuzzle.Classes
 
         public bool Equals(User other)
         {
-            if (other.QuestsCompleted.Count == this.QuestsCompleted.Count)
+            if (this == null || other == null)
+                return false;
+            else if (other.QuestsCompleted.Count == this.QuestsCompleted.Count)
                 return true;
-            else 
+            else
                 return false;
         }
     }
