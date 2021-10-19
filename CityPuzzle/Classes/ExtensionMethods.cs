@@ -1,23 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static CityPuzzle.Classes.Structs;
 
 namespace CityPuzzle.Classes
 {
     public static class ExtensionMethods
     {
         // Extension method for User class finding top 10 users by completed quest count
-        public static List<User> Top10(this List<User> users)
+        public static List<UserInfo> Top10(this List<User> users)
         {
             users.Sort(new PointsComparer());
+            users.Reverse();
 
-            List<User> top10 = new List<User>();
-            for (int i = 0; i < 10; ++i)
+            List<UserInfo> TopUsers = new List<UserInfo>();
+
+            User prev = null;
+            int j = 0; //nusako rezultato indexa 
+            UserInfo temp = new UserInfo();
+
+            foreach (var user in users)
             {
-                top10.Add(users[i]);
-            }
+                if (user.Equals(prev) == false)
+                    ++j;
 
-            return top10;
+                temp.username = user.UserName;
+                temp.score = user.QuestsCompleted.Count;
+                temp.index = j;
+                
+                TopUsers.Add(temp);
+
+                prev = user;
+            }
+            return TopUsers;
         }
     }
 }

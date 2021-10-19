@@ -10,7 +10,7 @@ using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace CityPuzzle.Classes
 {
-    public class User
+    public class User :IEquatable<User>
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
@@ -72,6 +72,16 @@ namespace CityPuzzle.Classes
         {
             bool verified = BCryptNet.Verify(pass, passwordHash);
             return verified;
+        }
+
+        public bool Equals(User other)
+        {
+            if (this == null || other == null)
+                return false;
+            else if (other.QuestsCompleted.Count == this.QuestsCompleted.Count)
+                return true;
+            else
+                return false;
         }
     }
 }
