@@ -4,9 +4,67 @@
              x:Class="CityPuzzle.EntryGameRoomPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+
+            <Frame BackgroundColor="#D9DE09" Padding="24" CornerRadius="10">
+                <Label Text="Sveiki atvyke i GameRoom " BackgroundColor="#F9F532" FontAttributes="Bold" FontSize="30" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="#000000" />
+            </Frame>
+            <Entry x:Name="CheckPin" Placeholder="Ivesk Game PIN"></Entry>
+            <Button Text="Tikrinti PIN" BackgroundColor="#F9F532" Clicked="ReadPin" CornerRadius="12"></Button>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="0.2*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.2*" />
+                    <ColumnDefinition Width="0.6*" />
+                    <ColumnDefinition Width="0.2*" />
+                </Grid.ColumnDefinitions>
+                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="0" Grid.Column="1">
+                    <Label Text="Jūsų čia lauks:"  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Row="0" Grid.Column="0"></Frame>
+                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="0" Grid.Column="2"></Frame>
+                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="1" Grid.Column="0"></Frame>
+                <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Row="2" Grid.Column="0"></Frame>
+                <Frame BackgroundColor="#F9F532" CornerRadius="10"  Grid.Row="1" Grid.Column="1">
+                    <Label  Text="Užduočių - "  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+                <Frame BackgroundColor="#D9DE09" CornerRadius="10"  Grid.Row="2" Grid.Column="1">
+                    <Label Text="Kelionės atstumas-"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="1" Grid.Column="2">
+                    <Label x:Name="PuzzleCount" Text="0"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Row="2" Grid.Column="2">
+                    <Label x:Name="RoadDistance" Text="0"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+            </Grid>
+
+            <Grid >
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*" />
+                    <ColumnDefinition Width="0.4*" />
+                </Grid.ColumnDefinitions>
+                <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Column="0">
+                    <Label Text="Uzduotis sukure -"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Column="1">
+                    <Label x:Name="OwnerName" Text="Vardas"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+            </Grid>
+
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.5*" />
+                </Grid.ColumnDefinitions>
+                <Button Text="Pradėti" BackgroundColor="#D9DE09" Grid.Row="1" CornerRadius="10"></Button>
+                <Button Text="Praleisti" BackgroundColor="#F9F532" Grid.Row="1"  Grid.Column="1" CornerRadius="10"></Button>
+            </Grid>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

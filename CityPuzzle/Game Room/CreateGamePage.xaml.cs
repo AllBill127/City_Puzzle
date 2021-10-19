@@ -28,7 +28,7 @@ namespace CityPuzzle
         
         public string CreatePin()
         {
-            int roomID = _random.Next(1, 100000);
+            int roomID = _random.Next(1, 100);
             string roomPin = "kambarys" + roomID;
             using (SQLiteConnection conn = new SQLiteConnection(App.GamePath))
             {
