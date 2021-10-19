@@ -15,7 +15,12 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LeaderboardPage : ContentPage
     {
-        public ObservableCollection<string> Items { get; set; }
+        public struct Spot
+        {
+            //int place;
+            public string username { get; set; }
+            public int score { get; set; }
+        }
 
         public LeaderboardPage()
         {
@@ -26,16 +31,18 @@ namespace CityPuzzle
                 conn.CreateTable<Puzzle>();
                 List<User> top10 = conn.Table<User>().ToList().Top10();
 
-                Items = new ObservableCollection<string>
+                ObservableCollection<Spot> spots = new ObservableCollection<Spot>();
+                foreach (var spot in top10)
                 {
-                    "Item 1",
-                    "Item 2",
-                    "Item 3",
-                    "Item 4",
-                    "Item 5"
-                };
+                    spots.Add(new Spot
+                    {
+                        username = spot.UserName, 
+                        score = spot.QuestsCompleted.Count()
+                    }
+                    );
+                }
 
-                Leaderboard.ItemsSource = top10;//Items;
+                Leaderboard.ItemsSource = spots;
             }
         }
 
@@ -44,7 +51,7 @@ namespace CityPuzzle
             if (e.Item == null)
                 return;
 
-            await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
+            //await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;

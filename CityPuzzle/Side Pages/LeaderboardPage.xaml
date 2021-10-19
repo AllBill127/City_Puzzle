@@ -2,31 +2,36 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CityPuzzle.LeaderboardPage">
-  <ListView x:Name="Leaderboard"
-            ItemsSource="{Binding Items}"
-            ItemTapped="Handle_ItemTapped"
-            CachingStrategy="RecycleElement">
-    <!--Built in Cells-->
-    <ListView.ItemTemplate>
-        <DataTemplate>
-            <TextCell Text="{Binding .}" />
-        </DataTemplate>
-    </ListView.ItemTemplate>
-    
-    <!--Custom View Cells-->
-    <!--
-    <ListView.ItemTemplate>
-      <DataTemplate>
-        <ViewCell>
-          <StackLayout>
-            <Label Text="{Binding Text}" 
-                   Style="{DynamicResource ListItemTextStyle}" />
-            <Label Text="{Binding Detail}" 
-                   Style="{DynamicResource ListItemDetailTextStyle}"/>
-          </StackLayout>
-        </ViewCell>
-      </DataTemplate>
-    </ListView.ItemTemplate>
-    -->
-  </ListView>
+    <ContentPage.Content>
+        <ListView x:Name="Leaderboard"
+                ItemsSource="{Binding Items}"
+                ItemTapped="Handle_ItemTapped"
+                CachingStrategy="RecycleElement"
+                RowHeight="60"
+                SeparatorColor="#F3BD21">
+
+            <ListView.Header>
+                <StackLayout>
+                    <Frame BackgroundColor="#F3BD21" Padding="10" CornerRadius="10">
+                        <Label Text="Leaderboard" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="20"/>
+                    </Frame>
+                </StackLayout>
+            </ListView.Header>
+
+            <!--Custom View Cells-->
+            <ListView.ItemTemplate>
+                <DataTemplate >
+                    <ViewCell>
+                        <StackLayout Padding="10, -5, 10, 5" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="{Binding username}" 
+                       Style="{DynamicResource ListItemTextStyle}" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="18"/>
+                            <Label Text="{Binding score}" 
+                       Style="{DynamicResource ListItemDetailTextStyle}" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="14"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+      
+        </ListView>
+    </ContentPage.Content>
 </ContentPage>
