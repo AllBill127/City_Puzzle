@@ -11,12 +11,68 @@
         <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
             <Label Text="Ar norite pradeti zaidima?" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="36"/>
         </Frame>
-        <Label Padding="0,0,0,50"></Label>
+        <Label Padding="0,0,0,5"></Label>
 
-        <Button x:Name="StartButton" Text="Pradeti" Clicked="StartButton_click" BackgroundColor="#F3BD21"></Button>
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.03*" />
+                <ColumnDefinition Width="0.4*" />
+                <ColumnDefinition Width="0.04*" />
+                <ColumnDefinition Width="0.4*" />
+                <ColumnDefinition Width="0.03*" />
+            </Grid.ColumnDefinitions>
+            <ImageButton
+            Source="play_icon.png"
+            x:Name="btn1"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="Center"
+            HeightRequest="{Binding Width, Source={x:Reference btn1}}"
+            Grid.Row="0"
+            Clicked="StartButton_click"
+            Grid.Column="1"/>
+
+            <ImageButton 
+            Source="leader_icon.png"
+            x:Name="btn2"
+            Clicked="Leaderboard_Clicked"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="Center"
+            WidthRequest="{Binding Width, Source={x:Reference btn1}}"
+            HeightRequest="{Binding Width, Source={x:Reference btn2}}"
+            Grid.Row="0"
+            Grid.Column="3"/>
+
+
+
+            <ImageButton 
+             Source="create_icon.png"
+            x:Name="btn4"
+            Clicked="Create_Click"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="Center"
+            WidthRequest="{Binding Width, Source={x:Reference btn1}}"
+            HeightRequest="{Binding Width, Source={x:Reference btn4}}"
+            Grid.Row="1"
+            Grid.Column="1"/>
+
+            <ImageButton 
+            x:Name="btn5"
+            Source="join_icon.png"
+            Clicked="Entry_Click"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="Center"
+                    WidthRequest="{Binding Width, Source={x:Reference btn1}}"
+            HeightRequest="{Binding Width, Source={x:Reference btn5}}"
+            Grid.Row="1"
+            Grid.Column="3"/>
+
+
+        </Grid>
         <Button x:Name="AddButton" Text="Prideti objekta" Clicked="Add_Click" BackgroundColor="#F3BD21"></Button>
-        <Button  Text="Remote server" Clicked="Button_Click" BackgroundColor="#F3BD21"></Button>
-        
 
     </StackLayout>
     <NavigationPage.TitleView>
@@ -28,8 +84,6 @@
                 <ColumnDefinition Width="50" />
 
             </Grid.ColumnDefinitions>
-            <Button Image="create.png" Clicked="Create_Click" AbsoluteLayout.LayoutFlags="PositionProportional" Grid.Column="1"/>
-            <Button Image="join.png" Clicked="Entry_Click" AbsoluteLayout.LayoutFlags="PositionProportional"  Grid.Column="2"/>
             <Button Image="settings.png" AbsoluteLayout.LayoutFlags="PositionProportional" Grid.Column="3"/>
         </Grid>
     </NavigationPage.TitleView>

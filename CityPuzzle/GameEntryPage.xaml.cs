@@ -39,7 +39,7 @@ namespace CityPuzzle
         void Entry_Click(object sender, EventArgs e)
         {
 
-            Navigation.PushAsync(new LookPage());
+            Navigation.PushAsync(new EntryGameRoomPage());
 
         }
 
@@ -48,6 +48,11 @@ namespace CityPuzzle
             WebClient wc = new WebClient();
             string theTextFile = wc.DownloadString("https://onedrive.live.com/?authkey=%21AFs2jqf6YPPLw7k&cid=E3EB53E039BE7E4D&id=E3EB53E039BE7E4D%21540&parId=root&o=OneUp");
             Console.WriteLine(theTextFile);
+        }
+
+        private void Leaderboard_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new LeaderboardPage());
         }
     }
 }

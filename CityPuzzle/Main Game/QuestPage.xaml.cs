@@ -1,6 +1,7 @@
 ﻿using CityPuzzle.Classes;
 using SQLite;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,15 +19,16 @@ namespace CityPuzzle
         private double QuestLng;
         private List<Puzzle> Target;
         public static Puzzle QuestInProgress;
+        public const Double HumanSpeed = 2.23;
+        public const int TimeInterval = 3000;
 
         enum Radar
         {
-            Ugnis,
-            Krašta,
-            Šilta,
+            Ledas,
+            Salta,
             Vidutine,
-            Šalta,
-            Ledas
+            Silta,
+            Ugnis
         }
 
         public QuestPage()
@@ -71,7 +73,7 @@ namespace CityPuzzle
                 QuestField.Text = target.Quest;
 
                 await RevealImg();    // Start the quest completion loop
-                App.CurrentUser.QuestComlited.Add(target.Name);            // TO DO: save user data to database after finishing quest or loging out
+                App.CurrentUser.QuestsCompleted.Add(target.Name);            // TO DO: save user data to database after finishing quest or loging out
                 await DisplayAlert("Congratulations", "You have reached the destination", "OK");
             }
         }
@@ -88,11 +90,11 @@ namespace CityPuzzle
             }
 
             //Linq query
-            //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestComlited.Contains(puzzle.Name)).ToList();
+            //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)).ToList();
             var inRange =
                 (from puzzle in puzzles
                 where InRange(puzzle)
-                where !App.CurrentUser.QuestComlited.Contains(puzzle.Name)
+                where !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)
                 select puzzle)
                 .ToList();
 
@@ -117,6 +119,8 @@ namespace CityPuzzle
             double distLeft = DistanceToPoint(QuestLat, QuestLng);
             double distStep = distLeft / 9F;
 
+            RadarThread();
+
             List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
             var random = new Random();
 
@@ -137,10 +141,10 @@ namespace CityPuzzle
                         maskCount += 1;
                         int index = random.Next(masks.Count);
                         masks[index].IsVisible = false;
-
                         masks.Remove(masks[index]);
                     }
                 }
+                else if (count < 0) helpbutton.IsVisible = true;
                 else if (newMaskCount == 9)
                 {
                     distLeft = 0;
@@ -194,6 +198,7 @@ namespace CityPuzzle
         void Help_Click(object sender, EventArgs e)
         {
             Navigation.PushAsync(new GamePage(QuestLat, QuestLng));
+            helpbutton.IsVisible = false;
         }
 
         //Displays distance to quest
@@ -211,5 +216,36 @@ namespace CityPuzzle
             
             await DisplayAlert("Tau liko:", " " + dist + " " + vienetai, "OK");
         }
-    }
+        public int CountPages()
+        {
+            var existingPages = Navigation.NavigationStack.ToList();
+            int stackSize = existingPages.Count;
+            return stackSize;
+        }
+        async void RadarThread(){
+            await UpdateCurrentLocation();
+            double distCheck = DistanceToPoint(QuestLat, QuestLng);
+            Radar oldRadar = Radar.Vidutine;
+            int startSize = CountPages();
+            int nowSize = startSize;
+            while (distCheck> 0.1 && startSize== nowSize)
+            {   
+                Thread.Sleep(TimeInterval);
+                await UpdateCurrentLocation();
+                double distChange = DistanceToPoint(QuestLat, QuestLng);
+                double speed = ((distCheck - distChange) / TimeInterval)*1000+ HumanSpeed;
+
+                int direction = (int)(5 * (speed) / (2 * HumanSpeed));
+                if (direction > 4) direction = 4;
+                else if (direction < 0) direction = 0;
+
+                Radar state = (Radar)direction;
+                if(oldRadar != state)radar.Source = state.ToString()+".gif";
+                oldRadar = state;
+                Console.WriteLine("Updatinu radara - i " + state.ToString() + ".gif"+" speed "+ speed+" "+ direction);
+                distCheck = distChange;
+                nowSize = CountPages();
+            }
+        }
+        }
 }

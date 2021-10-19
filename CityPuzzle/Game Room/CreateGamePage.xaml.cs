@@ -2,6 +2,7 @@
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,12 +15,29 @@ namespace CityPuzzle
         public List<Puzzle> DefaultPuzzles;
         public List<string> AllUsers;
         public static int Status = -1;
+        private readonly Random _random = new Random();
 
         public CreateGamePage()
         {
-            string roomId = "kambarys" + App.CurrentUser.ID;// Ateityje padaryti random su patikrinimu arba ne;
-            NewRoom = new Room(roomId);
-            InitializeComponent();
+            NewRoom = new Room();
+            NewRoom.ID = CreatePin();
+            NewRoom.Owner = App.CurrentUser.UserName;
+
+        InitializeComponent();
+        }
+        
+        public string CreatePin()
+        {
+            int roomID = _random.Next(1, 100);
+            string roomPin = "kambarys" + roomID;
+            using (SQLiteConnection conn = new SQLiteConnection(App.GamePath))
+            {
+                conn.CreateTable<Room>();
+                var AllRooms = conn.Table<Room>().ToList();
+                Room existing = AllRooms.SingleOrDefault(x => x.ID.ToLower().Equals(roomPin.ToLower()));
+                if (existing != null) roomPin = CreatePin();
+            }
+            return roomPin;
         }
 
         protected override void OnAppearing()

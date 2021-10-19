@@ -2,39 +2,40 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CityPuzzle.CompliteCreating"
-             BackgroundImageSource="logosscreen.png" WidthRequest="600" HeightRequest="200">
+             BackgroundImageSource="logos.png" WidthRequest="600" HeightRequest="200">
     <StackLayout>
         <Label x:Name="idplace" FontSize="30" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" ></Label>
+
+        <Picker x:Name="picker" Title="Select size" SelectedIndex="0"/>
+
         <ListView x:Name="MyListView"
            
             ItemTapped="Handle_ItemTapped"
             CachingStrategy="RecycleElement">
 
-        <ListView.ItemTemplate>
-      <DataTemplate>
-        <ViewCell>
-                    <Grid Padding="10" RowSpacing="1" ColumnSpacing="10">
-                        <Grid.RowDefinitions>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10" RowSpacing="1" ColumnSpacing="10">
+                            <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-               
-                        <Label Grid.Column="1"
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="1"
                                BackgroundColor="White"
                                        Text="{Binding Name}"
                                        VerticalOptions="End" FontSize="20"/>
                             <Image Source="{Binding ImgAdress}" Aspect="AspectFill"></Image>
-                 
-                    </Grid>
-                </ViewCell>
-      </DataTemplate>
-    </ListView.ItemTemplate>
-   
-  </ListView>
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Paleisti" Clicked="Save_Click"></Button>
     </StackLayout>
 </ContentPage>

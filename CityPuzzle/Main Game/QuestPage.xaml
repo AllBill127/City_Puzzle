@@ -2,12 +2,25 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             BackgroundImageSource="Ugnis.gif" WidthRequest="600" HeightRequest="200"
+   
              x:Class="CityPuzzle.QuestPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label x:Name="MissionLabel" FontSize="20" Text=""
+
+
+        <Grid>
+            <Image x:Name="radar" Source="Vidutine.gif" IsAnimationPlaying="True" />
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackLayout Grid.Row="1">
+                    <Label x:Name="MissionLabel" FontSize="20" Text=""
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand"
+                           BackgroundColor="#F3BD21"/>
             <Grid>
                 <Image x:Name="objimg"></Image>
 
@@ -21,11 +34,16 @@
                 <Image x:Name="mask8" Source="mask8.png"></Image>
                 <Image x:Name="mask9" Source="mask9.png"></Image>
             </Grid>
+    
             <Label x:Name="QuestField" FontSize="20" Text=""
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Button x:Name="helpbutton" Text="Pagalba"  Clicked="Help_Click" IsVisible="True"></Button>
+                HorizontalOptions="CenterAndExpand" 
+                   BackgroundColor="#F3BD21"/>
+
+                    <Button x:Name="helpbutton" Text="Pagalba"  Clicked="Help_Click" IsVisible="False"></Button>
             <Button Text="Kaip arti?" Clicked="Check_Click" BackgroundColor="#F3BD21"></Button>
         </StackLayout>
+            </Grid>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
