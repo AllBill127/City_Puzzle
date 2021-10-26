@@ -31,6 +31,31 @@ namespace CityPuzzle
             return new Regex(StringAndNumber_Pattern, RegexOptions.IgnoreCase);
         }
 
+
+        public static void Validation(string item,int called,string name)
+        {
+            if(String.IsNullOrWhiteSpace(item)) throw new EmptyInputdException(name);
+
+            switch (called)
+            {
+                case 0:
+                    break;
+                case 1:
+                    if (!Valid_Username.IsMatch(item)) throw new BadInputdException("nuo 6 iki 12 ilgio", name);
+                    else if (!User.CheckUser(item)) throw new BadInputdException("Naudotojas su tokiu prisijungimo vardu užimtas.Pakeiskite prisijungimo vardą ir bandykite dar kartą.");
+                    break;
+                case 2:
+                    if (!Valid_Password.IsMatch(item)) throw new BadInputdException("Password must be atleast 8 to 15 characters and contains atleast one Upper case and numbers.");
+                    break;
+                case 3:
+                    if (!Valid_Email.IsMatch(item)) throw new BadInputdException("Invalid Email Address!");
+                    break;
+                default:
+                    throw new BadInputdException("No validation case fuond in ", name);
+                    break;
+            }
+
+        }
         //Method for validating email address
         private static Regex Email_Address()
         {
@@ -56,104 +81,60 @@ namespace CityPuzzle
         }
         void Registration_Click(object sender, EventArgs e)
         {
-         //for username
-            if (usernameEntry.Text == null)
-            {
-                var result = DisplayAlert("Invalid", "Username cannot be empty!", "Yes", "Cancel");
-                return;
-            }
-            else if (Valid_Username.IsMatch(usernameEntry.Text))
-            {
-                var result = DisplayAlert("Invalid", "Length between 6 to 12", "Yes", "Cancel");
-                return;
-            }
-
-
-            //for password
-            if (passEntry.Text == null)
-            {
-                var result = DisplayAlert("Invalid", "Password cannot be empty!", "Yes", "Cancel");
-                return;
-            }
-            else if (Valid_Password.IsMatch(passEntry.Text) != true)
-            {
-                var result = DisplayAlert("Password must be atleast 8 to 15 characters.", "It contains atleast one Upper case and numbers.", "Yes", "Cancel");
-                return;
-            }
-
-
-            //for Email Address
-            if (emailEntry.Text == null)
-            {
-                var result = DisplayAlert("Invalid", "Email cannot be empty!", "Yes", "Cancel");
-                return;
-            }
-            else if (Valid_Email.IsMatch(emailEntry.Text) != true)
-            {
-                var result = DisplayAlert("Invalid Email Address!", "Invalid", "Yes", "Cancel");
-                return;
-            }
-
+            //for username
             try
             {
-                if (String.IsNullOrWhiteSpace(nameEntry.Text) || String.IsNullOrWhiteSpace(lastnameEntry.Text) || String.IsNullOrWhiteSpace(usernameEntry.Text))
+                Validation(usernameEntry.Text, 1, "vartotojo varda");
+                Validation(passEntry.Text, 2, "Slaptazodzio");
+                Validation(emailEntry.Text, 3, "Emailo");
+                Validation(nameEntry.Text, 0, "Vardo");
+                Validation(lastnameEntry.Text, 0, "Pavardes");
+                User user;
+
+                if (distEntry.Text != null)
                 {
-                    MissInfoError();
-                }
-                else if (!User.CheckUser(usernameEntry.Text))
-                {
-                    usernameEntry.Text = "";
-                    passEntry.Text = "";
-                    SignErrorAllert();
-                }
-                else if (usernameEntry.Text.Length < 5)
-                {
-                    usernameEntry.Text = "";
-                    passEntry.Text = "";
-                    SignErrorPassAllert();
+                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text), maxDist: double.Parse(distEntry.Text));
                 }
                 else
                 {
-                    User user;
-
-                    if (distEntry.Text != null)
-                    {
-                        user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text), maxDist: double.Parse(distEntry.Text));
-                    }
-                    else
-                    {
-                        user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text));
-                    }
-
-                    using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
-                    {
-                        conn.CreateTable<User>();
-                        int rowsAdded = conn.Insert(user);
-                    };
-
-                    Navigation.PopAsync();
+                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text));
                 }
+
+                using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
+                {
+                    conn.CreateTable<User>();
+                    int rowsAdded = conn.Insert(user);
+                };
+
+                Navigation.PopAsync();
+
             }
-            catch (NullReferenceException ex)
+            catch (BadInputdException exception)
             {
-                MissInfoError();
+                ErrorAllert(exception.Message);
             }
-        }
-        async void SignErrorAllert()
-        {
-            await DisplayAlert("Error", "Naudotojas su tokiu prisijungimo vardu užimtas. Pakeiskite prisijungimo vardą ir bandykite dar kartą.", "OK");
+            catch (EmptyInputdException exception)
+            {
+
+                ErrorAllert(exception.Message);
+            }
+            finally
+            {
+                usernameEntry.Text = "";
+                passEntry.Text = "";
+                emailEntry.Text = "";
+                lastnameEntry.Text = "";
+                nameEntry.Text = "";
+            }
 
         }
-        async void SignErrorPassAllert()
+
+        async void ErrorAllert(string message)
         {
-            await DisplayAlert("Error", "Naudotojo slaptažodis per trumpas. Pakeiskite slaptažodį ir bandykite dar kartą.", "OK");
+            await DisplayAlert("Klaida", message, "Gerai");
 
         }
-        async void MissInfoError()
-        {
-            await DisplayAlert("Error", "Nepakanka duomenų.", "OK");
 
-        }
         private User CreateUser(string userName, string name, string lastName, string password, double maxDist = 3)
         {
             User user = new User()
