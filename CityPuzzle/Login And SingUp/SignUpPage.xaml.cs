@@ -7,9 +7,7 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using System.Data.Sql;
-using System.Data.SqlClient;
-using System.Threading;
+
 
 namespace CityPuzzle
 {
@@ -84,7 +82,6 @@ namespace CityPuzzle
         void Registration_Click(object sender, EventArgs e)
         {
             //for username
-            
             try
             {
                 Validation(usernameEntry.Text, 1, "vartotojo varda");
@@ -96,18 +93,20 @@ namespace CityPuzzle
 
                 if (distEntry.Text != null)
                 {
-                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text),email: emailEntry.Text, maxDist: double.Parse(distEntry.Text));
+                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text), maxDist: double.Parse(distEntry.Text));
                 }
                 else
                 {
-                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, email: emailEntry.Text, password: User.PassToHash(passEntry.Text));
+                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text));
                 }
-                Sql.SaveUser(user);
 
-
+                using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
+                {
+                    conn.CreateTable<User>();
+                    int rowsAdded = conn.Insert(user);
+                };
 
                 Navigation.PopAsync();
-
 
             }
             catch (BadInputdException exception)
@@ -136,7 +135,7 @@ namespace CityPuzzle
 
         }
 
-        private User CreateUser(string userName, string name, string lastName, string password,string email, double maxDist = 3)
+        private User CreateUser(string userName, string name, string lastName, string password, double maxDist = 3)
         {
             User user = new User()
             {
@@ -144,7 +143,6 @@ namespace CityPuzzle
                 LastName = lastName,
                 UserName = userName,
                 Pass = password,
-                Email = email,
                 maxQuestDistance = maxDist
             };
 

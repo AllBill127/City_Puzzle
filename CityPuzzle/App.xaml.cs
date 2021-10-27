@@ -11,8 +11,7 @@ namespace CityPuzzle
         public static string FilePath;
         public static string GamePath;
         public static string ObjectPath;
-                                         
-    public static User CurrentUser { get; set; }
+        public static User CurrentUser { get; set; }
         public App()
         {
             InitializeComponent();
