@@ -39,10 +39,24 @@ namespace CityPuzzle.Classes
                 conn.Open();
                 command = new SqlCommand(sql, conn);
                 dataReader = command.ExecuteReader();
+                List<User> users = new List<User>();
                 while (dataReader.Read())
                 {
+                    int id = dataReader.GetInt32(0);
                     Output = Output + dataReader.GetValue(0) + "-" + dataReader.GetValue(1) + "-" + dataReader.GetValue(3) + "-" + dataReader.GetValue(4) + "-" + dataReader.GetValue(5);
+                    User user = new User()
+                    {
+                        ID = dataReader.GetInt32(0),
+                        UserName = dataReader.GetString(1),
+                        Name = dataReader.GetString(2),
+                        LastName = dataReader.GetString(3),
+                        Pass = dataReader.GetString(4),
+                        Email = dataReader.GetString(5)
+
+                };
+                    users.Add(user);
                 }
+
                 conn.Close();
                 return Output;
 
