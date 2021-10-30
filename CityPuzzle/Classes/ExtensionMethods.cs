@@ -24,9 +24,9 @@ namespace CityPuzzle.Classes
                 if (user.Equals(prev) == false)
                     ++j;
 
-                temp.Username = user.UserName;
-                temp.Score = user.QuestsCompleted.Count;
-                temp.Index = j;
+                temp.username = user.UserName;
+                temp.score = user.QuestsCompleted.Count;
+                temp.index = j;
                 
                 TopUsers.Add(temp);
 

@@ -23,11 +23,11 @@
                 <DataTemplate >
                     <ViewCell>
                         <StackLayout Padding="10, -5, 10, 5" HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="{Binding Index}" 
+                            <Label Text="{Binding index}" 
                        Style="{DynamicResource ListItemTextStyle}" HorizontalTextAlignment="Center" TextColor="Black" FontSize="24"/>
-                            <Label Text="{Binding Username}" 
+                            <Label Text="{Binding username}" 
                        Style="{DynamicResource ListItemTextStyle}" HorizontalTextAlignment="Center" TextColor="Black" FontSize="18"/>
-                            <Label Text="{Binding Score}" 
+                            <Label Text="{Binding score}" 
                        Style="{DynamicResource ListItemDetailTextStyle}" HorizontalTextAlignment="Center" TextColor="Black" FontSize="14"/>
                         </StackLayout>
                     </ViewCell>
