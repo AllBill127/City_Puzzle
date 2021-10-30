@@ -63,7 +63,21 @@ namespace CityPuzzle.Classes
             }
         }
 
-
+        public static void SavePuzzle(Puzzle puzzle)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                conn.Open();
+                var command = new SqlCommand("INSERT INTO Puzzles (Name,About,Quest,Latitude,Longitude) VALUES (@Name,@About,@Quest,@Latitude,@Longitude)", conn);
+                command.Parameters.AddWithValue("@Name", puzzle.Name);
+                command.Parameters.AddWithValue("@About", puzzle.About);
+                command.Parameters.AddWithValue("@Quest", puzzle.Quest);
+                command.Parameters.AddWithValue("@Latitude", puzzle.Latitude);
+                command.Parameters.AddWithValue("@Longitude", puzzle.Longitude);
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
 
     }
 }
