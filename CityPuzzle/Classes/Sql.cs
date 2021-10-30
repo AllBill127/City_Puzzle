@@ -42,7 +42,6 @@ namespace CityPuzzle.Classes
                 List<User> users = new List<User>();
                 while (dataReader.Read())
                 {
-                    int id = dataReader.GetInt32(0);
                     Output = Output + dataReader.GetValue(0) + "-" + dataReader.GetValue(1) + "-" + dataReader.GetValue(3) + "-" + dataReader.GetValue(4) + "-" + dataReader.GetValue(5);
                     User user = new User()
                     {
@@ -68,16 +67,50 @@ namespace CityPuzzle.Classes
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
                 conn.Open();
-                var command = new SqlCommand("INSERT INTO Puzzles (Name,About,Quest,Latitude,Longitude) VALUES (@Name,@About,@Quest,@Latitude,@Longitude)", conn);
+                var command = new SqlCommand("INSERT INTO Puzzles (Name,About,Quest,Latitude,Longitude,ImgAdress) VALUES (@Name,@About,@Quest,@Latitude,@Longitude,@ImgAdress)", conn);
                 command.Parameters.AddWithValue("@Name", puzzle.Name);
                 command.Parameters.AddWithValue("@About", puzzle.About);
                 command.Parameters.AddWithValue("@Quest", puzzle.Quest);
                 command.Parameters.AddWithValue("@Latitude", puzzle.Latitude);
                 command.Parameters.AddWithValue("@Longitude", puzzle.Longitude);
+                command.Parameters.AddWithValue("@ImgAdress", puzzle.ImgAdress);
                 command.ExecuteNonQuery();
                 conn.Close();
             }
         }
+        public static String ReadPuzzles()
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                SqlCommand command;
+                SqlDataReader dataReader;
+                String sql, Output = "";
 
+                sql = "Select ID,Name,About,Quest,Latitude,Longitude,ImgAdress from Puzzles";
+                conn.Open();
+                command = new SqlCommand(sql, conn);
+                dataReader = command.ExecuteReader();
+                List<Puzzle> puzzles = new List<Puzzle>();
+                while (dataReader.Read())
+                {
+                    Output = Output + dataReader.GetValue(0) + "-" + dataReader.GetValue(1) + "-" + dataReader.GetValue(3) + "-" + dataReader.GetValue(4) + "-" + dataReader.GetValue(5);
+                    Puzzle puzzle = new Puzzle()
+                    {
+                        ID = dataReader.GetInt32(0),
+                        Name = dataReader.GetString(1),
+                        About = dataReader.GetString(2),
+                        Quest = dataReader.GetString(3),
+                        Latitude = dataReader.GetDouble(4),
+                        Longitude = dataReader.GetDouble(5),
+                        ImgAdress = dataReader.GetString(6)
+                    };
+                    puzzles.Add(puzzle);
+                }
+
+                conn.Close();
+                return Output;
+
+            }
+        }
     }
 }
