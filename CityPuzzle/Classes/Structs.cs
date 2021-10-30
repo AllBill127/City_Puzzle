@@ -8,9 +8,9 @@ namespace CityPuzzle.Classes
     {
         public struct UserInfo
         {
-            public int index { get; set; }
-            public int score { get; set; }
-            public string username { get; set; }
+            public int Index { get; set; }
+            public int Score { get; set; }
+            public string Username { get; set; }
         }
     }
 }
