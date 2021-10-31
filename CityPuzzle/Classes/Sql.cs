@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 
 
@@ -112,5 +113,23 @@ namespace CityPuzzle.Classes
 
             }
         }
+        public static void SaveRoom(Room room)
+        {
+            // Func<List <Puzzle>, string> convert =
+            var numbers = room.Tasks.Select(x => x.ID);
+            string converted=string.Join("", numbers+"-");
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                conn.Open();
+                var command = new SqlCommand("INSERT INTO Rooms (ID,Owner,RoomSize,Tasks) VALUES (@ID,@Owner,@RoomSize,@Tasks)", conn);
+                command.Parameters.AddWithValue("@ID", room.ID);
+                command.Parameters.AddWithValue("@Owner", room.Owner);
+                command.Parameters.AddWithValue("@RoomSize", room.RoomSize);
+                command.Parameters.AddWithValue("@Latitude", converted);
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+        
     }
 }
