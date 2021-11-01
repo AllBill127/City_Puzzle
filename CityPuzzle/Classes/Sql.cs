@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+// del laizy i gamerooma nes Usually this is preferable when the object may or may not be used and the cost of constructing it is non-trivial.
+
 
 
 
@@ -28,7 +30,7 @@ namespace CityPuzzle.Classes
             }
         }
 
-        public static String ReadUsers()
+        public static List<User> ReadUsers()
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
@@ -43,7 +45,6 @@ namespace CityPuzzle.Classes
                 List<User> users = new List<User>();
                 while (dataReader.Read())
                 {
-                    Output = Output + dataReader.GetValue(0) + "-" + dataReader.GetValue(1) + "-" + dataReader.GetValue(3) + "-" + dataReader.GetValue(4) + "-" + dataReader.GetValue(5);
                     User user = new User()
                     {
                         ID = dataReader.GetInt32(0),
@@ -58,7 +59,7 @@ namespace CityPuzzle.Classes
                 }
 
                 conn.Close();
-                return Output;
+                return users;
 
             }
         }
@@ -79,7 +80,7 @@ namespace CityPuzzle.Classes
                 conn.Close();
             }
         }
-        public static String ReadPuzzles()
+        public static List<Lazy<Puzzle>> ReadPuzzles()// return all lazy puzzles
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
@@ -91,11 +92,11 @@ namespace CityPuzzle.Classes
                 conn.Open();
                 command = new SqlCommand(sql, conn);
                 dataReader = command.ExecuteReader();
-                List<Puzzle> puzzles = new List<Puzzle>();
+                List<Lazy<Puzzle>> puzzles = new List<Lazy<Puzzle>>();
                 while (dataReader.Read())
                 {
                     Output = Output + dataReader.GetValue(0) + "-" + dataReader.GetValue(1) + "-" + dataReader.GetValue(3) + "-" + dataReader.GetValue(4) + "-" + dataReader.GetValue(5);
-                    Puzzle puzzle = new Puzzle()
+                    Lazy<Puzzle> puzzle = new Lazy<Puzzle>(()=> new Puzzle()
                     {
                         ID = dataReader.GetInt32(0),
                         Name = dataReader.GetString(1),
@@ -104,12 +105,12 @@ namespace CityPuzzle.Classes
                         Latitude = dataReader.GetDouble(4),
                         Longitude = dataReader.GetDouble(5),
                         ImgAdress = dataReader.GetString(6)
-                    };
+                    });
                     puzzles.Add(puzzle);
                 }
 
                 conn.Close();
-                return Output;
+                return puzzles;
 
             }
         }
@@ -130,6 +131,59 @@ namespace CityPuzzle.Classes
                 conn.Close();
             }
         }
-        
+        public static List<Room> ReadRooms()
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                SqlCommand command;
+                SqlDataReader dataReader;
+                string sql, Output = "";
+
+                sql = "Select ID,Owner,RoomSize,Tasks from Puzzles";
+                conn.Open();
+                command = new SqlCommand(sql, conn);
+                dataReader = command.ExecuteReader();
+                List<Room> rooms = new List<Room>();
+                while (dataReader.Read())
+                {
+                    Room room = new Room()
+                    {
+                        ID = dataReader.GetString(0),
+                        Owner = dataReader.GetInt32(1),
+                        RoomSize = dataReader.GetInt32(2),
+                        Tasks = ConvertTasks(dataReader.GetString(3))
+                    };
+                    rooms.Add(room);
+                }
+
+                conn.Close();
+                return rooms;
+
+            }
+        }
+        private static List<Lazy<Puzzle>> ConvertTasks(string strtask)
+        {
+            List<Lazy<Puzzle>> allpuzzles=new  List<Lazy<Puzzle>>();
+            allpuzzles=ReadPuzzles();
+            List<int> TaskIDs = new List<int>();
+            string myStr = "";
+            foreach( char i in strtask.ToCharArray())
+            {
+                if (i == '-')
+                {
+                    TaskIDs.Add(Int32.Parse(myStr));
+                    myStr = "";
+                }
+                else myStr += i;
+            }
+            List<Lazy<Puzzle>> tasks = new List<Lazy<Puzzle>>();
+            List<Lazy<Puzzle>> puzzles = ReadPuzzles();
+            foreach (int Id in TaskIDs)
+            {
+                Lazy<Puzzle> task = puzzles.SingleOrDefault(x => x.Value.ID.Equals(Id));
+                tasks.Add(task);
+            }
+            return tasks;
+        }
     }
 }
