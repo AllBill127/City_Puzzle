@@ -122,11 +122,11 @@ namespace CityPuzzle
             }
             finally
             {
-                usernameEntry.Text = "";
+               /* usernameEntry.Text = "";
                 passEntry.Text = "";
                 emailEntry.Text = "";
                 lastnameEntry.Text = "";
-                nameEntry.Text = "";
+                nameEntry.Text = "";*/
             }
 
         }

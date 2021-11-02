@@ -38,7 +38,7 @@ namespace CityPuzzle.Classes
         {
             var info = Sql.ReadUsers();
             var user= info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()));
-            return App.CurrentUser == null;
+            return user == null;
         }
 
         public static string PassToHash(string pass)

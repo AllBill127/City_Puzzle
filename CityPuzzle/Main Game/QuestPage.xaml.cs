@@ -35,7 +35,6 @@ namespace CityPuzzle
         {
             InitializeComponent();
             Target =Sql.ReadPuzzles();
-            Console.WriteLine("grizau");
             if (Target.Count == 0)
             {
                 Navigation.PushAsync(new AddObjectPage());
@@ -49,10 +48,7 @@ namespace CityPuzzle
         async private void ShowQuest()
         {
             await UpdateCurrentLocation();
-            Console.WriteLine("GetQuest");
             Puzzle target = GetQuest(Target);
-            Console.WriteLine("GetQuest yra");
-
 
             if (target == null)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
             {
@@ -88,7 +84,7 @@ namespace CityPuzzle
                         return true;
                     return false;
                 }
-                Console.WriteLine("GetQuest 1");
+
                 //Linq query
                 //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)).ToList();
                 var inRange =
@@ -97,19 +93,15 @@ namespace CityPuzzle
                      where !App.CurrentUser.QuestsCompleted.Contains(puzzle)
                      select puzzle)
                     .ToList();
-                Console.WriteLine("GetQuest 2");
                 if (inRange.Count != 0)
                 {
                     var random = new Random();
                     int index = random.Next(inRange.Count);
                     var target = Sql.FromLazy(inRange[index]);
-                    Console.WriteLine("GetQuest 3");
                     return target;
                 }
-
                 else
                 {
-                    Console.WriteLine("GetQuest 4");
                     return null;
                 }
             }

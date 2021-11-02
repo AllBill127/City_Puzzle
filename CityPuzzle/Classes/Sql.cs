@@ -125,8 +125,8 @@ namespace CityPuzzle.Classes
                 command.Parameters.AddWithValue("@Name", puzzle.Name);
                 command.Parameters.AddWithValue("@About", puzzle.About);
                 command.Parameters.AddWithValue("@Quest", puzzle.Quest);
-                command.Parameters.AddWithValue("@Latitude", puzzle.Latitude);
-                command.Parameters.AddWithValue("@Longitude", puzzle.Longitude);
+                command.Parameters.AddWithValue("@Latitude", puzzle.Latitude.ToString());
+                command.Parameters.AddWithValue("@Longitude", puzzle.Longitude.ToString());
                 command.Parameters.AddWithValue("@ImgAdress", puzzle.ImgAdress);
                 command.ExecuteNonQuery();
                 conn.Close();
@@ -146,24 +146,21 @@ namespace CityPuzzle.Classes
                 List<Lazy<Puzzle>> puzzles = new List<Lazy<Puzzle>>();
                 while (dataReader.Read())
                 {
-                    Lazy<Puzzle> puzzle = new Lazy<Puzzle>(()=> new Puzzle()
+                    Puzzle puz=new Puzzle()
                     {
                         ID = dataReader.GetInt32(0),
                         Name = dataReader.GetString(1),
                         About = dataReader.GetString(2),
                         Quest = dataReader.GetString(3),
-                        Latitude = dataReader.GetDouble(4),
-                        Longitude = dataReader.GetDouble(5),
+                        Latitude = Convert.ToDouble(dataReader.GetString(4)),
+                        Longitude = Convert.ToDouble(dataReader.GetString(5)),
                         ImgAdress = dataReader.GetString(6)
-                    });
+                    };
+                    Lazy<Puzzle> puzzle = new Lazy<Puzzle>(() => puz);
                     puzzles.Add(puzzle);
                 }
 
                 conn.Close();
-               foreach( Lazy<Puzzle> a in puzzles)
-                {
-                    Console.WriteLine(a.Value.Name);
-                }
                 return puzzles;
                
             }
