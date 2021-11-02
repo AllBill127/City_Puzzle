@@ -145,7 +145,7 @@ namespace CityPuzzle
                 UserName = userName,
                 Pass = password,
                 Email = email,
-                maxQuestDistance = maxDist
+                MaxQuestDistance = maxDist
             };
 
             return user;

@@ -8,14 +8,12 @@ namespace CityPuzzle.Classes
 {
     public class Room
     {
-        public String ID { get; set; }
+        public string ID { get; set; }
         public int Owner { get; set; }
         public int RoomSize { get; set; }
-        [TextBlob("addressesBlobbed")]
         public List<Puzzle> Tasks { get; set; }
         public List<User> Participants{ get; set; }
        
-
         public Room()
         {
             Tasks = new List<Puzzle>();

@@ -19,15 +19,17 @@ namespace CityPuzzle.Classes
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
                 conn.Open();
-                var command = new SqlCommand("INSERT INTO Users (UserName,FirstName,LastName,Pass,Email) VALUES (@UserName,@FirstName,@LastName,@Pass,@Email)", conn);
+                var command = new SqlCommand("INSERT INTO Users (UserName,FirstName,LastName,Pass,Email,MaxQuestDistance) VALUES (@UserName,@FirstName,@LastName,@Pass,@Email,@MaxQuestDistance)", conn);
                 command.Parameters.AddWithValue("@UserName", user.UserName);
                 command.Parameters.AddWithValue("@FirstName", user.Name);
                 command.Parameters.AddWithValue("@LastName", user.LastName);
                 command.Parameters.AddWithValue("@Pass", user.Pass);
                 command.Parameters.AddWithValue("@Email", user.Email);
+                command.Parameters.AddWithValue("@MaxQuestDistance", user.MaxQuestDistance);
                 command.ExecuteNonQuery();
                 conn.Close();
             }
+            SaveComplitedTasks(user);
         }
 
         public static List<User> ReadUsers()
@@ -36,9 +38,8 @@ namespace CityPuzzle.Classes
             {
                 SqlCommand command;
                 SqlDataReader dataReader;
-                String sql, Output = "";
-
-                sql = "Select ID,UserName,FirstName,LastName,Pass,Email from Users";
+                String sql;
+                sql = "Select ID,UserName,FirstName,LastName,Pass,Email,MaxQuestDistance from Users";
                 conn.Open();
                 command = new SqlCommand(sql, conn);
                 dataReader = command.ExecuteReader();
@@ -52,18 +53,69 @@ namespace CityPuzzle.Classes
                         Name = dataReader.GetString(2),
                         LastName = dataReader.GetString(3),
                         Pass = dataReader.GetString(4),
-                        Email = dataReader.GetString(5)
+                        Email = dataReader.GetString(5),
+                        MaxQuestDistance = dataReader.GetInt32(6)
 
-                };
+                    };
+                    user.QuestsCompleted = ReadComplitedTasks(user);
                     users.Add(user);
                 }
-
                 conn.Close();
                 return users;
-
             }
         }
 
+        public static void SaveComplitedTasks(User user)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                conn.Open();
+                foreach (Lazy<Puzzle> p in user.QuestsCompleted)
+                {
+                    var command = new SqlCommand("INSERT INTO Tasks (UserID,PuzzleID) VALUES (@UserID,@PuzzleID)", conn);
+                    command.Parameters.AddWithValue("@UserID", user.ID);
+                    command.Parameters.AddWithValue("@PuzzleID", p.Value.ID);
+                    command.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
+        }
+        public static List<Lazy<Puzzle>> ReadComplitedTasks(User user)
+        {
+            //System.Data.SqlClient.SqlException
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnStr))
+                {
+                    SqlCommand command;
+                    SqlDataReader dataReader;
+                    string sql;
+                    sql = "Select PuzzleID from Users where UserID=@UserID";
+                    conn.Open();
+                    command = new SqlCommand(sql, conn);
+                    command.Parameters.AddWithValue("@UserID", user.ID);
+                    dataReader = command.ExecuteReader();
+                    List<Lazy<Puzzle>> allPuzzles = ReadPuzzles();
+                    List<Lazy<Puzzle>> puzzles = new List<Lazy<Puzzle>>();
+                    while (dataReader.Read())
+                    {
+                        int puzzleID = dataReader.GetInt32(0);
+                        Lazy<Puzzle> complitedPuzzle = allPuzzles.SingleOrDefault(x => x.Value.ID == puzzleID);
+                        puzzles.Add(complitedPuzzle);
+
+                    }
+
+                    conn.Close();
+                    return puzzles;
+                }
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                return new List<Lazy<Puzzle>>();
+            }
+
+        }
+        // -------------------------------------------------Puzzle--------------------------------------------------------------
         public static void SavePuzzle(Puzzle puzzle)
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -86,8 +138,7 @@ namespace CityPuzzle.Classes
             {
                 SqlCommand command;
                 SqlDataReader dataReader;
-                String sql, Output = "";
-
+                string sql;
                 sql = "Select ID,Name,About,Quest,Latitude,Longitude,ImgAdress from Puzzles";
                 conn.Open();
                 command = new SqlCommand(sql, conn);
@@ -95,8 +146,7 @@ namespace CityPuzzle.Classes
                 List<Lazy<Puzzle>> puzzles = new List<Lazy<Puzzle>>();
                 while (dataReader.Read())
                 {
-                    Output = Output + dataReader.GetValue(0) + "-" + dataReader.GetValue(1) + "-" + dataReader.GetValue(3) + "-" + dataReader.GetValue(4) + "-" + dataReader.GetValue(5);
-                    Lazy<Puzzle> puzzle = new Lazy<Puzzle>(()=> new Puzzle()
+                    Lazy<Puzzle> puzzle = new Lazy<Puzzle>(() => new Puzzle()
                     {
                         ID = dataReader.GetInt32(0),
                         Name = dataReader.GetString(1),
@@ -110,6 +160,10 @@ namespace CityPuzzle.Classes
                 }
 
                 conn.Close();
+                foreach (Lazy<Puzzle> a in puzzles)
+                {
+                    Console.WriteLine(a.Value.Name);
+                }
                 return puzzles;
 
             }
@@ -117,8 +171,8 @@ namespace CityPuzzle.Classes
         public static void SaveRoom(Room room)
         {
             // Func<List <Puzzle>, string> convert =
-            var numbers = room.Tasks.Select(x => x.ID);
-            string converted=string.Join("", numbers+"-");
+            var numbers = room.Tasks.Select(x => x.Value.ID);
+            string converted = string.Join("", numbers + "-");
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
                 conn.Open();
@@ -137,9 +191,7 @@ namespace CityPuzzle.Classes
             {
                 SqlCommand command;
                 SqlDataReader dataReader;
-                string sql, Output = "";
-
-                sql = "Select ID,Owner,RoomSize,Tasks from Puzzles";
+                String sql = "Select ID,Owner,RoomSize,Tasks from Puzzles";
                 conn.Open();
                 command = new SqlCommand(sql, conn);
                 dataReader = command.ExecuteReader();
@@ -163,11 +215,11 @@ namespace CityPuzzle.Classes
         }
         private static List<Lazy<Puzzle>> ConvertTasks(string strtask)
         {
-            List<Lazy<Puzzle>> allpuzzles=new  List<Lazy<Puzzle>>();
-            allpuzzles=ReadPuzzles();
+            List<Lazy<Puzzle>> allpuzzles = new List<Lazy<Puzzle>>();
+            allpuzzles = ReadPuzzles();
             List<int> TaskIDs = new List<int>();
             string myStr = "";
-            foreach( char i in strtask.ToCharArray())
+            foreach (char i in strtask.ToCharArray())
             {
                 if (i == '-')
                 {
@@ -184,6 +236,8 @@ namespace CityPuzzle.Classes
                 tasks.Add(task);
             }
             return tasks;
+
         }
+       
     }
 }

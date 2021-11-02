@@ -58,7 +58,7 @@ namespace CityPuzzle
 
             if (target == null)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
             {
-                await DisplayAlert("No destinations in " + App.CurrentUser.maxQuestDistance + " km radius", "Consider creating a nearby destination yourself.", "OK");
+                await DisplayAlert("No destinations in " + App.CurrentUser.MaxQuestDistance + " km radius", "Consider creating a nearby destination yourself.", "OK");
                 await Navigation.PopAsync();
             }
             else
@@ -84,7 +84,7 @@ namespace CityPuzzle
             bool InRange(Puzzle puzzle)
             {
                 double dist = DistanceToPoint(puzzle.Latitude, puzzle.Longitude);
-                if (dist <= App.CurrentUser.maxQuestDistance)
+                if (dist <= App.CurrentUser.MaxQuestDistance)
                     return true;
                 return false;
             }

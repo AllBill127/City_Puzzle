@@ -22,7 +22,7 @@ namespace CityPuzzle.Classes
 
         public List<string> QuestsCompleted = new List<string>();
 
-        public double maxQuestDistance { get; set; }
+        public double MaxQuestDistance { get; set; }
 
         public User() { }
         public static Boolean CheckPassword(string name, string pass)
