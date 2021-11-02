@@ -80,6 +80,18 @@ namespace CityPuzzle.Classes
                 conn.Close();
             }
         }
+        public static void SaveComplitedTask(Puzzle puzzle)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                conn.Open();
+                var command = new SqlCommand("INSERT INTO Tasks (UserID,PuzzleID) VALUES (@UserID,@PuzzleID)", conn);
+                command.Parameters.AddWithValue("@UserID", App.CurrentUser.ID);
+                command.Parameters.AddWithValue("@PuzzleID", puzzle.ID);
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
         public static List<Lazy<Puzzle>> ReadComplitedTasks(User user)
         {
             //System.Data.SqlClient.SqlException
