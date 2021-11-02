@@ -17,7 +17,7 @@ namespace CityPuzzle
         private double UserLng;
         private double QuestLat;
         private double QuestLng;
-        private List<Puzzle> Target;
+        private List<Lazy<Puzzle>> Target;
         public static Puzzle QuestInProgress;
         public const Double HumanSpeed = 2.23;
         public const int TimeInterval = 3000;
@@ -34,13 +34,8 @@ namespace CityPuzzle
         public QuestPage()
         {
             InitializeComponent();
-            using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
-            {
-                conn.CreateTable<Puzzle>();
-                var obj = conn.Table<Puzzle>().ToList();
-                Target = obj;
-            }
-            
+            Target =Sql.ReadPuzzles();
+            Console.WriteLine("grizau");
             if (Target.Count == 0)
             {
                 Navigation.PushAsync(new AddObjectPage());
@@ -54,11 +49,14 @@ namespace CityPuzzle
         async private void ShowQuest()
         {
             await UpdateCurrentLocation();
+            Console.WriteLine("GetQuest");
             Puzzle target = GetQuest(Target);
+            Console.WriteLine("GetQuest yra");
+
 
             if (target == null)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
             {
-                await DisplayAlert("No destinations in " + App.CurrentUser.maxQuestDistance + " km radius", "Consider creating a nearby destination yourself.", "OK");
+                await DisplayAlert("No destinations in " + App.CurrentUser.MaxQuestDistance + " km radius", "Consider creating a nearby destination yourself.", "OK");
                 await Navigation.PopAsync();
             }
             else
@@ -73,43 +71,53 @@ namespace CityPuzzle
                 QuestField.Text = target.Quest;
 
                 await RevealImg();    // Start the quest completion loop
-                App.CurrentUser.QuestsCompleted.Add(target.Name);            // TO DO: save user data to database after finishing quest or loging out
+                App.CurrentUser.QuestsCompleted.Add(new Lazy<Puzzle>(() =>target));            // TO DO: save user data to database after finishing quest or loging out
                 await DisplayAlert("Congratulations", "You have reached the destination", "OK");
             }
         }
 
         // Get a random quest that is within given distance and is not already completed by current user
-        private Puzzle GetQuest(List<Puzzle> puzzles)
+        private Puzzle GetQuest(List<Lazy<Puzzle>> puzzles)
         {
-            bool InRange(Puzzle puzzle)
+            try
             {
-                double dist = DistanceToPoint(puzzle.Latitude, puzzle.Longitude);
-                if (dist <= App.CurrentUser.maxQuestDistance)
-                    return true;
-                return false;
+                bool InRange(Lazy<Puzzle> puzzle)
+                {
+                    double dist = DistanceToPoint(puzzle.Value.Latitude, puzzle.Value.Longitude);
+                    if (dist <= App.CurrentUser.MaxQuestDistance)
+                        return true;
+                    return false;
+                }
+                Console.WriteLine("GetQuest 1");
+                //Linq query
+                //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)).ToList();
+                var inRange =
+                    (from puzzle in puzzles
+                     where InRange(puzzle)
+                     where !App.CurrentUser.QuestsCompleted.Contains(puzzle)
+                     select puzzle)
+                    .ToList();
+                Console.WriteLine("GetQuest 2");
+                if (inRange.Count != 0)
+                {
+                    var random = new Random();
+                    int index = random.Next(inRange.Count);
+                    var target = Sql.FromLazy(inRange[index]);
+                    Console.WriteLine("GetQuest 3");
+                    return target;
+                }
+
+                else
+                {
+                    Console.WriteLine("GetQuest 4");
+                    return null;
+                }
             }
-
-            //Linq query
-            //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)).ToList();
-            var inRange =
-                (from puzzle in puzzles
-                where InRange(puzzle)
-                where !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)
-                select puzzle)
-                .ToList();
-
-            if (inRange.Count != 0)
-            {
-                var random = new Random();
-                int index = random.Next(inRange.Count);
-
-                var target = inRange[index];
-                return target;
-            }
-            else
+            catch(System.InvalidOperationException ex)
             {
                 return null;
             }
+            
         }
 
         // When called show all img masks and then reveal random masks depending on distance left

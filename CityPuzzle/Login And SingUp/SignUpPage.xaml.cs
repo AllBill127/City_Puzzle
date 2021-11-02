@@ -10,6 +10,7 @@ using System.IO;
 using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace CityPuzzle
 {
@@ -138,6 +139,7 @@ namespace CityPuzzle
 
         private User CreateUser(string userName, string name, string lastName, string password,string email, double maxDist = 3)
         {
+            List<Lazy<Puzzle>> zero = new List<Lazy<Puzzle>>();
             User user = new User()
             {
                 Name = name,
@@ -145,7 +147,8 @@ namespace CityPuzzle
                 UserName = userName,
                 Pass = password,
                 Email = email,
-                maxQuestDistance = maxDist
+                MaxQuestDistance = maxDist,
+                QuestsCompleted = zero
             };
 
             return user;
