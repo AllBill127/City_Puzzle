@@ -35,27 +35,27 @@ namespace CityPuzzle
         }
 
 
-        public static void Validation(string item,int called,string name)
+        public static void Validation(List<Entry> fields)
         {
-            if(String.IsNullOrWhiteSpace(item)) throw new EmptyInputdException(name);
-
-            switch (called)
+            foreach (Entry field in fields)
             {
-                case 0:
-                    break;
-                case 1:
-                    if (!Valid_Username.IsMatch(item)) throw new BadInputdException("nuo 6 iki 12 ilgio", name);
-                    else if (!User.CheckUser(item)) throw new BadInputdException("Naudotojas su tokiu prisijungimo vardu užimtas.Pakeiskite prisijungimo vardą ir bandykite dar kartą.");
-                    break;
-                case 2:
-                    if (!Valid_Password.IsMatch(item)) throw new BadInputdException("Password must be atleast 8 to 15 characters and contains atleast one Upper case and numbers.");
-                    break;
-                case 3:
-                    if (!Valid_Email.IsMatch(item)) throw new BadInputdException("Invalid Email Address!");
-                    break;
-                default:
-                    throw new BadInputdException("No validation case fuond in ", name);
-                    break;
+                if (String.IsNullOrWhiteSpace(field.Text)) throw new EmptyInputdException(field.Placeholder, field);
+
+                switch (field.Placeholder)
+                {
+                    case "Vartotojo vardas":
+                        if (!Valid_Username.IsMatch(field.Text)) throw new BadInputdException("nuo 6 iki 12 ilgio", field.Placeholder, field);
+                        else if (!User.CheckUser(field.Text)) throw new BadInputdException("Naudotojas su tokiu prisijungimo vardu užimtas.Pakeiskite prisijungimo vardą ir bandykite dar kartą.", field);
+                        break;
+                    case "Slaptazodis":
+                        if (!Valid_Password.IsMatch(field.Text)) throw new BadInputdException("Password must be atleast 8 to 15 characters and contains atleast one Upper case and numbers.", field);
+                        break;
+                    case "Pastas":
+                        if (!Valid_Email.IsMatch(field.Text)) throw new BadInputdException("Invalid Email Address!", field);
+                        break;
+                    default:
+                        break;
+                }
             }
 
         }
@@ -84,15 +84,17 @@ namespace CityPuzzle
         }
         void Registration_Click(object sender, EventArgs e)
         {
-            //for username
             
             try
             {
-                Validation(usernameEntry.Text, 1, "vartotojo varda");
-                Validation(passEntry.Text, 2, "Slaptazodzio");
-                Validation(emailEntry.Text, 3, "Emailo");
-                Validation(nameEntry.Text, 0, "Vardo");
-                Validation(lastnameEntry.Text, 0, "Pavardes");
+
+                List<Entry> fields = new List<Entry>();
+                fields.Add(usernameEntry);
+                fields.Add(passEntry);
+                fields.Add(nameEntry);
+                fields.Add(lastnameEntry);
+                fields.Add(emailEntry);
+                Validation(fields);
                 User user;
 
                 if (distEntry.Text != null)
@@ -114,20 +116,21 @@ namespace CityPuzzle
             catch (BadInputdException exception)
             {
                 ErrorAllert(exception.Message);
+                exception.Field.BackgroundColor = Color.Orange;
+                exception.Field.TextColor = Color.Red;
+                exception.Field.Text = "Neteisingai įvedėt  šį lauką";
             }
             catch (EmptyInputdException exception)
             {
 
                 ErrorAllert(exception.Message);
+                exception.Field.BackgroundColor = Color.Red;
+                exception.Field.Text = "Prašom užpildyti šį lauką ";
+
             }
-            finally
-            {
-               /* usernameEntry.Text = "";
-                passEntry.Text = "";
-                emailEntry.Text = "";
-                lastnameEntry.Text = "";
-                nameEntry.Text = "";*/
-            }
+
+
+            passEntry.Text = "";
 
         }
 
