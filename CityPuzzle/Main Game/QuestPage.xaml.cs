@@ -19,7 +19,6 @@ namespace CityPuzzle
         private double QuestLng;
         private List<Puzzle> Target;
         public static Puzzle QuestInProgress;
-        public const Double HumanSpeed = 2.23;
         public const int TimeInterval = 3000;
 
         enum Radar
@@ -40,7 +39,7 @@ namespace CityPuzzle
                 var obj = conn.Table<Puzzle>().ToList();
                 Target = obj;
             }
-            
+
             if (Target.Count == 0)
             {
                 Navigation.PushAsync(new AddObjectPage());
@@ -77,7 +76,9 @@ namespace CityPuzzle
                 RadarThread.Start();
 
                 await RevealImg();    // Start the quest completion loop
+                RadarThread.Abort();
                 App.CurrentUser.QuestsCompleted.Add(target.Name);            // TO DO: save user data to database after finishing quest or loging out
+                await Navigation.PushAsync(new ComplitedPage(QuestInProgress));     //When loop ends go to quest completed page
                 await DisplayAlert("Congratulations", "You have reached the destination", "OK");
             }
         }
@@ -97,9 +98,9 @@ namespace CityPuzzle
             //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)).ToList();
             var inRange =
                 (from puzzle in puzzles
-                where InRange(puzzle)
-                where !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)
-                select puzzle)
+                 where InRange(puzzle)
+                 where !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)
+                 select puzzle)
                 .ToList();
 
             if (inRange.Count != 0)
@@ -152,8 +153,6 @@ namespace CityPuzzle
                     distLeft = 0;
                 }
             }
-
-            await Navigation.PushAsync(new ComplitedPage(QuestInProgress));     //When loop ends go to quest completed page
         }
 
         //Thread that updates current user location
@@ -215,7 +214,7 @@ namespace CityPuzzle
                 vienetai = "metrai";
                 dist = dist * 1000;
             }
-            
+
             await DisplayAlert("Tau liko:", " " + dist + " " + vienetai, "OK");
         }
         public int CountPages()
@@ -224,30 +223,44 @@ namespace CityPuzzle
             int stackSize = existingPages.Count;
             return stackSize;
         }
-        async void RadarFoo(){
+        async void RadarFoo()
+        {
             //Console.WriteLine($" Thread #{Thread.CurrentThread.ManagedThreadId}\t radare"); //checks thread ID
+           
             await UpdateCurrentLocation();
-            double distCheck = DistanceToPoint(QuestLat, QuestLng);
-            Radar oldRadar = Radar.Vidutine;
-            int startSize = CountPages();
-            int nowSize = startSize;
-            while (distCheck> 0.1 && startSize== nowSize)
-            {   
-                Thread.Sleep(TimeInterval);
+            Radar myRadar = Radar.Vidutine;
+            double startDist = DistanceToPoint(QuestLat, QuestLng);
+            double distCheck = startDist;
+            double distChange;
+
+            while (distCheck > 0.1)
+            {
                 await UpdateCurrentLocation();
-                double distChange = DistanceToPoint(QuestLat, QuestLng);
-                double speed = ((distCheck - distChange) / TimeInterval)*1000+ HumanSpeed;
+                distChange = DistanceToPoint(QuestLat, QuestLng);
 
-                int direction = (int)(5 * (speed) / (2 * HumanSpeed));
-                if (direction > 4) direction = 4;
-                else if (direction < 0) direction = 0;
-
-                Radar state = (Radar)direction;
-                if(oldRadar != state)radar.Source = state.ToString()+".gif";
-                oldRadar = state;
-                Console.WriteLine("Updatinu radara - i " + state.ToString() + ".gif"+" speed "+ speed+" "+ direction);
-                distCheck = distChange;
-                nowSize = CountPages();
+                if (distChange != distCheck)
+                {
+                    if (distChange < distCheck && distChange <= (startDist / 2))
+                    {
+                        myRadar = (Radar)4;
+                    }
+                    else if (distChange < distCheck && distChange > (startDist / 2))
+                    {
+                        myRadar = (Radar)3;
+                    }
+                    else if (distChange > distCheck && distChange > (startDist / 2))
+                    {
+                        myRadar = (Radar)0;
+                    }
+                    else if (distChange > distCheck && distChange <= (startDist / 2))
+                    {
+                        myRadar = (Radar)1;
+                    }
+                    radar.Source = myRadar.ToString() + ".gif";
+                    Thread.Sleep(TimeInterval);
+                    radar.Source = Radar.Vidutine + ".gif";
+                    distCheck = distChange;
+                }
             }
         }
     }
