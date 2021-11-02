@@ -72,6 +72,10 @@ namespace CityPuzzle
                 MissionLabel.Text = "Tavo uzduotis- surasti mane!";
                 QuestField.Text = target.Quest;
 
+                //Console.WriteLine($" Thread #{Thread.CurrentThread.ManagedThreadId}\t Pries radara"); //checks thread ID
+                Thread RadarThread = new Thread(RadarFoo);
+                RadarThread.Start();
+
                 await RevealImg();    // Start the quest completion loop
                 App.CurrentUser.QuestsCompleted.Add(target.Name);            // TO DO: save user data to database after finishing quest or loging out
                 await DisplayAlert("Congratulations", "You have reached the destination", "OK");
@@ -118,8 +122,6 @@ namespace CityPuzzle
         {
             double distLeft = DistanceToPoint(QuestLat, QuestLng);
             double distStep = distLeft / 9F;
-
-            RadarThread();
 
             List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
             var random = new Random();
@@ -222,7 +224,8 @@ namespace CityPuzzle
             int stackSize = existingPages.Count;
             return stackSize;
         }
-        async void RadarThread(){
+        async void RadarFoo(){
+            //Console.WriteLine($" Thread #{Thread.CurrentThread.ManagedThreadId}\t radare"); //checks thread ID
             await UpdateCurrentLocation();
             double distCheck = DistanceToPoint(QuestLat, QuestLng);
             Radar oldRadar = Radar.Vidutine;
@@ -247,5 +250,5 @@ namespace CityPuzzle
                 nowSize = CountPages();
             }
         }
-        }
+    }
 }
