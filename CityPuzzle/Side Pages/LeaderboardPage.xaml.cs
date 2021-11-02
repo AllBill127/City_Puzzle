@@ -23,7 +23,14 @@ namespace CityPuzzle
             using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
             {
                 conn.CreateTable<Puzzle>();
-                List<UserInfo> top10 = conn.Table<User>().ToList().Top10();
+                    // Form a top10 list with specified comparer and cast items in to new format with index
+                List<UserInfo> top10 = conn.Table<User>().ToList().
+                    Top10Cast(new PointsComparer(), (user, index) => new UserInfo
+                    {
+                        Username = user.UserName,
+                        Score = user.QuestsCompleted.Count,
+                        Index = index
+                    });
 
                 ObservableCollection<UserInfo> leaderboard = new ObservableCollection<UserInfo>(top10);
 
