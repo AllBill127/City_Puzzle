@@ -87,7 +87,6 @@ namespace CityPuzzle
             
             try
             {
-
                 List<Entry> fields = new List<Entry>();
                 fields.Add(usernameEntry);
                 fields.Add(passEntry);
@@ -107,10 +106,7 @@ namespace CityPuzzle
                 }
                 Sql.SaveUser(user);
 
-
-
                 Navigation.PopAsync();
-
 
             }
             catch (BadInputdException exception)
@@ -128,7 +124,6 @@ namespace CityPuzzle
                 exception.Field.Text = "Prašom užpildyti šį lauką ";
 
             }
-
 
             passEntry.Text = "";
 
