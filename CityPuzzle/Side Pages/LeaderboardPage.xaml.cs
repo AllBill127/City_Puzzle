@@ -20,15 +20,11 @@ namespace CityPuzzle
         {
             InitializeComponent();
 
-            using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
-            {
-                conn.CreateTable<Puzzle>();
-                List<UserInfo> top10 = conn.Table<User>().ToList().Top10();
+                List<UserInfo> top10 =Sql.ReadUsers().Top10();
 
                 ObservableCollection<UserInfo> leaderboard = new ObservableCollection<UserInfo>(top10);
 
                 Leaderboard.ItemsSource = leaderboard;
-            }
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)

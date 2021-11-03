@@ -27,7 +27,6 @@ namespace CityPuzzle
                     Position pos = new Position(location.Latitude, location.Longitude);
                     MapSpan mapSpan = MapSpan.FromCenterAndRadius(pos, Distance.FromKilometers(.5));
                     map.MoveToRegion(mapSpan);
-                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
                 }
             }
             catch (FeatureNotSupportedException fnsEx)
@@ -56,7 +55,6 @@ namespace CityPuzzle
 
                 if (location != null)
                 {
-                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
                     string x = " " + location.Latitude + " " + location.Longitude + " " + location.Altitude;
                     Locationprint(x);
                 }

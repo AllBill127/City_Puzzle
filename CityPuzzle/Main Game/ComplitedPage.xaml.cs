@@ -16,6 +16,7 @@ namespace CityPuzzle
         public ComplitedPage(Puzzle quest)
         {
             InitializeComponent();
+            Sql.SaveComplitedTask(quest);
             Complitedname.Text = quest.Name;
             Complitedinfo.Text = quest.About;
             ComplitedImg.Source = quest.ImgAdress;

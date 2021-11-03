@@ -20,9 +20,9 @@ namespace CityPuzzle
         public EntryGameRoomPage()
         {
             InitializeComponent();
-            JoinTables();
+            //JoinTables();
         }
-
+        /*
         public void JoinTables()
         {
             /*---------------------
@@ -41,7 +41,7 @@ namespace CityPuzzle
             new XAttribute("Participants", Room.Participants)
             )));
 
-            Console.WriteLine(grupedList);*/
+            Console.WriteLine(grupedList);
         }
 
         async void getRoomId()
@@ -93,11 +93,11 @@ namespace CityPuzzle
             }
            
            // var CurentRoomVar = groupJoin.SingleOrDefault(x => x.Quests[y].ID.ToLower().Equals(message.ToLower()));
-        }
+        }*/
         void ReadPin(object sender, EventArgs e)
         {
             EntryRoomID = CheckPin.Text;
-            setValues();
+           // setValues();
         }
     }
 }
