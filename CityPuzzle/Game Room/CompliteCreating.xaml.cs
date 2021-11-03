@@ -47,11 +47,7 @@ namespace CityPuzzle
         void Save_Click(object sender, EventArgs e)
         {
             //ADD SIZE SAVE
-            using (SQLiteConnection conn = new SQLiteConnection(App.GamePath))
-            {
-                conn.CreateTable<Room>();
-                int rowsAdded = conn.Insert(CreateGamePage.NewRoom);
-            };
+            Sql.SaveRoom(CreateGamePage.NewRoom);
             var existingPages = Navigation.NavigationStack.ToList();
             int stackSize = existingPages.Count;
             foreach (var page in existingPages)
