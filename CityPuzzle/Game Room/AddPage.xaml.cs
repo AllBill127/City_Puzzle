@@ -11,18 +11,14 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddPage : ContentPage
     {
-        public List<Puzzle> AllPuzzles;
+        public List<Lazy<Puzzle>> AllPuzzles;
         public static int Nr = 0;
         public AddPage()
         {
             Nr = 0;
             CreateGamePage.NewRoom.Tasks.Clear();
             InitializeComponent();
-            using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
-            {
-                conn.CreateTable<Puzzle>();
-                AllPuzzles = conn.Table<Puzzle>().ToList();
-            }
+            AllPuzzles = Sql.ReadPuzzles();
             if (AllPuzzles.Count == 0)
             {
                 EmptyListError();
@@ -40,7 +36,6 @@ namespace CityPuzzle
         void Add_puzzle(object sender, EventArgs e)
         {
             CreateGamePage.NewRoom.Tasks.Add(AllPuzzles[Nr]);
-            Console.WriteLine("Pridejau uzduoti- " + AllPuzzles[Nr].Name);
             Next_puzzle(sender, e);
         }
         void Next_puzzle(object sender, EventArgs e)
@@ -58,9 +53,9 @@ namespace CityPuzzle
 
         public void Show()
         {
-            PuzzleName.Text = AllPuzzles[Nr].Name;
-            PuzzleImg.Source = AllPuzzles[Nr].ImgAdress;
-            PuzzleInfo.Text = AllPuzzles[Nr].About;
+            PuzzleName.Text = AllPuzzles[Nr].Value.Name;
+            PuzzleImg.Source = AllPuzzles[Nr].Value.ImgAdress;
+            PuzzleInfo.Text = AllPuzzles[Nr].Value.About;
         }
     }
 }

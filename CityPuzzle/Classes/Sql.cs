@@ -55,8 +55,8 @@ namespace CityPuzzle.Classes
                         Pass = dataReader.GetString(4),
                         Email = dataReader.GetString(5),
                         MaxQuestDistance = dataReader.GetInt32(6)
-
-                    };
+                        
+                };
                     user.QuestsCompleted = ReadComplitedTasks(user);
                     users.Add(user);
                 }
@@ -80,6 +80,20 @@ namespace CityPuzzle.Classes
                 conn.Close();
             }
         }
+      
+        public static void SaveComplitedTask(Puzzle puzzle)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                conn.Open();
+                var command = new SqlCommand("INSERT INTO Tasks (UserID,PuzzleID) VALUES (@UserID,@PuzzleID)", conn);
+                command.Parameters.AddWithValue("@UserID", App.CurrentUser.ID);
+                command.Parameters.AddWithValue("@PuzzleID", puzzle.ID);
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+      
         public static List<Lazy<Puzzle>> ReadComplitedTasks(User user)
         {
             //System.Data.SqlClient.SqlException
@@ -115,6 +129,7 @@ namespace CityPuzzle.Classes
             }
 
         }
+      
         // -------------------------------------------------Puzzle--------------------------------------------------------------
         public static void SavePuzzle(Puzzle puzzle)
         {
@@ -125,13 +140,14 @@ namespace CityPuzzle.Classes
                 command.Parameters.AddWithValue("@Name", puzzle.Name);
                 command.Parameters.AddWithValue("@About", puzzle.About);
                 command.Parameters.AddWithValue("@Quest", puzzle.Quest);
-                command.Parameters.AddWithValue("@Latitude", puzzle.Latitude);
-                command.Parameters.AddWithValue("@Longitude", puzzle.Longitude);
+                command.Parameters.AddWithValue("@Latitude", puzzle.Latitude.ToString());
+                command.Parameters.AddWithValue("@Longitude", puzzle.Longitude.ToString());
                 command.Parameters.AddWithValue("@ImgAdress", puzzle.ImgAdress);
                 command.ExecuteNonQuery();
                 conn.Close();
             }
         }
+      
         public static List<Lazy<Puzzle>> ReadPuzzles()// return all lazy puzzles
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -146,16 +162,17 @@ namespace CityPuzzle.Classes
                 List<Lazy<Puzzle>> puzzles = new List<Lazy<Puzzle>>();
                 while (dataReader.Read())
                 {
-                    Lazy<Puzzle> puzzle = new Lazy<Puzzle>(() => new Puzzle()
+                    Puzzle puz=new Puzzle()
                     {
                         ID = dataReader.GetInt32(0),
                         Name = dataReader.GetString(1),
                         About = dataReader.GetString(2),
                         Quest = dataReader.GetString(3),
-                        Latitude = dataReader.GetDouble(4),
-                        Longitude = dataReader.GetDouble(5),
+                        Latitude = Convert.ToDouble(dataReader.GetString(4)),
+                        Longitude = Convert.ToDouble(dataReader.GetString(5)),
                         ImgAdress = dataReader.GetString(6)
-                    });
+                    };
+                    Lazy<Puzzle> puzzle = new Lazy<Puzzle>(() => puz);
                     puzzles.Add(puzzle);
                 }
 
@@ -165,7 +182,7 @@ namespace CityPuzzle.Classes
                     Console.WriteLine(a.Value.Name);
                 }
                 return puzzles;
-
+               
             }
         }
         public static void SaveRoom(Room room)
@@ -203,7 +220,7 @@ namespace CityPuzzle.Classes
                         ID = dataReader.GetString(0),
                         Owner = dataReader.GetInt32(1),
                         RoomSize = dataReader.GetInt32(2),
-                        Tasks = ConvertTasks(dataReader.GetString(3))
+                        Tasks = ConvertTasks(dataReader.GetString(3)) 
                     };
                     rooms.Add(room);
                 }
@@ -213,6 +230,7 @@ namespace CityPuzzle.Classes
 
             }
         }
+                                                           
         private static List<Lazy<Puzzle>> ConvertTasks(string strtask)
         {
             List<Lazy<Puzzle>> allpuzzles = new List<Lazy<Puzzle>>();
@@ -236,7 +254,18 @@ namespace CityPuzzle.Classes
                 tasks.Add(task);
             }
             return tasks;
-
+        }
+                                                           
+        public static Puzzle FromLazy(Lazy<Puzzle> puzzle) {
+            Puzzle p = new Puzzle() {
+                ID = puzzle.Value.ID,
+                About=puzzle.Value.About,
+                Name = puzzle.Value.Name,
+                Latitude = puzzle.Value.Latitude,
+                Longitude = puzzle.Value.Longitude,
+                ImgAdress = puzzle.Value.ImgAdress,
+                Quest = puzzle.Value.Quest};
+            return p;
         }
        
     }
