@@ -80,6 +80,7 @@ namespace CityPuzzle.Classes
                 conn.Close();
             }
         }
+      
         public static void SaveComplitedTask(Puzzle puzzle)
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -92,6 +93,7 @@ namespace CityPuzzle.Classes
                 conn.Close();
             }
         }
+      
         public static List<Lazy<Puzzle>> ReadComplitedTasks(User user)
         {
             //System.Data.SqlClient.SqlException
@@ -127,7 +129,8 @@ namespace CityPuzzle.Classes
             }
 
         }
-       // -------------------------------------------------Puzzle--------------------------------------------------------------
+      
+        // -------------------------------------------------Puzzle--------------------------------------------------------------
         public static void SavePuzzle(Puzzle puzzle)
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -144,6 +147,7 @@ namespace CityPuzzle.Classes
                 conn.Close();
             }
         }
+      
         public static List<Lazy<Puzzle>> ReadPuzzles()// return all lazy puzzles
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -173,6 +177,10 @@ namespace CityPuzzle.Classes
                 }
 
                 conn.Close();
+                foreach (Lazy<Puzzle> a in puzzles)
+                {
+                    Console.WriteLine(a.Value.Name);
+                }
                 return puzzles;
                
             }
@@ -222,13 +230,14 @@ namespace CityPuzzle.Classes
 
             }
         }
+                                                           
         private static List<Lazy<Puzzle>> ConvertTasks(string strtask)
         {
-            List<Lazy<Puzzle>> allpuzzles=new  List<Lazy<Puzzle>>();
-            allpuzzles=ReadPuzzles();
+            List<Lazy<Puzzle>> allpuzzles = new List<Lazy<Puzzle>>();
+            allpuzzles = ReadPuzzles();
             List<int> TaskIDs = new List<int>();
             string myStr = "";
-            foreach( char i in strtask.ToCharArray())
+            foreach (char i in strtask.ToCharArray())
             {
                 if (i == '-')
                 {
@@ -245,8 +254,8 @@ namespace CityPuzzle.Classes
                 tasks.Add(task);
             }
             return tasks;
-
         }
+                                                           
         public static Puzzle FromLazy(Lazy<Puzzle> puzzle) {
             Puzzle p = new Puzzle() {
                 ID = puzzle.Value.ID,
@@ -258,5 +267,6 @@ namespace CityPuzzle.Classes
                 Quest = puzzle.Value.Quest};
             return p;
         }
+       
     }
 }
