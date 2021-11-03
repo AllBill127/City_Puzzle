@@ -20,25 +20,15 @@ namespace CityPuzzle
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
-            {
-                conn.CreateTable<Puzzle>();
-                var obj = conn.Table<Puzzle>().ToList();
-                ObjectsListView.ItemsSource = obj;
+
+              ObjectsListView.ItemsSource = Sql.ReadPuzzles();
 
             }
-        }
+        
         void deleate_click(object sender, EventArgs e)
         {
             base.OnAppearing();
-            using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
-            {
-                conn.CreateTable<Puzzle>();
-                conn.DeleteAll<Puzzle>();
-                //conn.Delete()
-            }
-
-
+            //add deleate
         }
     }
 }

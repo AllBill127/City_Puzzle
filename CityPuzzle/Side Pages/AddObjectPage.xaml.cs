@@ -31,13 +31,7 @@ namespace CityPuzzle
                 Longitude= Convert.ToDouble(ObjectY.Text),
 
             };
-            using (SQLiteConnection conn = new SQLiteConnection(App.ObjectPath))
-            {
-                conn.CreateTable<Puzzle>();
-
-                int rowsAdded = conn.Insert(obj);
-                conn.Insert(obj);
-            };
+            Sql.SavePuzzle(obj);
 
             Navigation.PopAsync();
         }
