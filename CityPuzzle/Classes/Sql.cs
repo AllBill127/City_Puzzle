@@ -181,16 +181,16 @@ namespace CityPuzzle.Classes
         {
             // Func<List <Puzzle>, string> convert =
             var numbers = room.Tasks.Select(x => x.Value.ID);
-            string converted=string.Join("", numbers+"-");
+            string converted=string.Join("-", numbers)+"-";
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
                 conn.Open();
-                var command = new SqlCommand("INSERT INTO Rooms (ID,Owner,RoomSize,Tasks) VALUES (@ID,@Owner,@RoomSize,@Tasks)", conn);
-                command.Parameters.AddWithValue("@ID", room.ID);
+                var command = new SqlCommand("INSERT INTO Rooms (RoomPin,Owner,RoomSize,Tasks) VALUES (@RoomPin,@Owner,@RoomSize,@Tasks)", conn);
+                command.Parameters.AddWithValue("@RoomPin", room.ID);
                 command.Parameters.AddWithValue("@Owner", room.Owner);
                 command.Parameters.AddWithValue("@RoomSize", room.RoomSize);
-                command.Parameters.AddWithValue("@Latitude", converted);
-                command.ExecuteNonQuery();
+                command.Parameters.AddWithValue("@Tasks", converted);
+                command.ExecuteNonQuery();/// exceptionai del System.Data.SqlClient.SqlException: 
                 conn.Close();
             }
         }
@@ -200,7 +200,7 @@ namespace CityPuzzle.Classes
             {
                 SqlCommand command;
                 SqlDataReader dataReader;
-                String sql = "Select ID,Owner,RoomSize,Tasks from Puzzles";
+                String sql = "Select RoomPin,Owner,RoomSize,Tasks from Rooms";
                 conn.Open();
                 command = new SqlCommand(sql, conn);
                 dataReader = command.ExecuteReader();
