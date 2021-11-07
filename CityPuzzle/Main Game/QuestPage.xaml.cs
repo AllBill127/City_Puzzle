@@ -67,7 +67,7 @@ namespace CityPuzzle
                 QuestField.Text = target.Quest;
 
                 //Console.WriteLine($" Thread #{Thread.CurrentThread.ManagedThreadId}\t Pries radara"); //checks thread ID
-                Thread RadarThread = new Thread(RadarFoo);
+                Thread RadarThread = new Thread(ChangeRadar);
                 RadarThread.Start();
 
                 await RevealImg();    // Start the quest completion loop
@@ -223,7 +223,7 @@ namespace CityPuzzle
             int stackSize = existingPages.Count;
             return stackSize;
         }
-        async void RadarFoo()
+        async void ChangeRadar()
         {
             //Console.WriteLine($" Thread #{Thread.CurrentThread.ManagedThreadId}\t radare"); //checks thread ID
            
