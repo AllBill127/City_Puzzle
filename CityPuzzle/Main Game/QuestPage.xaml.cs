@@ -242,19 +242,19 @@ namespace CityPuzzle
                 {
                     if (distChange < distCheck && distChange <= (startDist / 2))
                     {
-                        myRadar = (Radar)4;
+                        myRadar = Radar.Ugnis;
                     }
                     else if (distChange < distCheck && distChange > (startDist / 2))
                     {
-                        myRadar = (Radar)3;
+                        myRadar = Radar.Silta;
                     }
                     else if (distChange > distCheck && distChange > (startDist / 2))
                     {
-                        myRadar = (Radar)0;
+                        myRadar = Radar.Ledas;
                     }
                     else if (distChange > distCheck && distChange <= (startDist / 2))
                     {
-                        myRadar = (Radar)1;
+                        myRadar = Radar.Salta;
                     }
                     radar.Source = myRadar.ToString() + ".gif";
                     Thread.Sleep(TimeInterval);
