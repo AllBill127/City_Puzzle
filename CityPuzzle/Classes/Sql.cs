@@ -12,7 +12,7 @@ namespace CityPuzzle.Classes
 {
     class Sql
     {
-        public static string ConnStr = "Server = tcp:citypuzzledb.database.windows.net,1433;Initial Catalog = citypuzzledb; Persist Security Info=False;User ID = citypuzzleuser; Password=User123*; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout = 30;";
+ m        public static string ConnStr = "Server=tcp:citypuzzle.database.windows.net,1433;Initial Catalog=CityPuzzle;Persist Security Info=False;User ID=citypuzzle;Password=User123*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         public static void SaveUser(User user)
         {
