@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using CityPuzzle.Classes;
+using System.Threading;
+using System.IO;
 
 namespace CityPuzzle
 {
@@ -14,8 +16,22 @@ namespace CityPuzzle
         
         public LoginPage()
         {
+
             InitializeComponent();
 
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Vartotojo_vardas.Text = "";
+            Slaptazodis.Text = "";
+            while (App.FilePath == null)
+            {
+                Thread.Sleep(500);
+                Console.WriteLine("miegu");
+            }
+            SimpleUser current = Sql.GetCurrentUser();
+            if (current != null && User.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
         }
         void Login_Click(object sender, EventArgs e)
         {
@@ -35,7 +51,7 @@ namespace CityPuzzle
         void Sign_Click(object sender, EventArgs e)
         {
             Slaptazodis.Text = "";
-            Navigation.PushAsync(new SignUpPage());
+            Navigation.PopToRootAsync();
 
         }
     }

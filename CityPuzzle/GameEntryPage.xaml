@@ -33,7 +33,7 @@
             HeightRequest="{Binding Width, Source={x:Reference btn1}}"
             Grid.Row="0"
             Clicked="StartButton_click"
-            Grid.Column="1"/>
+            Grid.Column="1" CornerRadius="20"/>
 
             <ImageButton 
             Source="leader_icon.png"
@@ -44,7 +44,7 @@
             WidthRequest="{Binding Width, Source={x:Reference btn1}}"
             HeightRequest="{Binding Width, Source={x:Reference btn2}}"
             Grid.Row="0"
-            Grid.Column="3"/>
+            Grid.Column="3"  CornerRadius="20"/>
 
 
 
@@ -57,7 +57,7 @@
             WidthRequest="{Binding Width, Source={x:Reference btn1}}"
             HeightRequest="{Binding Width, Source={x:Reference btn4}}"
             Grid.Row="1"
-            Grid.Column="1"/>
+            Grid.Column="1"  CornerRadius="20"/>
 
             <ImageButton 
             x:Name="btn5"
@@ -68,7 +68,7 @@
                     WidthRequest="{Binding Width, Source={x:Reference btn1}}"
             HeightRequest="{Binding Width, Source={x:Reference btn5}}"
             Grid.Row="1"
-            Grid.Column="3"/>
+            Grid.Column="3"  CornerRadius="20"/>
 
 
         </Grid>
@@ -84,7 +84,7 @@
                 <ColumnDefinition Width="50" />
 
             </Grid.ColumnDefinitions>
-            <Button Image="settings.png" AbsoluteLayout.LayoutFlags="PositionProportional" Grid.Column="3"/>
+            <Button Image="settings.png" AbsoluteLayout.LayoutFlags="PositionProportional" Grid.Column="3"  Clicked="Settings_Clicked" CornerRadius="20"/>
         </Grid>
     </NavigationPage.TitleView>
 </ContentPage>
