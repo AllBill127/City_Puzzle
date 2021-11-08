@@ -47,9 +47,9 @@ namespace CityPuzzle
                         if (!Valid_Username.IsMatch(field.Text)) throw new BadInputdException("nuo 6 iki 12 ilgio", field.Placeholder, field);
                         else if (!User.CheckUser(field.Text)) throw new BadInputdException("Naudotojas su tokiu prisijungimo vardu užimtas.Pakeiskite prisijungimo vardą ir bandykite dar kartą.", field);
                         break;
-                    //case "Slaptazodis":
-                       // if (!Valid_Password.IsMatch(field.Text)) throw new BadInputdException("Password must be atleast 8 to 15 characters and contains atleast one Upper case and numbers.", field);
-                       // break;
+                    case "Slaptazodis":
+                        if (!Valid_Password.IsMatch(field.Text)) throw new BadInputdException("Password must be atleast 8 to 15 characters and contains atleast one Upper case and numbers.", field);
+                        break;
                     case "Pastas":
                         if (!Valid_Email.IsMatch(field.Text)) throw new BadInputdException("Invalid Email Address!", field);
                         break;
