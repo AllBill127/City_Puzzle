@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Collections.Generic;
-
-using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace CityPuzzle.Classes
 {
@@ -22,35 +19,29 @@ namespace CityPuzzle.Classes
         public List<Lazy<Puzzle>> QuestsCompleted { get; set; }
         public double MaxQuestDistance { get; set; }
 
-        public User() { }
-        public static Boolean CheckPassword(string name, string pass)
+        IUserVerifier _verifier;
+
+        public User(IUserVerifier ver) 
         {
-             if (String.IsNullOrWhiteSpace(name) || String.IsNullOrWhiteSpace(pass))
-            {
-                return false;
-            }
-            // pass = PassToHash(pass);//     //                              //encrypt
-            var info = Sql.ReadUsers();
-            App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && PassVerification(pass,x.Pass));
-            return App.CurrentUser != null;
+            _verifier = ver;
         }
-        public static Boolean CheckUser(string name)
+        
+        public bool CheckPassword(string name, string pass)
         {
-            var info = Sql.ReadUsers();
-            var user= info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()));
-            return user == null;
+            return _verifier.CPass(name, pass);
         }
 
-        public static string PassToHash(string pass)
+        public bool CheckUser(string name)
         {
-            string passwordHash = BCryptNet.HashPassword(pass);
-            return passwordHash;
+            return _verifier.CUser(name);
         }
-
-        public static bool PassVerification(string pass, string passwordHash)
+        public string PassToHash(string pass)
         {
-            bool verified = BCryptNet.Verify(pass, passwordHash);
-            return verified;
+            return _verifier.PToH(pass);
+        }
+        public bool PassVerification(string pass, string passwordHash)
+        {
+            return _verifier.PassVer(pass, passwordHash);
         }
 
         public bool Equals(User other)
