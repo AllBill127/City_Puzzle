@@ -65,7 +65,7 @@ namespace CityPuzzle
                 Validation(fields);
 
                 User user;
-                if (distEntry.Text != null)
+                if (distEntry.Text != null || distEntry.Text == "")
                 {
                     user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text), email: emailEntry.Text, maxDist: double.Parse(distEntry.Text));
                 }
@@ -82,14 +82,13 @@ namespace CityPuzzle
             {
                 ErrorAllert(exception.Message);
                 exception.Field.BackgroundColor = Color.Orange;
-                exception.Field.TextColor = Color.Red;
                 exception.Field.Text = "Neteisingai įvedėt šį lauką";
             }
             catch (EmptyInputdException exception)
             {
 
                 ErrorAllert(exception.Message);
-                exception.Field.BackgroundColor = Color.Red;
+                exception.Field.BackgroundColor = Color.Orange;
                 exception.Field.Text = "Prašom užpildyti šį lauką";
 
             }
