@@ -19,7 +19,8 @@ namespace CityPuzzle
         }
         void Login_Click(object sender, EventArgs e)
         {
-            if (User.CheckPassword(Vartotojo_vardas.Text, Slaptazodis.Text)) Navigation.PushAsync(new GameEntryPage());
+            var tempUser = new User(new UserVerifier());
+            if (tempUser.CheckPassword(Vartotojo_vardas.Text, Slaptazodis.Text)) Navigation.PushAsync(new GameEntryPage());
             else
             {
                 Vartotojo_vardas.Text = "";

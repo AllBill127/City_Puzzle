@@ -35,7 +35,7 @@ namespace CityPuzzle
         }
 
 
-        public static void Validation(List<Entry> fields)
+        public void Validation(List<Entry> fields)
         {
             foreach (Entry field in fields)
             {
@@ -44,8 +44,9 @@ namespace CityPuzzle
                 switch (field.Placeholder)
                 {
                     case "Vartotojo vardas":
+                        var tempUser = new User(new UserVerifier());
                         if (!Valid_Username.IsMatch(field.Text)) throw new BadInputdException("nuo 6 iki 12 ilgio", field.Placeholder, field);
-                        else if (!User.CheckUser(field.Text)) throw new BadInputdException("Naudotojas su tokiu prisijungimo vardu užimtas.Pakeiskite prisijungimo vardą ir bandykite dar kartą.", field);
+                        else if (!tempUser.CheckUser(field.Text)) throw new BadInputdException("Naudotojas su tokiu prisijungimo vardu užimtas.Pakeiskite prisijungimo vardą ir bandykite dar kartą.", field);
                         break;
                     case "Slaptazodis":
                         if (!Valid_Password.IsMatch(field.Text)) throw new BadInputdException("Password must be atleast 8 to 15 characters and contains atleast one Upper case and numbers.", field);
@@ -98,11 +99,13 @@ namespace CityPuzzle
 
                 if (distEntry.Text != null)
                 {
-                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text),email: emailEntry.Text, maxDist: double.Parse(distEntry.Text));
+                    var tempUser = new User(new UserVerifier());
+                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: tempUser.PassToHash(passEntry.Text),email: emailEntry.Text, maxDist: double.Parse(distEntry.Text));
                 }
                 else
                 {
-                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, email: emailEntry.Text, password: User.PassToHash(passEntry.Text));
+                    var tempUser = new User(new UserVerifier());
+                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, email: emailEntry.Text, password: tempUser.PassToHash(passEntry.Text));
                 }
                 Sql.SaveUser(user);
 
@@ -138,7 +141,7 @@ namespace CityPuzzle
         private User CreateUser(string userName, string name, string lastName, string password,string email, double maxDist = 3)
         {
             List<Lazy<Puzzle>> zero = new List<Lazy<Puzzle>>();
-            User user = new User()
+            User user = new User(new UserVerifier())
             {
                 Name = name,
                 LastName = lastName,
