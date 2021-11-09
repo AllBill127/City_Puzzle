@@ -180,26 +180,22 @@ namespace CityPuzzle.Classes
                 }
 
                 conn.Close();
-                foreach (Lazy<Puzzle> a in puzzles)
-                {
-                    Console.WriteLine(a.Value.Name);
-                }
                 return puzzles;
                
             }
         }
-        public static void SaveRoom(Room room)
+        public static void SaveRoom(Lazy<Room> room)
         {
             // Func<List <Puzzle>, string> convert =
-            var numbers = room.Tasks.Select(x => x.Value.ID);
+            var numbers = room.Value.Tasks.Select(x => x.Value.ID);
             string converted=string.Join("-", numbers)+"-";
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
                 conn.Open();
                 var command = new SqlCommand("INSERT INTO Rooms (RoomPin,Owner,RoomSize,Tasks) VALUES (@RoomPin,@Owner,@RoomSize,@Tasks)", conn);
-                command.Parameters.AddWithValue("@RoomPin", room.ID);
-                command.Parameters.AddWithValue("@Owner", room.Owner);
-                command.Parameters.AddWithValue("@RoomSize", room.RoomSize);
+                command.Parameters.AddWithValue("@RoomPin", room.Value.ID);
+                command.Parameters.AddWithValue("@Owner", room.Value.Owner);
+                command.Parameters.AddWithValue("@RoomSize", room.Value.RoomSize);
                 command.Parameters.AddWithValue("@Tasks", converted);
                 command.ExecuteNonQuery();/// exceptionai del System.Data.SqlClient.SqlException: 
                 conn.Close();
@@ -226,9 +222,11 @@ namespace CityPuzzle.Classes
                         Tasks = ConvertTasks(dataReader.GetString(3)) 
                     };
                     rooms.Add(room);
+                    Console.WriteLine("Idedu rooms"+ room.ID);
                 }
 
                 conn.Close();
+                Console.WriteLine("Grazinu rooms");
                 return rooms;
 
             }

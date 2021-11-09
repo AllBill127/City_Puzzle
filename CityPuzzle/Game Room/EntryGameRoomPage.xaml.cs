@@ -7,6 +7,8 @@ using Xamarin.Forms.Xaml;
 using System.Linq;
 using System.Xml.Linq;
 using Xamarin.Essentials;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace CityPuzzle
 {
@@ -14,8 +16,8 @@ namespace CityPuzzle
     public partial class EntryGameRoomPage : ContentPage
     {
         public String EntryRoomID;
-        public List<Room> AllRooms = new List<Room>();
-        public List<User> AllUsers= new List<User>();
+        public static List<Room> AllRooms = new List<Room>();
+        public static List<User> AllUsers= new List<User>();
         public XElement grupedList;
         public Room CurrentRoom;
         public User RoomOwner;
@@ -30,7 +32,22 @@ namespace CityPuzzle
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            GetData();
+        }
+        public static async void GetData()
+        {
+            await readRooms();
+            await readUsers();
+            Task.WaitAll();
+        }
+       // ----------------------------Galimi delgate----------------------
+
+        public static async Task readRooms()
+        {
             AllRooms = Sql.ReadRooms();
+        }
+        public static async Task readUsers()
+        {
             AllUsers = Sql.ReadUsers();
         }
         void ReadPin(object sender, EventArgs e)

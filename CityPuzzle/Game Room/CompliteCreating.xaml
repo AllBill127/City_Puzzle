@@ -6,35 +6,12 @@
     <StackLayout>
         <Label x:Name="idplace" FontSize="30" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" ></Label>
 
-        <Picker x:Name="picker" Title="Select size" SelectedIndex="0"/>
+        <Picker x:Name="picker" Title="Select size" SelectedIndex="0" />
 
         <ListView x:Name="MyListView"
            
             ItemTapped="Handle_ItemTapped"
             CachingStrategy="RecycleElement">
-
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid Padding="10" RowSpacing="1" ColumnSpacing="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="1"
-                               BackgroundColor="White"
-                                       Text="{Binding Name}"
-                                       VerticalOptions="End" FontSize="20"/>
-                            <Image Source="{Binding ImgAdress}" Aspect="AspectFill"></Image>
-
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
         </ListView>
         <Button Text="Paleisti" Clicked="Save_Click"></Button>
     </StackLayout>

@@ -4,10 +4,28 @@
               BackgroundImageSource="logos.pmg" WidthRequest="600" HeightRequest="200"
              x:Class="CityPuzzle.CreateGamePage">
     <ContentPage.Content>
-        <StackLayout>
-            <Button x:Name="addobj" Text="Sudaryti uzduotis" Clicked="AddObj_click" BackgroundColor="#F3BD21"></Button>
-            <Button x:Name="lookobj" Text="Perziureti uzduotis" Clicked="Look_click" BackgroundColor="#F3BD21" IsVisible="False"></Button>
-            <Button x:Name="approved" Text="Issaugoti" Clicked="Addgamer_click" BackgroundColor="#F3BD21"  IsVisible="False"></Button>
-        </StackLayout>
+
+            <Grid >
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="0.1*" />
+                    <RowDefinition Height="0.1*" />
+                    <RowDefinition Height="0.03*" />
+                    <RowDefinition Height="0.1*" />
+                <RowDefinition Height="0.03*" />
+                    <RowDefinition Height="0.1*" />
+                    <RowDefinition Height="0.1*" />
+
+            </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.2*" />
+                    <ColumnDefinition Width="0.6*" />
+                    <ColumnDefinition Width="0.2*" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="addobj" Text="Sudaryti uzduotis" Clicked="AddObj_click" BackgroundColor="#F3BD21" IsVisible="False" Grid.Row="1" Grid.Column="1" CornerRadius="15"></Button>
+            <Button x:Name="lookobj" Text="Perziureti uzduotis" Clicked="Look_click" BackgroundColor="#F3BD21" IsVisible="False" Grid.Row="3" Grid.Column="1" CornerRadius="15"></Button>
+            <Button x:Name="approved" Text="Issaugoti" Clicked="Addgamer_click" BackgroundColor="#F3BD21"  IsVisible="False" Grid.Row="5" Grid.Column="1" CornerRadius="15"></Button>
+            </Grid>
+
     </ContentPage.Content>
 </ContentPage>
