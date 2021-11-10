@@ -7,6 +7,7 @@ using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Net;
+using CityPuzzle.Classes;
 
 namespace CityPuzzle
 {
@@ -53,6 +54,20 @@ namespace CityPuzzle
         private void Leaderboard_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new LeaderboardPage());
+        }  
+        private void Settings_Clicked(object sender, EventArgs e)
+        {
+            App.CurrentUser = null;
+            Sql.SaveCurrentUser(new User("",""));
+            var existingPages = Navigation.NavigationStack.ToList();
+            int stackSize = existingPages.Count;
+            foreach (var page in existingPages)
+            {
+                if (existingPages.Count == 1) break;
+                if (existingPages.Count != stackSize) Navigation.RemovePage(page);
+            }
+            Navigation.PopAsync();
         }
+
     }
 }
