@@ -25,11 +25,7 @@ namespace CityPuzzle
             base.OnAppearing();
             Vartotojo_vardas.Text = "";
             Slaptazodis.Text = "";
-            while (App.FilePath == null)
-            {
-                Thread.Sleep(500);
-                Console.WriteLine("miegu");
-            }
+
             SimpleUser current = Sql.GetCurrentUser();
             if (current != null && User.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
         }
