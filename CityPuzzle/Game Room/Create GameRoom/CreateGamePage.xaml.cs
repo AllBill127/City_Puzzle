@@ -13,10 +13,9 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CreateGamePage : ContentPage
     {
-        public static Lazy<Room> NewRoom= new Lazy<Room>();
+        public static Lazy<Room> NewRoom = new Lazy<Room>();
         public List<Lazy<Puzzle>> DefaultPuzzles;
-        public List<string> AllUsers;
-        public static Thread Calculiator_thread=new Thread(new ThreadStart(FillGameRomm));
+        public static Thread Calculiator_thread = new Thread(new ThreadStart(FillGameRomm));
         public static int Status = -1;
 
         public CreateGamePage()
@@ -28,7 +27,8 @@ namespace CityPuzzle
         public async static void FillGameRomm()
         {
             await CreatePin();
-            NewRoom.Value.Owner = App.CurrentUser.ID;        }
+            NewRoom.Value.Owner = App.CurrentUser.ID;
+        }
         public async static Task CreatePin()
         {
             int i = 0;
@@ -45,14 +45,14 @@ namespace CityPuzzle
                     if (existing == null) i = 1;
                 }
             });
-            NewRoom.Value.ID=roomPin;
+            NewRoom.Value.ID = roomPin;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
             DefaultPuzzles = Sql.ReadPuzzles();
-            if (Status == -1)AddObj_click(null, null);
+            if (Status == -1) AddObj_click(null, null);
 
         }
 
@@ -66,7 +66,7 @@ namespace CityPuzzle
 
         async void Look_click(object sender, EventArgs e)
         {
-        
+
             Navigation.PushAsync(new SelectPuzzles<Lazy<Puzzle>>(NewRoom.Value.Tasks));
         }
 

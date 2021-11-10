@@ -27,8 +27,13 @@ namespace CityPuzzle
             InitializeComponent();
             //JoinTables();
         }
+        public EntryGameRoomPage(string ID)
+        {
+            InitializeComponent();
+            //JoinTables();
+        }
 
-        
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -78,6 +83,12 @@ namespace CityPuzzle
                 }   
             }
             RoadDistance.Text = totaldistance + "km";
+        }
+        public async void FillXamlData()
+        {
+            PuzzleCount.Text = "" + CurrentRoom.Tasks.Count();
+
+
         }
     }
 }

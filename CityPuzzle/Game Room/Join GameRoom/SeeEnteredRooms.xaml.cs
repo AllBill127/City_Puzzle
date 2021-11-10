@@ -15,11 +15,17 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
     public partial class SeeEnteredRooms : ContentPage
     {
         public static List<Room> AllRooms = new List<Room>();
+        public static Task tReadRooms = new Task(
+                () => {
+                    AllRooms = Sql.ReadRooms();
+                });
+
 
 
         public SeeEnteredRooms()
         {
             InitializeComponent();
+            tReadRooms.Start();
             Task<List<Room>> treadFindRooms = new Task<List<Room>>(
               () => {
                   return GetData();
@@ -37,11 +43,6 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
               () =>{
                   return Sql.FindParticipantRoomsIDs(App.CurrentUser.ID);});
             treadFind.Start();
-            Task tReadRooms = new Task(
-                () => {
-                    AllRooms = Sql.ReadRooms();
-                });
-            tReadRooms.Start();
             Task.WaitAll();
             foreach( string pin in treadFind.Result)
             {
@@ -62,7 +63,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
         void Sign_Click(object sender, EventArgs e)
         {
             string gamePin = GamePin.Text;
-            Navigation.PushAsync(new EntryGameRoomPage());
+            Navigation.PushAsync(new EntryGameRoomPage(gamePin));
 
         }
 
