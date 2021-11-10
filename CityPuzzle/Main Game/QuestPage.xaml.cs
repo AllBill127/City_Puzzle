@@ -13,239 +13,175 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class QuestPage : ContentPage
     {
-        private double UserLat;
-        private double UserLng;
-        private double QuestLat;
-        private double QuestLng;
-        private List<Lazy<Puzzle>> Target;
-        public static Puzzle QuestInProgress;
-        public const Double HumanSpeed = 2.23;
-        public const int TimeInterval = 3000;
-
-        enum Radar
-        {
-            Ledas,
-            Salta,
-            Vidutine,
-            Silta,
-            Ugnis
-        }
-
+        private static object locker = new object();
         public QuestPage()
         {
             InitializeComponent();
-            Target =Sql.ReadPuzzles();
-            if (Target.Count == 0)
-            {
-                Navigation.PushAsync(new AddObjectPage());
-            }
-            else
-            {
-                ShowQuest();
-            }
+
+            GameLogic gamelogic = new GameLogic();
+            gamelogic.OnNoQuestsLoaded += NoQuestsLoaded;
+            gamelogic.OnNoLocationFound += CurrentLocationError;
+            gamelogic.OnNoNearbyQuest += NoNearbyQuest;
+            gamelogic.OnQuestStart += QuestStart;
+            gamelogic.OnMaskHide += HideMask;
+            gamelogic.OnQuestCompleted += QuestCompleted;
+
+            gamelogic.StartGame();
         }
 
-        async private void ShowQuest()
+        //========================================= Event subscriber methods ===============================================
+        // Send user to create new puzzle if none where loaded
+        private void NoQuestsLoaded(object sender, EventArgs e)
         {
-            await UpdateCurrentLocation();
-            Puzzle target = GetQuest(Target);
-
-            if (target == null)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
-            {
-                await DisplayAlert("No destinations in " + App.CurrentUser.MaxQuestDistance + " km radius", "Consider creating a nearby destination yourself.", "OK");
-                await Navigation.PopAsync();
-            }
-            else
-            {
-                QuestLat = target.Latitude;
-                QuestLng = target.Longitude;
-                QuestInProgress = target;
-                var questImg = target.ImgAdress;
-                objimg.Source = questImg;
-
-                MissionLabel.Text = "Tavo uzduotis- surasti mane!";
-                QuestField.Text = target.Quest;
-
-                await RevealImg();    // Start the quest completion loop
-                App.CurrentUser.QuestsCompleted.Add(new Lazy<Puzzle>(() =>target));            // TO DO: save user data to database after finishing quest or loging out
-                await DisplayAlert("Congratulations", "You have reached the destination", "OK");
-            }
+            Navigation.PushAsync(new AddObjectPage());
         }
 
-        // Get a random quest that is within given distance and is not already completed by current user
-        private Puzzle GetQuest(List<Lazy<Puzzle>> puzzles)
-        {
-            try
-            {
-                bool InRange(Lazy<Puzzle> puzzle)
-                {
-                    double dist = DistanceToPoint(puzzle.Value.Latitude, puzzle.Value.Longitude);
-                    if (dist <= App.CurrentUser.MaxQuestDistance)
-                        return true;
-                    return false;
-                }
-
-                //Linq query
-                //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)).ToList();
-                var inRange =
-                    (from puzzle in puzzles
-                     where InRange(puzzle)
-                     where !App.CurrentUser.QuestsCompleted.Contains(puzzle)
-                     select puzzle)
-                    .ToList();
-                if (inRange.Count != 0)
-                {
-                    var random = new Random();
-                    int index = random.Next(inRange.Count);
-                    var target = Sql.FromLazy(inRange[index]);
-                    return target;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch(System.InvalidOperationException ex)
-            {
-                return null;
-            }
-            
-        }
-
-        // When called show all img masks and then reveal random masks depending on distance left
-        // (when mask amount increases new random masks will be hiden)
-        async private Task RevealImg()
-        {
-            double distLeft = DistanceToPoint(QuestLat, QuestLng);
-            double distStep = distLeft / 9F;
-
-            RadarThread();
-
-            List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
-            var random = new Random();
-
-            int maskCount = 0;      // Count hiden masks
-
-            while (distLeft > 0.01)        // Quest completion loop that reveals parts of image depending on distance left
-            {
-                await UpdateCurrentLocation();
-                distLeft = DistanceToPoint(QuestLat, QuestLng);
-
-                int newMaskCount = 9 - (int)(distLeft / distStep);      // How many masks should be hiden (9 - (mask count until finish. pvz 1.9km / 0.333 = 5.7 = 5 masks left) = 3 hiden)
-
-                int count = newMaskCount - maskCount;       // If newMaskCount increased then hide more masks. Else if newMaskCount decreased then "wrong direction"
-                if (count >= 1)
-                {
-                    for (int i = 0; i < count; ++i)
-                    {
-                        maskCount += 1;
-                        int index = random.Next(masks.Count);
-                        masks[index].IsVisible = false;
-                        masks.Remove(masks[index]);
-                    }
-                }
-                else if (count < 0) helpbutton.IsVisible = true;
-                else if (newMaskCount == 9)
-                {
-                    distLeft = 0;
-                }
-            }
-
-            await Navigation.PushAsync(new ComplitedPage(QuestInProgress));     //When loop ends go to quest completed page
-        }
-
-        //Thread that updates current user location
-        async Task UpdateCurrentLocation()
-        {
-            try
-            {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(60));
-                var cts = new CancellationTokenSource();
-                var location = await Geolocation.GetLocationAsync(request, cts.Token);
-
-                if (location != null)
-                {
-                    string x = " " + location.Latitude + " " + location.Longitude + " " + location.Altitude;
-                    UserLat = location.Latitude;
-                    UserLng = location.Longitude;
-                }
-                else CurrentLocationError();
-            }
-            catch (Exception ex)
-            {
-                CurrentLocationError();     // Unable to get location
-            }
-        }
-
-        async void CurrentLocationError()
+        // Alert message when current location was not found
+        private async void CurrentLocationError(object sender, EventArgs e)
         {
             await DisplayAlert("Error", "Nepavyksta aptikti jusu buvimo vietos.", "OK");
         }
 
-        //Distance from user to some location. MUST CALL await UpdateCurrentLocation() before to work correctly
-        private double DistanceToPoint(double pLat, double pLng)
+        // Show alert message when no quests were found around user and go back to previous window
+        private async void NoNearbyQuest(object sender, EventArgs e)
         {
-            Location start = new Location(UserLat, UserLng);
-            Location end = new Location(pLat, pLng);
-            return Location.CalculateDistance(start, end, 0);
+            await DisplayAlert("No destinations in " + App.CurrentUser.MaxQuestDistance + " km radius", "Consider creating a nearby destination yourself.", "OK");
+            await Navigation.PopAsync();
         }
 
-        void Check_Click(object sender, EventArgs e)
+        // Set QuestPage variables
+        private void QuestStart(object sender, GameLogic.OnQuestStartEventArgs e)
         {
-            PrintDistance();
+            objimg.Source = e.QuestImg;
+            MissionLabel.Text = "Tavo uzduotis- surasti mane!";
+            QuestField.Text = e.Quest;
         }
 
+        // Method to hide one random mask 
+        private void HideMask(object sender, EventArgs e)
+        {
+            Thread hideMask = new Thread(HideOneMask);
+            hideMask.Start();
+        }
+
+        // Show alert message when quest is completed and go to CompletedPage
+        private async void QuestCompleted(object sender, GameLogic.OnQuestCompletedEventArgs e)
+        {
+            await DisplayAlert("Congratulations", "You have reached the destination", "OK");
+            await Navigation.PushAsync(new ComplitedPage(e.QuestCompleted)); //When loop ends go to quest completed page
+        }
+
+        // Shortly reveal whole image and then return masks
         void Help_Click(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new GamePage(QuestLat, QuestLng));
-            helpbutton.IsVisible = false;
+            Thread helpImg = new Thread(HelpImg);
+            helpImg.Start();
+            helpButton.IsVisible = false;
         }
 
-        //Displays distance to quest
-        async void PrintDistance()
+        // Shuffle current masks around
+        void Shuffle_Click(object sender, EventArgs e)
         {
-            await UpdateCurrentLocation();
-            double dist = DistanceToPoint(QuestLat, QuestLng);
+            Thread shuffleMasks = new Thread(ShuffleMasks);
+            shuffleMasks.Start();
+            shuffleButton.IsVisible = false;
+        }
 
-            string vienetai = "km";
-            if (dist < 1)
+
+        //=============================================== Thread methods ===================================================
+        private List<int> masksIndex = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+        private async void HideOneMask()
+        {
+            int index;
+            lock (locker)
             {
-                vienetai = "metrai";
-                dist = dist * 1000;
+                List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
+
+
+                var random = new Random();
+                index = random.Next(masksIndex.Count);
+
+                var mre = new ManualResetEvent(false);
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    masks[masksIndex[index]].IsVisible = false;
+                    mre.Set();      // sends mre a signal to continue
+                });
+                mre.WaitOne();      // stops current thread until mre receives a signal to continue
+
+                masksIndex.Remove(masksIndex[index]);
             }
-            
-            await DisplayAlert("Tau liko:", " " + dist + " " + vienetai, "OK");
         }
-        public int CountPages()
+
+        private void HelpImg()
         {
-            var existingPages = Navigation.NavigationStack.ToList();
-            int stackSize = existingPages.Count;
-            return stackSize;
-        }
-        async void RadarThread(){
-            await UpdateCurrentLocation();
-            double distCheck = DistanceToPoint(QuestLat, QuestLng);
-            Radar oldRadar = Radar.Vidutine;
-            int startSize = CountPages();
-            int nowSize = startSize;
-            while (distCheck> 0.1 && startSize== nowSize)
-            {   
-                Thread.Sleep(TimeInterval);
-                await UpdateCurrentLocation();
-                double distChange = DistanceToPoint(QuestLat, QuestLng);
-                double speed = ((distCheck - distChange) / TimeInterval)*1000+ HumanSpeed;
+            lock (locker)
+            {
+                List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
 
-                int direction = (int)(5 * (speed) / (2 * HumanSpeed));
-                if (direction > 4) direction = 4;
-                else if (direction < 0) direction = 0;
+                foreach(var index in masksIndex)
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        masks[index].IsVisible = false;
+                    });
+                }
 
-                Radar state = (Radar)direction;
-                if(oldRadar != state)radar.Source = state.ToString()+".gif";
-                oldRadar = state;
-                Console.WriteLine("Updatinu radara - i " + state.ToString() + ".gif"+" speed "+ speed+" "+ direction);
-                distCheck = distChange;
-                nowSize = CountPages();
+                Thread.Sleep(10000);
+
+                foreach (var index in masksIndex)
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        masks[index].IsVisible = true;
+                    });
+                }
             }
         }
+
+        private void ShuffleMasks()
+        {
+            lock (locker)
+            {
+                List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
+                List<int> temp = new List<int>();
+                List<int> indexes = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+                int maskCount = masksIndex.Count;
+
+                var random = new Random();
+                for(int i = maskCount; i > 0; --i)
+                {
+                    int index = random.Next(indexes.Count);
+                    temp.Add(indexes[index]);
+                    indexes.Remove(indexes[index]);
+                }
+
+                masksIndex = temp;
+
+                for(int i = 0; i < 9; ++i)
+                {
+                    if (masksIndex.Contains(i))
+                    {
+                        var mre = new ManualResetEvent(false);
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            masks[i].IsVisible = true;
+                            mre.Set();
+                        });
+                        mre.WaitOne();
+                    }
+                    else
+                    {
+                        var mre = new ManualResetEvent(false);
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            masks[i].IsVisible = false;
+                            mre.Set();
+                        });
+                        mre.WaitOne();
+                    }
+                }
+            }
         }
+    }
 }
