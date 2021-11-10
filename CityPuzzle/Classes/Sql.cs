@@ -231,7 +231,38 @@ namespace CityPuzzle.Classes
 
             }
         }
-                                                           
+        public static void SaveParticipants(string roomId,int userID)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                conn.Open();
+                var command = new SqlCommand("INSERT INTO Participants (RoomPin,UserID) VALUES (@RoomPin,@UserID)", conn);
+                command.Parameters.AddWithValue("@RoomPin", roomId);
+                command.Parameters.AddWithValue("@UserID", userID);
+                command.ExecuteNonQuery();///TasksComplited
+                conn.Close();
+            }
+        }
+        public static List<string> FindParticipantRoomsIDs(int userID)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                SqlCommand command;
+                SqlDataReader dataReader;
+                string sql = "Select RoomPin from Participants where UserID=@UserID";
+                conn.Open();
+                command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@UserID", userID);
+                dataReader = command.ExecuteReader();
+                List<string> roomPins = new List<string>();
+                while (dataReader.Read())
+                {
+                    roomPins.Add(dataReader.GetString(0));
+                }
+                conn.Close();
+                return roomPins;
+            }
+        }
         private static List<Lazy<Puzzle>> ConvertTasks(string strtask)
         {
             List<Lazy<Puzzle>> allpuzzles = new List<Lazy<Puzzle>>();

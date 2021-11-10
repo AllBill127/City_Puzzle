@@ -42,10 +42,10 @@
     <Compile Update="Main Game\ComplitedPage.xaml.cs">
       <DependentUpon>ComplitedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Game Room\CreateGamePage.xaml.cs">
+    <Compile Update="Game Room\Create GameRoom\CreateGamePage.xaml.cs">
       <DependentUpon>CreateGamePage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Game Room\AddPage.xaml.cs">
+    <Compile Update="Game Room\Create GameRoom\AddPage.xaml.cs">
       <DependentUpon>AddPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Main Game\QuestPage.xaml.cs">
@@ -57,11 +57,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Game Room\CompliteCreating.xaml">
+    <EmbeddedResource Update="Game Room\Create GameRoom\CompliteCreating.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Game Room\EntryGameRoomPage.xaml">
+    <EmbeddedResource Update="Game Room\Join GameRoom\EntryGameRoomPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Game Room\Join GameRoom\SeeEnteredRooms.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Side Pages\LeaderboardPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -84,16 +87,16 @@
     <EmbeddedResource Update="Main Game\ComplitedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Game Room\CreateGamePage.xaml">
+    <EmbeddedResource Update="Game Room\Create GameRoom\CreateGamePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Game Room\AddPage.xaml">
+    <EmbeddedResource Update="Game Room\Create GameRoom\AddPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Main Game\QuestPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Game Room\SelectPuzzles.xaml">
+    <EmbeddedResource Update="Game Room\Create GameRoom\SelectPuzzles.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Login And SingUp\SignUpPage.xaml">
