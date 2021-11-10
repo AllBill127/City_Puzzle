@@ -19,7 +19,7 @@ namespace CityPuzzle.Classes
         public List<Lazy<Puzzle>> QuestsCompleted { get; set; }
         public double MaxQuestDistance { get; set; }
 
-        IUserVerifier _verifier;
+        private readonly IUserVerifier _verifier;
 
         public User(IUserVerifier ver) 
         {
