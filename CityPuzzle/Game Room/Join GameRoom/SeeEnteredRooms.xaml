@@ -4,13 +4,17 @@
              x:Class="CityPuzzle.Game_Room.Join_GameRoom.SeeEnteredRooms"
              BackgroundImageSource="logos.pmg" WidthRequest="600" HeightRequest="200">
     <ContentPage.Content>
-        <StackLayout>
-            <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
+        <StackLayout >
+            <Grid x:Name="LoadingGrid">
+                <Image x:Name="Loading" Source="loading.gif" IsAnimationPlaying="True"></Image>
+            </Grid>
+            <StackLayout IsVisible="False" x:Name="MainStack">
+                <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
                 <Label Text="Jus dalyvaujant GamePuzzle"  HorizontalTextAlignment="Center" TextColor="Black"   FontSize="20"/>
-                <Label Text="Deja niekur dar nedalyvaujante"  HorizontalTextAlignment="Center" TextColor="Black"   FontSize="20"/>
             </Frame>
-
-            
+            <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
+                <Label Text="Deja niekur dar nedalyvaujante"  HorizontalTextAlignment="Center" TextColor="Black"   FontSize="15"/>
+            </Frame>
             <ListView x:Name="MyListView"
             ItemTapped="Handle_ItemTapped"	            
             CachingStrategy="RecycleElement">
@@ -26,18 +30,18 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="1"	
-                               BackgroundColor="Yellow"
-                                       Text="{Binding ID}"	
-                                       VerticalOptions="End" FontSize="20"/>
-
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Entry x:Name="GamePin" Placeholder="GamePin"  BackgroundColor="#F3BD21" ></Entry>
-            <Button Text="Registruotis I nauja gameroom" Clicked="Sign_Click" BackgroundColor="#F3BD21"></Button>
+                                    <Label Grid.Column="1"	
+                                    BackgroundColor="Yellow"
+                                    Text="{Binding ID}"	
+                                    VerticalOptions="End" FontSize="20"/>
+                         </Grid>
+                         </ViewCell>
+                         </DataTemplate>
+                     </ListView.ItemTemplate>
+                </ListView>
+                <Entry x:Name="GamePin" Placeholder="GamePin"  BackgroundColor="#F3BD21" ></Entry>
+                <Button Text="Registruotis I nauja gameroom" Clicked="Sign_Click" BackgroundColor="#F3BD21"></Button>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

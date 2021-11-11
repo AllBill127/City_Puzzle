@@ -9,9 +9,10 @@
             <Frame BackgroundColor="#D9DE09" Padding="24" CornerRadius="10">
                 <Label Text="Sveiki atvyke i GameRoom " BackgroundColor="#F9F532" FontAttributes="Bold" FontSize="30" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="#000000" />
             </Frame>
-            <Entry x:Name="CheckPin" Placeholder="Ivesk Game PIN"></Entry>
-            <Button Text="Tikrinti PIN" BackgroundColor="#F9F532" Clicked="ReadPin" CornerRadius="12"></Button>
-            <Grid >
+            <Grid>
+                <Image x:Name="Loading" Source="loading.gif" IsAnimationPlaying="True"></Image>
+            </Grid>
+            <Grid x:Name="RoomInfo" IsVisible="False">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.2*" />
                     <RowDefinition Height="0.2*" />

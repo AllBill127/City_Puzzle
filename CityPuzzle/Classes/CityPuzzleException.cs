@@ -39,4 +39,5 @@ namespace CityPuzzle.Classes
             Field = entry;
         }
         }
+
     }

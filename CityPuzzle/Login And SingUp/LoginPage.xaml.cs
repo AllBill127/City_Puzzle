@@ -30,8 +30,15 @@ namespace CityPuzzle
                 Thread.Sleep(500);
                 Console.WriteLine("miegu");
             }
-            SimpleUser current = Sql.GetCurrentUser();
-            if (current != null && User.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
+            try
+            {
+                SimpleUser current = Sql.GetCurrentUser();
+                if (current != null && User.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
+            }
+            catch(Exception e)
+            {
+
+            }
         }
         void Login_Click(object sender, EventArgs e)
         {
