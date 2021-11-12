@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -14,19 +15,47 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
     {
         public static List<Room> AllRooms = new List<Room>();
         public static List<User> AllUsers = new List<User>();
-        public static Task tReadRooms = new Task(() => { AllRooms = Sql.ReadRooms(); });
-        public static Task tReadUsers = new Task(() => { AllUsers = Sql.ReadUsers(); });
+        public delegate void Change();
         public SeeEnteredRooms()
         {
             InitializeComponent();
-            if(!tReadRooms.IsCompleted) tReadRooms.Start();
-            if (!tReadUsers.IsCompleted) tReadUsers.Start();
+            tRefreash();
+        }
+        public async void tRefreash()
+        {
+            await Task.Run(() =>
+            {
+                Refreash();
+            });
+        }
+        public void ChangeView(Change del)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                del();
+            });
+        }
+        public void Refreash()
+        {
+            Console.WriteLine("Naikinu dideli loadinga--------------->");
+            Thread tReadRooms = new Thread(() => { AllRooms = Sql.ReadRooms(); });
+            Thread tReadUsers = new Thread(() => { AllUsers = Sql.ReadUsers(); });
+            tReadRooms.Start();
+            tReadUsers.Start();
+            while (tReadRooms.IsAlive || tReadUsers.IsAlive) Thread.Sleep(300);
+            ChangeView(delegate () { LoadingGrid.IsVisible = false; MainStack.IsVisible = true; });//dar vienas anonimas
             Task<List<Room>> treadFindRooms = new Task<List<Room>>(() => { return GetData(); });
             treadFindRooms.Start();
             Task.WaitAll();
-            LoadingGrid.IsVisible = false;
-            MainStack.IsVisible = true;
-            MyListView.ItemsSource = treadFindRooms.Result;
+            if (treadFindRooms.Result == null) ChangeView(delegate () { NoRooms.IsVisible = true;}); 
+            else
+            {
+                ChangeView(delegate () {
+                    MyListView.ItemsSource = treadFindRooms.Result;
+                    MyListView.IsVisible = true;
+                });
+            }
+            ChangeView(delegate () { LoadingSmallGrid.IsVisible = false; });
         }
         public static List<Room> GetData()
         {
@@ -44,25 +73,20 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             }
             return findedRooms;
         }
-        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            if (e.Item == null)
-            {
-                return;
-            }
-            ((ListView)sender).SelectedItem = null;
-            Console.WriteLine(" " + e.Item);
-        }
-
         void Sign_Click(object sender, EventArgs e)
         {
             string gamePin = GamePin.Text;
             Navigation.PushAsync(new EntryGameRoomPage(gamePin));
 
         }
-
-
-
-
+        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (e.Item == null)
+            {
+                return;
+            }
+    ((ListView)sender).SelectedItem = null;
+            Console.WriteLine(" " + e.Item);
+        }
     }
 }

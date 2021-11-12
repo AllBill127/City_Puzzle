@@ -7,13 +7,14 @@
         <StackLayout>
 
             <Frame BackgroundColor="#D9DE09" Padding="24" CornerRadius="10">
-                <Label Text="Sveiki atvyke i GameRoom " BackgroundColor="#F9F532" FontAttributes="Bold" FontSize="30" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="#000000" />
+                <Label Text="Sveiki atvyke i GameRoom " BackgroundColor="#D9DE09" FontAttributes="Bold" FontSize="30" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="#000000" />
             </Frame>
             <Grid>
                 <Image x:Name="Loading" Source="loading.gif" IsAnimationPlaying="True"></Image>
             </Grid>
             <Grid x:Name="RoomInfo" IsVisible="False">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2*" />
                     <RowDefinition Height="0.2*" />
                     <RowDefinition Height="0.2*" />
                     <RowDefinition Height="0.2*" />
@@ -26,10 +27,21 @@
                 <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="0" Grid.Column="1">
                     <Label Text="Jūsų čia lauks:"  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
                 </Frame>
-                <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Row="0" Grid.Column="0"></Frame>
-                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="0" Grid.Column="2"></Frame>
-                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="1" Grid.Column="0"></Frame>
-                <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Row="2" Grid.Column="0"></Frame>
+                <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Row="0" Grid.Column="0">
+                    <Label  Text=" 😋 "  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="0" Grid.Column="2">
+                    <Label  Text=" 😁"  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="1" Grid.Column="0">
+                    <Label  Text=" 🧩 "  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Row="2" Grid.Column="0">
+                    <Label  Text=" 💪 "  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="3" Grid.Column="0">
+                    <Label  Text=" 🏃‍♂ "  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
                 <Frame BackgroundColor="#F9F532" CornerRadius="10"  Grid.Row="1" Grid.Column="1">
                     <Label  Text="Užduočių - "  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
                 </Frame>
@@ -42,6 +54,12 @@
                 <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Row="2" Grid.Column="2">
                     <Label x:Name="RoadDistance" Text="0"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
                 </Frame>
+                <Frame BackgroundColor="#F9F532" CornerRadius="10"  Grid.Row="3" Grid.Column="1">
+                    <Label  Text="Iki pirmos uzduties - "  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="3" Grid.Column="2">
+                    <Label x:Name="RoadDistance2" Text="0"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
             </Grid>
 
             <Grid >
@@ -50,11 +68,22 @@
                     <ColumnDefinition Width="0.6*" />
                     <ColumnDefinition Width="0.4*" />
                 </Grid.ColumnDefinitions>
-                <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="0.5*" />
+                </Grid.RowDefinitions>
+                <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Column="0" Grid.Row="0">
                     <Label Text="Uzduotis sukure -"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
                 </Frame>
-                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Column="1">
+                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Column="1" Grid.Row="0">
                     <Label x:Name="OwnerName" Text="Vardas"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+
+                <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Column="0" Grid.Row="1">
+                    <Label Text="Uzduotis sukure -"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Column="1" Grid.Row="1">
+                    <Label x:Name="RoomPinas" Text="Nezinomas"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
                 </Frame>
             </Grid>
 
@@ -63,8 +92,8 @@
                     <ColumnDefinition Width="0.5*" />
                     <ColumnDefinition Width="0.5*" />
                 </Grid.ColumnDefinitions>
-                <Button Text="Pradėti" BackgroundColor="#D9DE09" Grid.Row="1" CornerRadius="10"></Button>
-                <Button Text="Praleisti" BackgroundColor="#F9F532" Grid.Row="1"  Grid.Column="1" CornerRadius="10"></Button>
+                <Button Text="Pradėti" BackgroundColor="#F9F532"  Grid.Row="1" CornerRadius="10" Clicked="Start_Click"></Button>
+                <Button Text="Praleisti" BackgroundColor="#D9DE09" Grid.Row="1"  Grid.Column="1" CornerRadius="10" Clicked="Skip_Click"></Button>
             </Grid>
 
         </StackLayout>
