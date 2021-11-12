@@ -13,7 +13,6 @@ namespace CityPuzzle
 {
     public partial class LoginPage : ContentPage
     {
-        
         public LoginPage()
         {
 
@@ -25,20 +24,16 @@ namespace CityPuzzle
             base.OnAppearing();
             Vartotojo_vardas.Text = "";
             Slaptazodis.Text = "";
-            while (App.FilePath == null)
-            {
-                Thread.Sleep(500);
-                Console.WriteLine("miegu");
-            }
-            try
+            try //pastebejau kad meta exeptiona jei failo neranda, todel try idejau
             {
                 SimpleUser current = Sql.GetCurrentUser();
                 if (current != null && User.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
             }
             catch(Exception e)
             {
-
             }
+            SimpleUser current = Sql.GetCurrentUser();
+            if (current != null && User.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
         }
         void Login_Click(object sender, EventArgs e)
         {
@@ -59,7 +54,6 @@ namespace CityPuzzle
         {
             Slaptazodis.Text = "";
             Navigation.PopToRootAsync();
-
         }
     }
 }

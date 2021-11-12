@@ -11,11 +11,11 @@ using System.Text;
 
 namespace CityPuzzle.Classes
 {
-    class Sql
+    public class Sql
     {
-
-        public static string ConnStr = "Server=tcp:citypuzzle.database.windows.net,1433;Initial Catalog=CityPuzzle;Persist Security Info=False;User ID=citypuzzle;Password=User123*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-
+        public static string ConnStr = "Server = tcp:citypuzzle.database.windows.net,1433; Initial Catalog = CityPuzzle; " +
+            "Persist Security Info = False; User ID = citypuzzle; Password = User123*; MultipleActiveResultSets = False; " +
+            "Encrypt = True; TrustServerCertificate = False; Connection Timeout=30;";
 
         public static void SaveUser(User user)//SAU ZINUTE- pakeisk kad grazintu userio id, nes kai useri sukuri- jo id nesukuri!!!
         {
