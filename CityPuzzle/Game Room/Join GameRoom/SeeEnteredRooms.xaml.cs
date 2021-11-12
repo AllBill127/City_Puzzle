@@ -15,6 +15,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
     {
         public static List<Room> AllRooms = new List<Room>();
         public static List<User> AllUsers = new List<User>();
+        public static List<Room> EnteredRooms = new List<Room>();
         public delegate void Change();
         public SeeEnteredRooms()
         {
@@ -37,7 +38,6 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
         }
         public void Refreash()
         {
-            Console.WriteLine("Naikinu dideli loadinga--------------->");
             Thread tReadRooms = new Thread(() => { AllRooms = Sql.ReadRooms(); });
             Thread tReadUsers = new Thread(() => { AllUsers = Sql.ReadUsers(); });
             tReadRooms.Start();
@@ -47,10 +47,12 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             Task<List<Room>> treadFindRooms = new Task<List<Room>>(() => { return GetData(); });
             treadFindRooms.Start();
             Task.WaitAll();
-            if (treadFindRooms.Result == null) ChangeView(delegate () { NoRooms.IsVisible = true;}); 
+            if (treadFindRooms.Result == null) ChangeView(delegate () { NoRooms.IsVisible = true; });
             else
             {
-                ChangeView(delegate () {
+                EnteredRooms = treadFindRooms.Result;
+                ChangeView(delegate ()
+                {
                     MyListView.ItemsSource = treadFindRooms.Result;
                     MyListView.IsVisible = true;
                 });
@@ -76,17 +78,28 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
         void Sign_Click(object sender, EventArgs e)
         {
             string gamePin = GamePin.Text;
-            Navigation.PushAsync(new EntryGameRoomPage(gamePin));
-
+            Room current= EnteredRooms.SingleOrDefault(x => x.ID.Equals(gamePin));
+            if (current == null) Navigation.PushAsync(new EntryGameRoomPage(gamePin));
+            else RoomExistError(current);
         }
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item == null)
+            if (e.Item != null)
             {
-                return;
+                SelectMsg(EnteredRooms[e.ItemIndex]);
             }
-    ((ListView)sender).SelectedItem = null;
+            MyListView.SelectedItem = null;
             Console.WriteLine(" " + e.Item);
+        }
+        async void SelectMsg(Room selectedRoom)//exeotionus galima panaudoti
+        {
+            bool answer = await DisplayAlert("Demesio", "Ar norite testi zaidima- " + selectedRoom.ID, "Taip", "Ne");
+            if (answer == true) Console.WriteLine("Iveinu  {0}");
+        }
+        async void RoomExistError(Room selectedRoom)//exeotionus galima panaudoti
+        {
+            bool answer = await DisplayAlert("Demesio", "Jus jau registruotas šiame zaidyme. Ar norite testi zaidima- " + selectedRoom.ID, "Taip", "Ne");
+            if (answer == true) Console.WriteLine("Iveinu  {0}");
         }
     }
 }

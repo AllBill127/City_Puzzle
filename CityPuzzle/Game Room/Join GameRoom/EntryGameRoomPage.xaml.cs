@@ -20,7 +20,7 @@ namespace CityPuzzle
         public XElement grupedList;
         public Room CurrentRoom;
         public User RoomOwner;
-        public delegate double Calculate(double Lat1,double Lon1, double Lat2, double Lon2);
+        public delegate double Calculate(double Lat1, double Lon1, double Lat2, double Lon2);
         public EntryGameRoomPage()
         {
             InitializeComponent();
@@ -28,7 +28,7 @@ namespace CityPuzzle
         public EntryGameRoomPage(string ID)
         {
             InitializeComponent();
-            if(SeeEnteredRooms.AllRooms == null || SeeEnteredRooms.AllUsers==null) NoReadComplitedError();
+            if (SeeEnteredRooms.AllRooms == null || SeeEnteredRooms.AllUsers == null) NoReadComplitedError();
             else ShowAbout(ID);
         }
 
@@ -57,7 +57,7 @@ namespace CityPuzzle
             base.OnAppearing();
 
         }
-       // ----------------------------Galimi exeptionai----------------------
+        // ----------------------------Galimi exeptionai----------------------
         void ShowAbout(string EntryRoomID)
         {
             Loading.IsVisible = false;
@@ -94,7 +94,7 @@ namespace CityPuzzle
 
         void Start_Click(object sender, EventArgs e)
         {
-            Sql.SaveParticipants(CurrentRoom.ID,App.CurrentUser.ID);
+            Sql.SaveParticipants(CurrentRoom.ID, App.CurrentUser.ID);
             CompitedJoin();
             Navigation.PopAsync();
         }
@@ -102,7 +102,5 @@ namespace CityPuzzle
         {
             Navigation.PopAsync();
         }
-
-
     }
 }
