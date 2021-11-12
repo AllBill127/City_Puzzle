@@ -13,13 +13,15 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CreateGamePage : ContentPage
     {
+        public static List<Room> AllRooms;
         public static Lazy<Room> NewRoom = new Lazy<Room>();
-        public List<Lazy<Puzzle>> DefaultPuzzles;
-        public static Thread Calculiator_thread = new Thread(new ThreadStart(FillGameRomm));
+        public static List<Lazy<Puzzle>> DefaultPuzzles;
+        public static Thread Calculiator_thread; // pakeisti
         public static int Status = -1;
 
         public CreateGamePage()
         {
+            Calculiator_thread = new Thread(new ThreadStart(FillGameRomm));
             Calculiator_thread.Start();
             InitializeComponent();
             addobj.IsVisible = true;
@@ -32,7 +34,8 @@ namespace CityPuzzle
         public async static Task CreatePin()
         {
             int i = 0;
-            var AllRooms = Sql.ReadRooms();
+            AllRooms = Sql.ReadRooms();
+            DefaultPuzzles = Sql.ReadPuzzles();
             string roomPin = "";
             Random _random = new Random();
             await Task.Run(() =>
@@ -48,17 +51,8 @@ namespace CityPuzzle
             NewRoom.Value.ID = roomPin;
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            DefaultPuzzles = Sql.ReadPuzzles();
-            if (Status == -1) AddObj_click(null, null);
-
-        }
-
         async void AddObj_click(object sender, EventArgs e)
         {
-            Status = 0;
             await Navigation.PushAsync(new AddPage());
             lookobj.IsVisible = true;
             approved.IsVisible = true;
@@ -66,18 +60,19 @@ namespace CityPuzzle
 
         async void Look_click(object sender, EventArgs e)
         {
-
-            Navigation.PushAsync(new SelectPuzzles<Lazy<Puzzle>>(NewRoom.Value.Tasks));
-        }
-
-        public static void Acction()
-        {
+            await Navigation.PushAsync(new SelectPuzzles<Lazy<Puzzle>>(NewRoom.Value.Tasks));
             NewRoom.Value.Tasks = SelectPuzzles<Lazy<Puzzle>>.getList();
         }
 
         async void Addgamer_click(object sender, EventArgs e)
         {
             Navigation.PushAsync(new CompliteCreating());
+        }
+        async void Look_Rooms_Click(object sender, EventArgs e)
+        {
+            List<string> usersRooms = Sql.FindParticipantRoomsIDs(App.CurrentUser.ID);
+            await Navigation.PushAsync(new SelectPuzzles<string>(usersRooms));
+            List<string> usersRooms2 = SelectPuzzles<string>.getList();
         }
     }
 }
