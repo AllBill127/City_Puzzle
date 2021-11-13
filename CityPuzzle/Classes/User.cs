@@ -35,13 +35,10 @@ namespace CityPuzzle.Classes
         {
             return _verifier.CUser(name);
         }
+
         public string PassToHash(string pass)
         {
             return _verifier.PToH(pass);
-        }
-        public bool PassVerification(string pass, string passwordHash)
-        {
-            return _verifier.PassVer(pass, passwordHash);
         }
 
         public bool Equals(User other)

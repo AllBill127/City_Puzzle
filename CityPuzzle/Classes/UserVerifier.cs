@@ -8,18 +8,17 @@ namespace CityPuzzle.Classes
 {
     public class UserVerifier : IUserVerifier
     {
-        public Boolean CPass(string name, string pass)
+        public bool CPass(string name, string pass)
         {
             if (String.IsNullOrWhiteSpace(name) || String.IsNullOrWhiteSpace(pass))
             {
                 return false;
             }
-            // pass = PassToHash(pass);//     //                              //encrypt
             var info = Sql.ReadUsers();
             App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && PassVer(pass, x.Pass));
             return App.CurrentUser != null;
         }
-        public Boolean CUser(string name)
+        public bool CUser(string name)
         {
             var info = Sql.ReadUsers();
             var user = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()));
