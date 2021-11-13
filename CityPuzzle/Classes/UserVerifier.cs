@@ -16,6 +16,7 @@ namespace CityPuzzle.Classes
             }
             var info = Sql.ReadUsers();
             App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && PassVer(pass, x.Pass));
+            if (App.CurrentUser != null) Sql.SaveCurrentUser(App.CurrentUser);
             return App.CurrentUser != null;
         }
         public bool CUser(string name)
@@ -36,5 +37,15 @@ namespace CityPuzzle.Classes
             bool verified = BCryptNet.Verify(pass, passwordHash);
             return verified;
         }
-    }
+
+        public bool CheckHashPass(string name, string pass)
+        {
+            if (String.IsNullOrWhiteSpace(name) || String.IsNullOrWhiteSpace(pass))
+            {
+                return false;
+            }
+            var info = Sql.ReadUsers();
+            App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && pass.Equals(x.Pass));
+            return App.CurrentUser != null;
+        }
 }
