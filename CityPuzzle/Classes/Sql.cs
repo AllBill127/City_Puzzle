@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -10,9 +11,11 @@ using System.Text;
 
 namespace CityPuzzle.Classes
 {
-    class Sql
+    public class Sql
     {
-         public static string ConnStr = "Server=tcp:citypuzzle.database.windows.net,1433;Initial Catalog=CityPuzzle;Persist Security Info=False;User ID=citypuzzle;Password=User123*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        public static string ConnStr = "Server = tcp:citypuzzle.database.windows.net,1433; Initial Catalog = CityPuzzle; " +
+            "Persist Security Info = False; User ID = citypuzzle; Password = User123*; MultipleActiveResultSets = False; " +
+            "Encrypt = True; TrustServerCertificate = False; Connection Timeout=30;";
 
         public static void SaveUser(User user)
         {
@@ -267,6 +270,31 @@ namespace CityPuzzle.Classes
                 Quest = puzzle.Value.Quest};
             return p;
         }
-       
+
+        public static SimpleUser GetCurrentUser()
+        {
+            List<SimpleUser> info;
+            using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
+            {
+                conn.CreateTable<SimpleUser>();
+                info = conn.Table<SimpleUser>().ToList();
+            }
+            return info[0];
+        }
+
+        public static void SaveCurrentUser(User user)
+        {
+            SimpleUser simpleUser = new SimpleUser(user);
+            using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
+            {
+                user.QuestsCompleted = null;
+                conn.CreateTable<SimpleUser>();
+                conn.DeleteAll<SimpleUser>();
+                var rows = conn.Insert(simpleUser);
+            }
+            
+        }
+
+
     }
 }

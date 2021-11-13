@@ -27,7 +27,6 @@ namespace CityPuzzle
 
             FilePath = filePath;
             GamePath = gamePath;
-            string fullFileName = Path.GetFullPath(FilePath);
             ObjectPath = objectPath;
         }
 

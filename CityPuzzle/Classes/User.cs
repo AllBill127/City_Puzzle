@@ -16,7 +16,7 @@ namespace CityPuzzle.Classes
         public string UserName { get; set; }
         public string Pass { get; set; }
         public string Email { get; set; }
-        public List<Lazy<Puzzle>> QuestsCompleted { get; set; }
+        public List<Lazy<Puzzle>> QuestsCompleted = new List<Lazy<Puzzle>>();
         public double MaxQuestDistance { get; set; }
 
         private readonly IUserVerifier _verifier;
@@ -24,6 +24,12 @@ namespace CityPuzzle.Classes
         public User(IUserVerifier ver) 
         {
             _verifier = ver;
+        }
+        
+        public User(string userName,string pass) 
+        {
+            UserName = userName;
+            Pass = pass;
         }
         
         public bool CheckPassword(string name, string pass)
