@@ -18,12 +18,14 @@ namespace CityPuzzle.Classes
         private static Puzzle questInProgress;
 
 
+        public delegate void RadarChangeEventDelegate(string s);    // Custom delegate for event
+        public event RadarChangeEventDelegate OnRadarChange;        // Custom event
         public event EventHandler OnMaskHide;
         public event EventHandler OnNoLocationFound;
         public event EventHandler OnNoNearbyQuest;
-        public event EventHandler<OnQuestStartEventArgs> OnQuestStart; //?????Uses event generics to send custom args questImg and quest
+        public event EventHandler<OnQuestStartEventArgs> OnQuestStart;
         public class OnQuestStartEventArgs : EventArgs { public string QuestImg; public string Quest; }
-        public event EventHandler<OnQuestCompletedEventArgs> OnQuestCompleted; //?????Uses event generics to send custom arg QuestInProgress
+        public event EventHandler<OnQuestCompletedEventArgs> OnQuestCompleted;
         public class OnQuestCompletedEventArgs : EventArgs { public Puzzle QuestCompleted; }
         public event EventHandler OnNoQuestsLoaded;
 
@@ -59,18 +61,19 @@ namespace CityPuzzle.Classes
                 questInProgress = target;
                 OnQuestStart?.Invoke(this, new OnQuestStartEventArgs { QuestImg = target.ImgAdress, Quest = target.Quest });
 
-                //Console.WriteLine($" Thread #{Thread.CurrentThread.ManagedThreadId}\t Pries radara"); //checks thread ID
-                //Thread RadarThread = new Thread(ChangeRadar);
-                //RadarThread.Start();
+                Thread RadarThread = new Thread(ChangeRadar);
+                RadarThread.Start();
 
-                await RevealImg();    // Start the quest completion loop
-                //RadarThread.Abort();
+                await RevealImg();      // Start the quest completion loop
+                RadarThread.Abort();    // Stop radar updates
+
                 App.CurrentUser.QuestsCompleted.Add(new Lazy<Puzzle>(() => target));            // TO DO: save user data to database after finishing quest or loging out
                 OnQuestCompleted?.Invoke(this, new OnQuestCompletedEventArgs { QuestCompleted = questInProgress});
             }
         }
 
         // OnMaskHide trigger method
+        // Main game loop that reveals masks from the quest image depending on distance left
         private async Task RevealImg()
         {
             double distLeft = DistanceToPoint(questLat, questLng);
@@ -92,12 +95,57 @@ namespace CityPuzzle.Classes
                         int index = random.Next(9 - maskCount);
                         maskCount += 1;
 
-                        OnMaskHide?.Invoke(this, EventArgs.Empty);      //Invoke event if it has any subscribers
+                        OnMaskHide?.Invoke(this, EventArgs.Empty);      // Invoke event if it has any subscribers
                     }
                 }
                 else if (newMaskCount == 9)
                 {
                     distLeft = 0;
+                }
+            }
+        }
+
+        // OnChangeRadar trigger method
+        // Thread that updates radar depending on distance change and distance left 
+        private enum Radar { Ledas, Salta, Vidutine, Silta, Ugnis };
+        private Radar myRadar = Radar.Vidutine;
+
+        private async void ChangeRadar()
+        {
+            await UpdateCurrentLocation();
+            double startDist = DistanceToPoint(questLat, questLng);
+            double distCheck = startDist;
+            double distChange;
+
+            while (distCheck > 0.1)
+            {
+                await UpdateCurrentLocation();
+                distChange = DistanceToPoint(questLat, questLng);
+
+                if (distChange != distCheck)
+                {
+                    if (distChange < distCheck && distChange <= (startDist / 2))
+                    {
+                        myRadar = Radar.Ugnis;
+                    }
+                    else if (distChange < distCheck && distChange > (startDist / 2))
+                    {
+                        myRadar = Radar.Silta;
+                    }
+                    else if (distChange > distCheck && distChange > (startDist / 2))
+                    {
+                        myRadar = Radar.Ledas;
+                    }
+                    else if (distChange > distCheck && distChange <= (startDist / 2))
+                    {
+                        myRadar = Radar.Salta;
+                    }
+
+                    OnRadarChange?.Invoke(myRadar.ToString() + ".gif");
+                    Thread.Sleep(5000);     // Sleep for a while so gif has time to play
+                    OnRadarChange?.Invoke(Radar.Vidutine + ".gif");
+
+                    distCheck = distChange;
                 }
             }
         }

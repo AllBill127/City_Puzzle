@@ -24,6 +24,7 @@ namespace CityPuzzle
             gamelogic.OnNoNearbyQuest += NoNearbyQuest;
             gamelogic.OnQuestStart += QuestStart;
             gamelogic.OnMaskHide += HideMask;
+            gamelogic.OnRadarChange += ChangeRadar;
             gamelogic.OnQuestCompleted += QuestCompleted;
 
             gamelogic.StartGame();
@@ -62,6 +63,12 @@ namespace CityPuzzle
         {
             Thread hideMask = new Thread(HideOneMask);
             hideMask.Start();
+        }
+
+        // Change radar image/gif
+        private void ChangeRadar(string s)
+        {
+            radar.Source = s;
         }
 
         // Show alert message when quest is completed and go to CompletedPage
