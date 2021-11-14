@@ -15,7 +15,7 @@ namespace CityPuzzle
         public static List<Room> AllRooms;
         public static Lazy<Room> NewRoom = new Lazy<Room>();
         public static List<Lazy<Puzzle>> DefaultPuzzles;
-        public static Thread Data_collector_thread; // pakeisti
+        public static Thread Data_collector_thread;
         public static int Status = -1;
 
         public CreateGamePage()

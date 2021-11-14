@@ -31,6 +31,12 @@ namespace CityPuzzle
             if (SeeEnteredRooms.AllRooms == null || SeeEnteredRooms.AllUsers == null) NoReadComplitedError();
             else ShowAbout(ID);
         }
+        public EntryGameRoomPage(Room room)
+        {
+            InitializeComponent();
+            if (SeeEnteredRooms.AllRooms == null || SeeEnteredRooms.AllUsers == null) NoReadComplitedError();
+            else ShowAbout(room);
+        }
 
         async void NoReadComplitedError()//exeotionus galima panaudoti
         {
@@ -91,16 +97,45 @@ namespace CityPuzzle
                 RoadDistance.Text = totaldistance + "km";
             }
         }
-
-        void Start_Click(object sender, EventArgs e)
+        void ShowAbout(Room room)
         {
-            Sql.SaveParticipants(CurrentRoom.ID, App.CurrentUser.ID);
-            CompitedJoin();
-            Navigation.PopAsync();
+            Loading.IsVisible = false;
+            RoomInfo.IsVisible = true;
+            CurrentRoom = room;
+            PuzzleCount.Text = "" + CurrentRoom.Tasks.Count();
+            RoomOwner = SeeEnteredRooms.AllUsers.SingleOrDefault(x => x.ID.Equals(CurrentRoom.Owner));
+            if (RoomOwner == null) NoOwnerFoundError();
+            OwnerName.Text = RoomOwner.Name;
+            RoomPinas.Text = EntryRoomID;
+            Calculate distance = delegate (double Lat1, double Lon1, double Lat2, double Lon2)
+                 {
+                     Location start = new Location(Lat1, Lon1);
+                     Location end = new Location(Lat2, Lon2);
+                     return Location.CalculateDistance(start, end, 0);
+                 };
+            double totaldistance = 0;
+            Lazy<Puzzle> preTask = null;
+            foreach (Lazy<Puzzle> task in CurrentRoom.Tasks)
+            {
+                if (preTask == null) preTask = task;
+                else
+                {
+                    totaldistance += distance(preTask.Value.Latitude, preTask.Value.Longitude, task.Value.Latitude, task.Value.Longitude);
+                    preTask = task;
+                }
+            }
+            RoadDistance.Text = totaldistance + "km";
         }
-        void Skip_Click(object sender, EventArgs e)
-        {
-            Navigation.PopAsync();
-        }
+    
+    void Start_Click(object sender, EventArgs e)
+    {
+        Sql.SaveParticipants(CurrentRoom.ID, App.CurrentUser.ID);
+        CompitedJoin();
+        Navigation.PopAsync();
     }
+    void Skip_Click(object sender, EventArgs e)
+    {
+        Navigation.PopAsync();
+    }
+}
 }

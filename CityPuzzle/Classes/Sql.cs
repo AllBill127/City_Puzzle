@@ -223,6 +223,7 @@ namespace CityPuzzle.Classes
                         RoomSize = dataReader.GetInt32(2),
                         Tasks = ConvertTasks(dataReader.GetString(3))
                     };
+                    room.ParticipantIDs = FindRoomParticipantsID(room.ID);
                     rooms.Add(room);
                 }
                 conn.Close();
@@ -260,6 +261,26 @@ namespace CityPuzzle.Classes
                 }
                 conn.Close();
                 return roomPins;
+            }
+        }
+        public static List<int> FindRoomParticipantsID(string roomID)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                SqlCommand command;
+                SqlDataReader dataReader;
+                string sql = "Select UserID from Participants where RoomPin=@RoomPin";
+                conn.Open();
+                command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@RoomPin", roomID);
+                dataReader = command.ExecuteReader();
+                List<int> participantsID = new List<int>();
+                while (dataReader.Read())
+                {
+                    participantsID.Add(dataReader.GetInt32(0));
+                }
+                conn.Close();
+                return participantsID;
             }
         }
         private static List<Lazy<Puzzle>> ConvertTasks(string strtask)
