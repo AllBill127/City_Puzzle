@@ -65,7 +65,7 @@ namespace CityPuzzle
             int stackSize = existingPages.Count;
             foreach (var page in existingPages)
             {
-                if (existingPages.Count == 1) break;
+                if (existingPages.Count == 2) break;
                 if (existingPages.Count != stackSize) Navigation.RemovePage(page);
             }
             Navigation.PopAsync();

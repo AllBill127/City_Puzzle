@@ -68,7 +68,7 @@ namespace CityPuzzle
 
         async void AddGamer_click(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new CompliteCreating());
+            await Navigation.PushAsync(new CompliteCreating());
         }
         async void Look_Rooms_Click(object sender, EventArgs e)
         {

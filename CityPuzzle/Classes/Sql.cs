@@ -16,22 +16,24 @@ namespace CityPuzzle.Classes
             "Persist Security Info = False; User ID = citypuzzle; Password = User123*; MultipleActiveResultSets = False; " +
             "Encrypt = True; TrustServerCertificate = False; Connection Timeout=30;";
 
-        public static void SaveUser(User user)//SAU ZINUTE- pakeisk kad grazintu userio id, nes kai useri sukuri- jo id nesukuri!!!
+        public static User SaveUser(User user)//SAU ZINUTE- pakeisk kad grazintu userio id, nes kai useri sukuri- jo id nesukuri!!!
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
                 conn.Open();
-                var command = new SqlCommand("INSERT INTO Users (UserName,FirstName,LastName,Pass,Email,MaxQuestDistance) VALUES (@UserName,@FirstName,@LastName,@Pass,@Email,@MaxQuestDistance)", conn);
+                var command = new SqlCommand("INSERT INTO Users (UserName,FirstName,LastName,Pass,Email,MaxQuestDistance) output inserted.ID VALUES (@UserName,@FirstName,@LastName,@Pass,@Email,@MaxQuestDistance)", conn);
                 command.Parameters.AddWithValue("@UserName", user.UserName);
                 command.Parameters.AddWithValue("@FirstName", user.Name);
                 command.Parameters.AddWithValue("@LastName", user.LastName);
                 command.Parameters.AddWithValue("@Pass", user.Pass);
                 command.Parameters.AddWithValue("@Email", user.Email);
                 command.Parameters.AddWithValue("@MaxQuestDistance", user.MaxQuestDistance);
-                command.ExecuteNonQuery();
+                int id = (int)command.ExecuteScalar();
+                user.ID = id;
                 conn.Close();
             }
             SaveComplitedTasks(user);
+            return user;
         }
 
         public static List<User> ReadUsers()

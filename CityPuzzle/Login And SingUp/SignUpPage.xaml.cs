@@ -73,7 +73,7 @@ namespace CityPuzzle
                 {
                     user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, email: emailEntry.Text, password: User.PassToHash(passEntry.Text));
                 }
-                Sql.SaveUser(user);
+                user=Sql.SaveUser(user);//nezinau ar sitas tinka- man norisi perkleti i useri ir naudoti kaip non-static metoda.
 
                 Navigation.PopAsync();
 
