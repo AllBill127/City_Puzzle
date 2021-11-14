@@ -10,7 +10,7 @@ namespace CityPuzzle.Classes
     {
         public static int Quantity=0;
         [PrimaryKey, AutoIncrement]
-        [JsonProperty("userID")]
+        [JsonProperty("puzzleID")]
         public int ID { get; set; }
         [JsonProperty("about")]
         public string About { get; set; }
