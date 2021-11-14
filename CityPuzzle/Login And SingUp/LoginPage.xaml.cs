@@ -24,16 +24,8 @@ namespace CityPuzzle
             base.OnAppearing();
             Vartotojo_vardas.Text = "";
             Slaptazodis.Text = "";
-            try //pastebejau kad meta exeptiona jei failo neranda, todel try idejau
-            {
-                SimpleUser current = Sql.GetCurrentUser();
-                if (current != null && User.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
-            }
-            catch(Exception e)
-            {
-            }
-            SimpleUser current = Sql.GetCurrentUser();
-            if (current != null && User.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
+            SimpleUser current_ = Sql.GetCurrentUser();
+            if (current_ != null && User.CheckHachedPassword(current_.UserName, current_.HashedPass)) Navigation.PushAsync(new GameEntryPage());  
         }
         void Login_Click(object sender, EventArgs e)
         {

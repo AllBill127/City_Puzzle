@@ -61,19 +61,19 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
         }
         public static List<Room> GetData()
         {
-            List<Room> findedRooms = new List<Room>();
-            Task<List<string>> treadFind = new Task<List<string>>(
+            List<Room> foundRooms  = new List<Room>();
+            Task<List<string>> tFind = new Task<List<string>>(
               () =>
               {
                   return Sql.FindParticipantRoomsIDs(App.CurrentUser.ID);
               });
-            treadFind.Start();
+            tFind.Start();
             Task.WaitAll();
-            foreach (string pin in treadFind.Result)
+            foreach (string pin in tFind.Result)
             {
-                findedRooms.Add(AllRooms.SingleOrDefault(x => x.ID == pin));
+                foundRooms .Add(AllRooms.SingleOrDefault(x => x.ID == pin));
             }
-            return findedRooms;
+            return foundRooms ;
         }
         void Sign_Click(object sender, EventArgs e)
         {
@@ -94,12 +94,12 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
         async void SelectMsg(Room selectedRoom)//exeotionus galima panaudoti
         {
             bool answer = await DisplayAlert("Demesio", "Ar norite testi zaidima- " + selectedRoom.ID, "Taip", "Ne");
-            if (answer == true) Console.WriteLine("Iveinu  {0}");
+            if (answer == true) Console.WriteLine("Iveinu  ");
         }
         async void RoomExistError(Room selectedRoom)//exeotionus galima panaudoti
         {
             bool answer = await DisplayAlert("Demesio", "Jus jau registruotas šiame zaidyme. Ar norite testi zaidima- " + selectedRoom.ID, "Taip", "Ne");
-            if (answer == true) Console.WriteLine("Iveinu  {0}");
+            if (answer == true) Console.WriteLine("Iveinu  ");
         }
     }
 }

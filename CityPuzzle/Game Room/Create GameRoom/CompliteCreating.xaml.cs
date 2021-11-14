@@ -63,7 +63,7 @@ namespace CityPuzzle
         }
         public void Save_Room()
         {
-            while (CreateGamePage.Calculiator_thread.IsAlive)
+            while (CreateGamePage.Data_collector_thread.IsAlive)
             {
                 Thread.Sleep(500); //laukiu kada susikurs tinkamas gamepinas
             }

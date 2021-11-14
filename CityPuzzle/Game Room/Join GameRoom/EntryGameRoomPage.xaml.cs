@@ -16,7 +16,7 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EntryGameRoomPage : ContentPage
     {
-        public String EntryRoomID;
+        public string EntryRoomID;
         public XElement grupedList;
         public Room CurrentRoom;
         public User RoomOwner;

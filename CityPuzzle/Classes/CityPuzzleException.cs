@@ -21,7 +21,7 @@ namespace CityPuzzle.Classes
         {
             Field = entry;
         }
-        }
+    }
 
     [Serializable]
     public class EmptyInputdException : Exception
@@ -38,6 +38,6 @@ namespace CityPuzzle.Classes
         {
             Field = entry;
         }
-        }
+    }
 
     }

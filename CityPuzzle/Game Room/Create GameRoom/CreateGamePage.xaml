@@ -23,12 +23,12 @@
                     <ColumnDefinition Width="0.6*" />
                     <ColumnDefinition Width="0.2*" />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="addobj" Text="Sudaryti uzduotis" Clicked="AddObj_click" BackgroundColor="#F3BD21" IsVisible="False" Grid.Row="1" Grid.Column="1" CornerRadius="15"></Button>
-            <Button x:Name="lookobj" Text="Perziureti uzduotis" Clicked="Look_click" BackgroundColor="#F3BD21" IsVisible="False" Grid.Row="3" Grid.Column="1" CornerRadius="15"></Button>
-                <Button x:Name="approved" Text="Issaugoti" Clicked="Addgamer_click" BackgroundColor="#F3BD21"  IsVisible="False" Grid.Row="5" Grid.Column="1" CornerRadius="15"></Button>
+                <Button x:Name="addObj" Text="Sudaryti uzduotis" Clicked="AddObj_click" BackgroundColor="#F3BD21" IsVisible="False" Grid.Row="1" Grid.Column="1" CornerRadius="15"></Button>
+            <Button x:Name="lookObj" Text="Perziureti uzduotis" Clicked="Look_click" BackgroundColor="#F3BD21" IsVisible="False" Grid.Row="3" Grid.Column="1" CornerRadius="15"></Button>
+                <Button x:Name="saveRoom" Text="Issaugoti" Clicked="AddGamer_click" BackgroundColor="#F3BD21"  IsVisible="False" Grid.Row="5" Grid.Column="1" CornerRadius="15"></Button>
 
             </Grid>
-        <Button x:Name="Look" Text="Perziureti sukurtus gameroomus" Clicked="Look_Rooms_Click" BackgroundColor="#F3BD21"  IsVisible="True" CornerRadius="15" VerticalOptions="EndAndExpand"></Button>
+        <Button Text="Perziureti sukurtus gameroomus" Clicked="Look_Rooms_Click" BackgroundColor="#F3BD21"  IsVisible="True" CornerRadius="15" VerticalOptions="EndAndExpand"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

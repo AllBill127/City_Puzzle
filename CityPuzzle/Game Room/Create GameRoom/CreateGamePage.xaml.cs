@@ -1,5 +1,4 @@
 ﻿using CityPuzzle.Classes;
-using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +15,15 @@ namespace CityPuzzle
         public static List<Room> AllRooms;
         public static Lazy<Room> NewRoom = new Lazy<Room>();
         public static List<Lazy<Puzzle>> DefaultPuzzles;
-        public static Thread Calculiator_thread; // pakeisti
+        public static Thread Data_collector_thread; // pakeisti
         public static int Status = -1;
 
         public CreateGamePage()
         {
-            Calculiator_thread = new Thread(new ThreadStart(FillGameRomm));
-            Calculiator_thread.Start();
+            Data_collector_thread = new Thread(new ThreadStart(FillGameRomm));
+            Data_collector_thread.Start();
             InitializeComponent();
-            addobj.IsVisible = true;
+            addObj.IsVisible = true;
         }
         public async static void FillGameRomm()
         {
@@ -45,7 +44,10 @@ namespace CityPuzzle
                     int roomID = _random.Next(100, 10000);
                     roomPin = "kambarys" + roomID;
                     Room existing = AllRooms.SingleOrDefault(x => x.ID.ToLower().Equals(roomPin.ToLower()));
-                    if (existing == null) i = 1;
+                    if (existing == null)
+                    {
+                        i = 1;
+                    }
                 }
             });
             NewRoom.Value.ID = roomPin;
@@ -54,8 +56,8 @@ namespace CityPuzzle
         async void AddObj_click(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new AddPage());
-            lookobj.IsVisible = true;
-            approved.IsVisible = true;
+            lookObj.IsVisible = true;
+            saveRoom.IsVisible = true;
         }
 
         async void Look_click(object sender, EventArgs e)
@@ -64,7 +66,7 @@ namespace CityPuzzle
             NewRoom.Value.Tasks = SelectPuzzles<Lazy<Puzzle>>.getList();
         }
 
-        async void Addgamer_click(object sender, EventArgs e)
+        async void AddGamer_click(object sender, EventArgs e)
         {
             Navigation.PushAsync(new CompliteCreating());
         }
