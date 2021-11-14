@@ -1,0 +1,10 @@
+[
+  {
+    "id": 99999,
+    "about": "Bandymas api",
+    "quest": "uzduotis",
+    "puzzleName": "vardas",
+    "imageAddress": "imgadress.jpg",
+    "latitude": 50,
+    "longitude": 50,
+  }]
