@@ -1,6 +1,6 @@
 [
   {
-    "id": 99999,
+    "puzzleID": 99999,
     "about": "Bandymas api",
     "quest": "uzduotis",
     "puzzleName": "vardas",
