@@ -2,9 +2,9 @@
   {
     "id": 99999,
     "about": "Bandymas api",
-    "quest": "BenchmarkDotNet",
-    "puzzleName": "dotnet/BenchmarkDotNet",
-    "imageAddress": "dotnet/BenchmarkDotNet",
-    "latitude": "dotnet/BenchmarkDotNet",
-    "longitude": "dotnet/BenchmarkDotNet",
+    "quest": "uzduotis",
+    "puzzleName": "vardas",
+    "imageAddress": "imgadress.jpg",
+    "latitude": 50,
+    "longitude": 50,
   }]
