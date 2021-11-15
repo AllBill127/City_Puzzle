@@ -61,7 +61,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
         }
         public static List<Room> GetData()
         {
-            List<Room> foundRooms  = new List<Room>();
+            List<Room> foundRooms = new List<Room>();
             Task<List<string>> tFind = new Task<List<string>>(
               () =>
               {
@@ -71,9 +71,9 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             Task.WaitAll();
             foreach (string pin in tFind.Result)
             {
-                foundRooms .Add(AllRooms.SingleOrDefault(x => x.ID == pin));
+                foundRooms.Add(AllRooms.SingleOrDefault(x => x.ID == pin));
             }
-            return foundRooms ;
+            return foundRooms;
         }
         void Sign_Click(object sender, EventArgs e)
         {
@@ -87,20 +87,18 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
                 CheckAvailability(current);
                 Navigation.PushAsync(new EntryGameRoomPage(gamePin));
             }
-            catch(RoomFullException exception) {
+            catch (RoomFullException exception)
+            {
                 DisplayAlert("Demesio", exception.Message, "Gerai");
             }
             catch (RoomNotExistException exception)
             {
                 DisplayAlert("Demesio", exception.Message, "Gerai");
             }
-            catch (MultiRegistrationException exception) {
-                RoomExistError(exception.CurrentRoom,exception.Message);
+            catch (MultiRegistrationException exception)
+            {
+                RoomExistError(exception.CurrentRoom, exception.Message);
             }
-<<<<<<< HEAD
-=======
- 
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
         }
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
@@ -111,7 +109,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             MyListView.SelectedItem = null;
             Console.WriteLine(" " + e.Item);
         }
-        async void SelectMsg(Room selectedRoom)//cia exseption negalima panaudoti
+        async void SelectMsg(Room selectedRoom)
         {
             bool answer = await DisplayAlert("Demesio", "Ar norite testi zaidima- " + selectedRoom.ID, "Taip", "Ne");
             if (answer == true) Console.WriteLine("Iveinu  ");
@@ -120,7 +118,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
         {
             // Navigation.PushAsync("Quest Page")- dar neturiu tokio pago.
         }
-        async void RoomExistError(Room selectedRoom,string msg)
+        async void RoomExistError(Room selectedRoom, string msg)
         {
             bool answer = await DisplayAlert("Demesio", msg, "Taip", "Ne");
             if (answer == true) EntryGame(selectedRoom);

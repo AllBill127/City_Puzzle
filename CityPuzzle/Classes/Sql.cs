@@ -3,14 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-<<<<<<< HEAD
-=======
-// del laizy i gamerooma nes Usually this is preferable when the object may or may not be used and the cost of constructing it is non-trivial.
-
-
-
-
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
 namespace CityPuzzle.Classes
 {
     public class Sql
@@ -19,7 +11,7 @@ namespace CityPuzzle.Classes
             "Persist Security Info = False; User ID = citypuzzle; Password = User123*; MultipleActiveResultSets = False; " +
             "Encrypt = True; TrustServerCertificate = False; Connection Timeout=30;";
 
-        public static void SaveUser(User user)//SAU ZINUTE- pakeisk kad grazintu userio id, nes kai useri sukuri- jo id nesukuri!!!
+        public static void SaveUser(User user)
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
@@ -60,27 +52,15 @@ namespace CityPuzzle.Classes
                         LastName = dataReader.GetString(3),
                         Pass = dataReader.GetString(4),
                         Email = dataReader.GetString(5),
-<<<<<<< HEAD
-                        MaxQuestDistance = dataReader.GetInt32(6)   
-                    };
-                };
-                user.QuestsCompleted = ReadComplitedTasks(user);
-                users.Add(user);
-=======
                         MaxQuestDistance = dataReader.GetInt32(6)
-
                     };
                     user.QuestsCompleted = ReadComplitedTasks(user);
                     users.Add(user);
                 }
                 conn.Close();
                 return users;
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
             }
-            conn.Close();
-            return users;
         }
-
         public static void SaveComplitedTasks(User user)
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -162,11 +142,7 @@ namespace CityPuzzle.Classes
             }
         }
 
-<<<<<<< HEAD
         public static List<Lazy<Puzzle>> ReadPuzzles()
-=======
-        public static List<Lazy<Puzzle>> ReadPuzzles()// return all lazy puzzles
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
@@ -196,19 +172,11 @@ namespace CityPuzzle.Classes
 
                 conn.Close();
                 return puzzles;
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
             }
         }
         // -------------------------------------------------Rooms--------------------------------------------------------------
         public static void SaveRoom(Lazy<Room> room)
         {
-<<<<<<< HEAD
-=======
-            // Func<List <Puzzle>, string> convert =
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
             var numbers = room.Value.Tasks.Select(x => x.Value.ID);
             string converted = string.Join("-", numbers) + "-";
             using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -259,11 +227,7 @@ namespace CityPuzzle.Classes
                 var command = new SqlCommand("INSERT INTO Participants (RoomPin,UserID) VALUES (@RoomPin,@UserID)", conn);
                 command.Parameters.AddWithValue("@RoomPin", roomId);
                 command.Parameters.AddWithValue("@UserID", userID);
-<<<<<<< HEAD
                 command.ExecuteNonQuery();
-=======
-                command.ExecuteNonQuery();///TasksComplited
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
                 conn.Close();
             }
         }
@@ -362,6 +326,10 @@ namespace CityPuzzle.Classes
                 }
                 return info[0];
             }
+            catch (ArgumentNullException)
+            {
+                return null;
+            }
             catch (NullReferenceException)
             {
                 return null;
@@ -378,10 +346,6 @@ namespace CityPuzzle.Classes
                 conn.DeleteAll<SimpleUser>();
                 var rows = conn.Insert(simpleUser);
             }
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
         }
     }
 }

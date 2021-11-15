@@ -14,11 +14,7 @@ namespace CityPuzzle
     {
         public static List<Room> AllRooms;
         public static Lazy<Room> NewRoom = new Lazy<Room>();
-<<<<<<< HEAD
         public static List<Lazy<Puzzle>> AllPuzzles;
-=======
-        public static List<Lazy<Puzzle>> DefaultPuzzles;
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
         public static Thread Data_collector_thread;
         public static int Status = -1;
 
@@ -38,11 +34,7 @@ namespace CityPuzzle
         {
             int i = 0;
             AllRooms = Sql.ReadRooms();
-<<<<<<< HEAD
             AllPuzzles = Sql.ReadPuzzles();
-=======
-            DefaultPuzzles = Sql.ReadPuzzles();
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
             string roomPin = "";
             Random _random = new Random();
             await Task.Run(() =>

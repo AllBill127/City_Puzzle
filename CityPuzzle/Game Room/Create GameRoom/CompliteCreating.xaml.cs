@@ -36,7 +36,7 @@ namespace CityPuzzle
         {
             //ADD SIZE SAVE
             if (picker.SelectedIndex == -1) CreateGamePage.NewRoom.Value.RoomSize = DefaultSize;
-            else CreateGamePage.NewRoom.Value.RoomSize= Size[picker.SelectedIndex];
+            else CreateGamePage.NewRoom.Value.RoomSize = Size[picker.SelectedIndex];
             Thread save_thread = new Thread(new ThreadStart(Save_Room));
             save_thread.Start();
             var existingPages = Navigation.NavigationStack.ToList();
@@ -44,24 +44,15 @@ namespace CityPuzzle
             foreach (var page in existingPages)
             {
                 if (existingPages.Count == 2) break;
-                if(existingPages.Count != stackSize) Navigation.RemovePage(page);
+                if (existingPages.Count != stackSize) Navigation.RemovePage(page);
             }
             Navigation.PushAsync(new GameEntryPage());
 
 
         }
-<<<<<<< HEAD:CityPuzzle/Game Room/CompliteCreating.xaml.cs
         public void Save_Room()
         {
             Sql.SaveRoom(CreateGamePage.NewRoom);
         }
-=======
-        public void Save_Room()//while netiko
-        {
-            Sql.SaveRoom(CreateGamePage.NewRoom);
-        }
-
-
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update):CityPuzzle/Game Room/Create GameRoom/CompliteCreating.xaml.cs
     }
 }

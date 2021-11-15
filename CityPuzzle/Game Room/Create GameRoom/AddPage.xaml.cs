@@ -16,11 +16,7 @@ namespace CityPuzzle
         public AddPage()
         {
             Nr = 0;
-<<<<<<< HEAD:CityPuzzle/Game Room/AddPage.xaml.cs
             CreateGamePage.NewRoom.Value.Tasks = new List<Lazy<Puzzle>>(); 
-=======
-            CreateGamePage.NewRoom.Value.Tasks= new List<Lazy<Puzzle>>(); 
->>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update):CityPuzzle/Game Room/Create GameRoom/AddPage.xaml.cs
             InitializeComponent();
             AllPuzzles = Sql.ReadPuzzles();
             if (AllPuzzles.Count == 0)
