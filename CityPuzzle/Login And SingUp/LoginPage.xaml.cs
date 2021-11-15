@@ -27,11 +27,13 @@ namespace CityPuzzle
             Slaptazodis.Text = "";
 
             SimpleUser current = Sql.GetCurrentUser();
-            if (current != null && User.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
+            var tempUser = new User(new UserVerifier());
+            if (current != null && tempUser.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
         }
         void Login_Click(object sender, EventArgs e)
         {
-            if (User.CheckPassword(Vartotojo_vardas.Text, Slaptazodis.Text)) Navigation.PushAsync(new GameEntryPage());
+            var tempUser = new User(new UserVerifier());
+            if (tempUser.CheckPassword(Vartotojo_vardas.Text, Slaptazodis.Text)) Navigation.PushAsync(new GameEntryPage());
             else
             {
                 Vartotojo_vardas.Text = "";

@@ -49,7 +49,7 @@ namespace CityPuzzle.Classes
                 List<User> users = new List<User>();
                 while (dataReader.Read())
                 {
-                    User user = new User()
+                    User user = new User(new UserVerifier())
                     {
                         ID = dataReader.GetInt32(0),
                         UserName = dataReader.GetString(1),
