@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CityPuzzle.SelectPuzzles">
+             x:Class="CityPuzzle.SelectPuzzles"
+             BackgroundImageSource="logos.png" WidthRequest="600" HeightRequest="200">
     <ContentPage.Content >
         <StackLayout x:Name="Main">
-            <Label x:Name="label1" Text="Pasirinkite" FontSize="30"></Label>
         </StackLayout>
-
+        
     </ContentPage.Content>
 </ContentPage>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              BackgroundImageSource="logos.pmg" WidthRequest="600" HeightRequest="200"
+             x:Class="CityPuzzle.CreateGamePage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid >
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="0.05*" />
+                    <RowDefinition Height="0.1*" />
+                    <RowDefinition Height="0.02*" />
+                    <RowDefinition Height="0.1*" />
+                    <RowDefinition Height="0.02*" />
+                    <RowDefinition Height="0.1*" />
+                    <RowDefinition Height="0.02*" />
+                    <RowDefinition Height="0.1*" />
+
+            </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.2*" />
+                    <ColumnDefinition Width="0.6*" />
+                    <ColumnDefinition Width="0.2*" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="addObj" Text="Sudaryti uzduotis" Clicked="AddObj_click" BackgroundColor="#F3BD21" IsVisible="False" Grid.Row="1" Grid.Column="1" CornerRadius="15"></Button>
+            <Button x:Name="lookObj" Text="Perziureti uzduotis" Clicked="Look_click" BackgroundColor="#F3BD21" IsVisible="False" Grid.Row="3" Grid.Column="1" CornerRadius="15"></Button>
+                <Button x:Name="saveRoom" Text="Issaugoti" Clicked="AddGamer_click" BackgroundColor="#F3BD21"  IsVisible="False" Grid.Row="5" Grid.Column="1" CornerRadius="15"></Button>
+
+            </Grid>
+        <Button Text="Perziureti sukurtus gameroomus" Clicked="Look_Rooms_Click" BackgroundColor="#F3BD21"  IsVisible="True" CornerRadius="15" VerticalOptions="EndAndExpand"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

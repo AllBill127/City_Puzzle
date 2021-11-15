@@ -13,7 +13,6 @@ namespace CityPuzzle
 {
     public partial class LoginPage : ContentPage
     {
-        
         public LoginPage()
         {
 
@@ -25,10 +24,15 @@ namespace CityPuzzle
             base.OnAppearing();
             Vartotojo_vardas.Text = "";
             Slaptazodis.Text = "";
+<<<<<<< HEAD
 
             SimpleUser current = Sql.GetCurrentUser();
             var tempUser = new User(new UserVerifier());
             if (current != null && tempUser.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
+=======
+            SimpleUser current_ = Sql.GetCurrentUser();
+            if (current_ != null && User.CheckHachedPassword(current_.UserName, current_.HashedPass)) Navigation.PushAsync(new GameEntryPage());  
+>>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
         }
         void Login_Click(object sender, EventArgs e)
         {
@@ -48,9 +52,7 @@ namespace CityPuzzle
         }
         void Sign_Click(object sender, EventArgs e)
         {
-            Slaptazodis.Text = "";
-            Navigation.PopToRootAsync();
-
+            Navigation.PushAsync(new SignUpPage());
         }
     }
 }
