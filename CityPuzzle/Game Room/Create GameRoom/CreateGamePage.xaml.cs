@@ -1,5 +1,4 @@
 ﻿using CityPuzzle.Classes;
-using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,26 +12,29 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CreateGamePage : ContentPage
     {
-        public static Lazy<Room> NewRoom= new Lazy<Room>();
-        public List<Lazy<Puzzle>> DefaultPuzzles;
-        public List<string> AllUsers;
-        public static Thread Calculiator_thread=new Thread(new ThreadStart(FillGameRomm));
+        public static List<Room> AllRooms;
+        public static Lazy<Room> NewRoom = new Lazy<Room>();
+        public static List<Lazy<Puzzle>> DefaultPuzzles;
+        public static Thread Data_collector_thread;
         public static int Status = -1;
 
         public CreateGamePage()
         {
-            Calculiator_thread.Start();
+            Data_collector_thread = new Thread(new ThreadStart(FillGameRomm));
+            Data_collector_thread.Start();
             InitializeComponent();
-            addobj.IsVisible = true;
+            addObj.IsVisible = true;
         }
         public async static void FillGameRomm()
         {
             await CreatePin();
-            NewRoom.Value.Owner = App.CurrentUser.ID;        }
+            NewRoom.Value.Owner = App.CurrentUser.ID;
+        }
         public async static Task CreatePin()
         {
             int i = 0;
-            var AllRooms = Sql.ReadRooms();
+            AllRooms = Sql.ReadRooms();
+            DefaultPuzzles = Sql.ReadPuzzles();
             string roomPin = "";
             Random _random = new Random();
             await Task.Run(() =>
@@ -42,42 +44,37 @@ namespace CityPuzzle
                     int roomID = _random.Next(100, 10000);
                     roomPin = "kambarys" + roomID;
                     Room existing = AllRooms.SingleOrDefault(x => x.ID.ToLower().Equals(roomPin.ToLower()));
-                    if (existing == null) i = 1;
+                    if (existing == null)
+                    {
+                        i = 1;
+                    }
                 }
             });
-            NewRoom.Value.ID=roomPin;
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            DefaultPuzzles = Sql.ReadPuzzles();
-            if (Status == -1)AddObj_click(null, null);
-
+            NewRoom.Value.ID = roomPin;
         }
 
         async void AddObj_click(object sender, EventArgs e)
         {
-            Status = 0;
             await Navigation.PushAsync(new AddPage());
-            lookobj.IsVisible = true;
-            approved.IsVisible = true;
+            lookObj.IsVisible = true;
+            saveRoom.IsVisible = true;
         }
 
         async void Look_click(object sender, EventArgs e)
         {
-        
-            Navigation.PushAsync(new SelectPuzzles<Lazy<Puzzle>>(NewRoom.Value.Tasks));
-        }
-
-        public static void Acction()
-        {
+            await Navigation.PushAsync(new SelectPuzzles<Lazy<Puzzle>>(NewRoom.Value.Tasks));
             NewRoom.Value.Tasks = SelectPuzzles<Lazy<Puzzle>>.getList();
         }
 
-        async void Addgamer_click(object sender, EventArgs e)
+        async void AddGamer_click(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new CompliteCreating());
+            await Navigation.PushAsync(new CompliteCreating());
+        }
+        async void Look_Rooms_Click(object sender, EventArgs e)
+        {
+            List<string> usersRooms = Sql.FindParticipantRoomsIDs(App.CurrentUser.ID);
+            await Navigation.PushAsync(new SelectPuzzles<string>(usersRooms));
+            List<string> usersRooms2 = SelectPuzzles<string>.getList();
         }
     }
 }

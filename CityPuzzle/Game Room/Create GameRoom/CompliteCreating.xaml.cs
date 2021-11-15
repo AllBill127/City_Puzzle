@@ -13,26 +13,14 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CompliteCreating : ContentPage
     {
-        int CheckedSize = 20;
-        enum Size
-        {
-            Huge = 100,
-            Big = 50,
-            Medium = 20,
-            Small = 10
-        }
+        public static int DefaultSize = 20;
+        public static int[] Size = { 10, 20, 50, 80, 100 };
         public CompliteCreating()
         {
             InitializeComponent();
             MyListView.ItemsSource = CreateGamePage.NewRoom.Value.Tasks;
             idplace.Text = "Game pin: " + CreateGamePage.NewRoom.Value.ID;
-            picker.ItemsSource=new List<string>()
-                    {
-                        Size.Huge.ToString() + " - " + (int)Size.Huge,
-                        Size.Big.ToString() + " = " + (int)Size.Big,
-                        Size.Medium.ToString() + " = " + (int)Size.Medium,
-                        Size.Small.ToString() + " = " + (int)Size.Small
-                    };
+            picker.ItemsSource = Size;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -47,7 +35,8 @@ namespace CityPuzzle
         void Save_Click(object sender, EventArgs e)
         {
             //ADD SIZE SAVE
-            CreateGamePage.NewRoom.Value.RoomSize=picker.SelectedIndex;
+            if (picker.SelectedIndex == -1) CreateGamePage.NewRoom.Value.RoomSize = DefaultSize;
+            else CreateGamePage.NewRoom.Value.RoomSize= Size[picker.SelectedIndex];
             Thread save_thread = new Thread(new ThreadStart(Save_Room));
             save_thread.Start();
             var existingPages = Navigation.NavigationStack.ToList();
@@ -61,12 +50,8 @@ namespace CityPuzzle
 
 
         }
-        public void Save_Room()
+        public void Save_Room()//while netiko
         {
-            while (CreateGamePage.Calculiator_thread.IsAlive)
-            {
-                Thread.Sleep(500); //laukiu kada susikurs tinkamas gamepinas
-            }
             Sql.SaveRoom(CreateGamePage.NewRoom);
         }
 
