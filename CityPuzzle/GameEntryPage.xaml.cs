@@ -42,7 +42,6 @@ namespace CityPuzzle
         {
 
             Navigation.PushAsync(new SeeEnteredRooms());
-            //Navigation.PushAsync(new EntryGameRoomPage());
 
         }
 
@@ -69,7 +68,5 @@ namespace CityPuzzle
                 if (existingPages.Count != stackSize) Navigation.RemovePage(page);
             }
             Navigation.PopAsync();
-        }
-
-    }
+        }}
 }

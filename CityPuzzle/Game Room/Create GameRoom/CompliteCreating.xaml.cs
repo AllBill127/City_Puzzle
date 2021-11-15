@@ -50,7 +50,7 @@ namespace CityPuzzle
 
 
         }
-        public void Save_Room()//while netiko
+        public void Save_Room()
         {
             Sql.SaveRoom(CreateGamePage.NewRoom);
         }

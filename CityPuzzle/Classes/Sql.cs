@@ -3,10 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-// del laizy i gamerooma nes Usually this is preferable when the object may or may not be used and the cost of constructing it is non-trivial.
-
-
-
 
 namespace CityPuzzle.Classes
 {
@@ -16,7 +12,7 @@ namespace CityPuzzle.Classes
             "Persist Security Info = False; User ID = citypuzzle; Password = User123*; MultipleActiveResultSets = False; " +
             "Encrypt = True; TrustServerCertificate = False; Connection Timeout=30;";
 
-        public static void SaveUser(User user)//SAU ZINUTE- pakeisk kad grazintu userio id, nes kai useri sukuri- jo id nesukuri!!!
+        public static void SaveUser(User user)
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
@@ -99,7 +95,6 @@ namespace CityPuzzle.Classes
 
         public static List<Lazy<Puzzle>> ReadComplitedTasks(User user)
         {
-            //System.Data.SqlClient.SqlException
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -130,7 +125,6 @@ namespace CityPuzzle.Classes
             {
                 return new List<Lazy<Puzzle>>();
             }
-
         }
 
         // -------------------------------------------------Puzzle--------------------------------------------------------------
@@ -151,7 +145,7 @@ namespace CityPuzzle.Classes
             }
         }
 
-        public static List<Lazy<Puzzle>> ReadPuzzles()// return all lazy puzzles
+        public static List<Lazy<Puzzle>> ReadPuzzles()
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
@@ -187,7 +181,6 @@ namespace CityPuzzle.Classes
         // -------------------------------------------------Rooms--------------------------------------------------------------
         public static void SaveRoom(Lazy<Room> room)
         {
-            // Func<List <Puzzle>, string> convert =
             var numbers = room.Value.Tasks.Select(x => x.Value.ID);
             string converted = string.Join("-", numbers) + "-";
             using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -198,7 +191,7 @@ namespace CityPuzzle.Classes
                 command.Parameters.AddWithValue("@Owner", room.Value.Owner);
                 command.Parameters.AddWithValue("@RoomSize", room.Value.RoomSize);
                 command.Parameters.AddWithValue("@Tasks", converted);
-                command.ExecuteNonQuery();/// exceptionai del System.Data.SqlClient.SqlException: 
+                command.ExecuteNonQuery();
                 conn.Close();
             }
         }
@@ -226,7 +219,6 @@ namespace CityPuzzle.Classes
                     rooms.Add(room);
                 }
                 conn.Close();
-                Console.WriteLine("Grazinu rooms");
                 return rooms;
             }
         }
@@ -238,7 +230,7 @@ namespace CityPuzzle.Classes
                 var command = new SqlCommand("INSERT INTO Participants (RoomPin,UserID) VALUES (@RoomPin,@UserID)", conn);
                 command.Parameters.AddWithValue("@RoomPin", roomId);
                 command.Parameters.AddWithValue("@UserID", userID);
-                command.ExecuteNonQuery();///TasksComplited
+                command.ExecuteNonQuery();
                 conn.Close();
             }
         }
@@ -353,7 +345,6 @@ namespace CityPuzzle.Classes
                 conn.DeleteAll<SimpleUser>();
                 var rows = conn.Insert(simpleUser);
             }
-
         }
     }
 }

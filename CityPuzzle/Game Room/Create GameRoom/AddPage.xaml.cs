@@ -16,7 +16,7 @@ namespace CityPuzzle
         public AddPage()
         {
             Nr = 0;
-            CreateGamePage.NewRoom.Value.Tasks= new List<Lazy<Puzzle>>(); 
+            CreateGamePage.NewRoom.Value.Tasks = new List<Lazy<Puzzle>>(); 
             InitializeComponent();
             AllPuzzles = Sql.ReadPuzzles();
             if (AllPuzzles.Count == 0)
@@ -52,7 +52,6 @@ namespace CityPuzzle
 
         public void Show()
         {
-            Console.WriteLine("ciadaejo");
             PuzzleName.Text = AllPuzzles[Nr].Value.Name;
             PuzzleImg.Source = AllPuzzles[Nr].Value.ImgAdress;
             PuzzleInfo.Text = AllPuzzles[Nr].Value.About;

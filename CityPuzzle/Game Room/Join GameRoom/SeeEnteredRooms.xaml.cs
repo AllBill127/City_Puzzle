@@ -97,7 +97,6 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             catch (MultiRegistrationException exception) {
                 RoomExistError(exception.CurrentRoom,exception.Message);
             }
- 
         }
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {

@@ -48,7 +48,6 @@ namespace CityPuzzle
                         break;
                 }
             }
-
         }
 
         void Registration_Click(object sender, EventArgs e)
