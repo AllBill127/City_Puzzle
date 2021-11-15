@@ -16,7 +16,7 @@ namespace CityPuzzle.Classes
             "Persist Security Info = False; User ID = citypuzzle; Password = User123*; MultipleActiveResultSets = False; " +
             "Encrypt = True; TrustServerCertificate = False; Connection Timeout=30;";
 
-        public static User SaveUser(User user)//SAU ZINUTE- pakeisk kad grazintu userio id, nes kai useri sukuri- jo id nesukuri!!!
+        public static void SaveUser(User user)//SAU ZINUTE- pakeisk kad grazintu userio id, nes kai useri sukuri- jo id nesukuri!!!
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
@@ -33,7 +33,6 @@ namespace CityPuzzle.Classes
                 conn.Close();
             }
             SaveComplitedTasks(user);
-            return user;
         }
 
         public static List<User> ReadUsers()
