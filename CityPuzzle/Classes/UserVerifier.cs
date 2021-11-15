@@ -48,4 +48,5 @@ namespace CityPuzzle.Classes
             App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && pass.Equals(x.Pass));
             return App.CurrentUser != null;
         }
+    }
 }

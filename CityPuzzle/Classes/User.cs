@@ -47,7 +47,7 @@ namespace CityPuzzle.Classes
             return _verifier.PToH(pass);
         }
 
-        public  bool CheckHachedPassword(string name, string pass)
+        public bool CheckHachedPassword(string name, string pass)
         {
             return _verifier.CheckHashPass(name, pass);
         }

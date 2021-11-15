@@ -10,5 +10,6 @@
         string PToH(string pass);
         //Used by CPass
         bool PassVer(string pass, string passwordHash);
+        bool CheckHashPass(string name, string pass);
     }
 }

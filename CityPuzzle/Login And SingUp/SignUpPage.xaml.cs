@@ -31,9 +31,10 @@ namespace CityPuzzle
                 switch (field.Placeholder)
                 {
                     case "Vartotojo vardas":
+                        var tempUser = new User(new UserVerifier());
                         if (!validateUsername(field.Text)) 
                             throw new BadInputdException("Vartotojo vardas turi būti 6 - 12 ženklų ilgio", field.Placeholder, field);
-                        else if (!User.CheckUser(field.Text)) 
+                        else if (!tempUser.CheckUser(field.Text)) 
                             throw new BadInputdException("Vartotojo vardas užimtas", field);
                         break;
                         
