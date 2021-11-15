@@ -21,7 +21,7 @@ namespace CityPuzzle.Classes
         {
             Field = entry;
         }
-    }
+        }
 
     [Serializable]
     public class EmptyInputdException : Exception
@@ -38,44 +38,5 @@ namespace CityPuzzle.Classes
         {
             Field = entry;
         }
-    }
-    [Serializable]
-    public class MultiRegistrationException : Exception
-    {
-        public Room CurrentRoom;
-        public MultiRegistrationException(Room room)
-            : base(String.Format("Jus jau registruotas šiame zaidyme. Ar norite testi zaidima "+ room.ID))
-        {
-            CurrentRoom = room;
-        }
-
-        public MultiRegistrationException(string message, Room room)
-             : base(String.Format(message))
-        {
-            CurrentRoom = room;
         }
     }
-
-    [Serializable]
-    public class RoomFullException : Exception
-    {
-        public RoomFullException()
-            : base(String.Format("Deja, kambarys yra pilnas "))
-        {}
-
-        public RoomFullException(string message)
-             : base(String.Format(message))
-        {}
-    }
-    [Serializable]
-    public class RoomNotExistException : Exception
-    {
-        public RoomNotExistException()
-            : base(String.Format("Deja,tokio kambario nera"))
-        { }
-
-        public RoomNotExistException(string message)
-             : base(String.Format(message))
-        { }
-    }
-}

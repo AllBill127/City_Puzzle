@@ -8,7 +8,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Net;
 using CityPuzzle.Classes;
-using CityPuzzle.Game_Room.Join_GameRoom;
 
 namespace CityPuzzle
 {
@@ -41,8 +40,7 @@ namespace CityPuzzle
         void Entry_Click(object sender, EventArgs e)
         {
 
-            Navigation.PushAsync(new SeeEnteredRooms());
-            //Navigation.PushAsync(new EntryGameRoomPage());
+            Navigation.PushAsync(new EntryGameRoomPage());
 
         }
 
@@ -65,7 +63,7 @@ namespace CityPuzzle
             int stackSize = existingPages.Count;
             foreach (var page in existingPages)
             {
-                if (existingPages.Count == 2) break;
+                if (existingPages.Count == 1) break;
                 if (existingPages.Count != stackSize) Navigation.RemovePage(page);
             }
             Navigation.PopAsync();
