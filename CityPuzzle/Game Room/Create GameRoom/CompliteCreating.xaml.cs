@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,27 +13,14 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CompliteCreating : ContentPage
     {
-        enum Size
-        {
-            Huge = 100,
-            Big = 50,
-            Medium = 20,
-            Small = 10
-        }
+        public static int DefaultSize = 20;
+        public static int[] Size = { 10, 20, 50, 80, 100 };
         public CompliteCreating()
         {
             InitializeComponent();
-            MyListView.ItemsSource = CreateGamePage.NewRoom.Tasks;
-            idplace.Text = "Game pin: " + CreateGamePage.NewRoom.ID;
-            picker.ItemsSource=new List<string>()
-                    {
-                        Size.Huge.ToString() + " - " + (int)Size.Huge,
-                        Size.Big.ToString() + " = " + (int)Size.Big,
-                        Size.Medium.ToString() + " = " + (int)Size.Medium,
-                        Size.Small.ToString() + " = " + (int)Size.Small
-                    };
-
-            
+            MyListView.ItemsSource = CreateGamePage.NewRoom.Value.Tasks;
+            idplace.Text = "Game pin: " + CreateGamePage.NewRoom.Value.ID;
+            picker.ItemsSource = Size;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -47,7 +35,10 @@ namespace CityPuzzle
         void Save_Click(object sender, EventArgs e)
         {
             //ADD SIZE SAVE
-            Sql.SaveRoom(CreateGamePage.NewRoom);
+            if (picker.SelectedIndex == -1) CreateGamePage.NewRoom.Value.RoomSize = DefaultSize;
+            else CreateGamePage.NewRoom.Value.RoomSize= Size[picker.SelectedIndex];
+            Thread save_thread = new Thread(new ThreadStart(Save_Room));
+            save_thread.Start();
             var existingPages = Navigation.NavigationStack.ToList();
             int stackSize = existingPages.Count;
             foreach (var page in existingPages)
@@ -59,9 +50,18 @@ namespace CityPuzzle
 
 
         }
+<<<<<<< HEAD:CityPuzzle/Game Room/CompliteCreating.xaml.cs
         public void Save_Room()
         {
             Sql.SaveRoom(CreateGamePage.NewRoom);
         }
+=======
+        public void Save_Room()//while netiko
+        {
+            Sql.SaveRoom(CreateGamePage.NewRoom);
+        }
+
+
+>>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update):CityPuzzle/Game Room/Create GameRoom/CompliteCreating.xaml.cs
     }
 }

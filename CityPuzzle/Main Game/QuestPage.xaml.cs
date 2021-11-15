@@ -246,5 +246,5 @@ namespace CityPuzzle
                 nowSize = CountPages();
             }
         }
-        }
+    }
 }

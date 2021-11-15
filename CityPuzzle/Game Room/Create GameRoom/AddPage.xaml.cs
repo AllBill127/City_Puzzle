@@ -16,7 +16,11 @@ namespace CityPuzzle
         public AddPage()
         {
             Nr = 0;
+<<<<<<< HEAD:CityPuzzle/Game Room/AddPage.xaml.cs
             CreateGamePage.NewRoom.Value.Tasks = new List<Lazy<Puzzle>>(); 
+=======
+            CreateGamePage.NewRoom.Value.Tasks= new List<Lazy<Puzzle>>(); 
+>>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update):CityPuzzle/Game Room/Create GameRoom/AddPage.xaml.cs
             InitializeComponent();
             AllPuzzles = Sql.ReadPuzzles();
             if (AllPuzzles.Count == 0)
@@ -28,14 +32,13 @@ namespace CityPuzzle
                 Show();
             }
         }
-
         async void EmptyListError()
         {
             await DisplayAlert("Error", "Nepavyksta aptikti delioniu.", "OK");
         }
         void Add_puzzle(object sender, EventArgs e)
         {
-            CreateGamePage.NewRoom.Tasks.Add(AllPuzzles[Nr]);
+            CreateGamePage.NewRoom.Value.Tasks.Add(AllPuzzles[Nr]);
             Next_puzzle(sender, e);
         }
         void Next_puzzle(object sender, EventArgs e)
@@ -53,6 +56,7 @@ namespace CityPuzzle
 
         public void Show()
         {
+            Console.WriteLine("ciadaejo");
             PuzzleName.Text = AllPuzzles[Nr].Value.Name;
             PuzzleImg.Source = AllPuzzles[Nr].Value.ImgAdress;
             PuzzleInfo.Text = AllPuzzles[Nr].Value.About;

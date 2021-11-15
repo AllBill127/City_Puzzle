@@ -97,6 +97,10 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             catch (MultiRegistrationException exception) {
                 RoomExistError(exception.CurrentRoom,exception.Message);
             }
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
         }
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {

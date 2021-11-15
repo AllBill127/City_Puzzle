@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Net;
 using CityPuzzle.Classes;
+using CityPuzzle.Game_Room.Join_GameRoom;
 
 namespace CityPuzzle
 {
@@ -41,6 +42,10 @@ namespace CityPuzzle
         {
 
             Navigation.PushAsync(new SeeEnteredRooms());
+<<<<<<< HEAD
+=======
+            //Navigation.PushAsync(new EntryGameRoomPage());
+>>>>>>> parent of 33c7fbd (Merge pull request #46 from AllBill127/revert-44-GameRoom_Update)
 
         }
 
@@ -63,7 +68,7 @@ namespace CityPuzzle
             int stackSize = existingPages.Count;
             foreach (var page in existingPages)
             {
-                if (existingPages.Count == 1) break;
+                if (existingPages.Count == 2) break;
                 if (existingPages.Count != stackSize) Navigation.RemovePage(page);
             }
             Navigation.PopAsync();
