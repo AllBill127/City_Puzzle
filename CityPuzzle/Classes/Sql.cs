@@ -54,7 +54,6 @@ namespace CityPuzzle.Classes
                         Pass = dataReader.GetString(4),
                         Email = dataReader.GetString(5),
                         MaxQuestDistance = dataReader.GetInt32(6)
-
                     };
                     user.QuestsCompleted = ReadComplitedTasks(user);
                     users.Add(user);
@@ -175,7 +174,6 @@ namespace CityPuzzle.Classes
 
                 conn.Close();
                 return puzzles;
-
             }
         }
         // -------------------------------------------------Rooms--------------------------------------------------------------
