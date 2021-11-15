@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace CityPuzzle.Classes
                 List<User> users = new List<User>();
                 while (dataReader.Read())
                 {
-                    User user = new User()
+                    User user = new User(new UserVerifier())
                     {
                         ID = dataReader.GetInt32(0),
                         UserName = dataReader.GetString(1),
@@ -269,6 +270,31 @@ namespace CityPuzzle.Classes
                 Quest = puzzle.Value.Quest};
             return p;
         }
-       
+
+        public static SimpleUser GetCurrentUser()
+        {
+            List<SimpleUser> info;
+            using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
+            {
+                conn.CreateTable<SimpleUser>();
+                info = conn.Table<SimpleUser>().ToList();
+            }
+            return info[0];
+        }
+
+        public static void SaveCurrentUser(User user)
+        {
+            SimpleUser simpleUser = new SimpleUser(user);
+            using (SQLiteConnection conn = new SQLiteConnection(App.FilePath))
+            {
+                user.QuestsCompleted = null;
+                conn.CreateTable<SimpleUser>();
+                conn.DeleteAll<SimpleUser>();
+                var rows = conn.Insert(simpleUser);
+            }
+            
+        }
+
+
     }
 }
