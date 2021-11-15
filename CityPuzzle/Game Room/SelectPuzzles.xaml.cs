@@ -18,11 +18,6 @@ namespace CityPuzzle
         {
 
             var layout = new StackLayout { Padding = new Thickness(5, 10) };
-            Label label = new Label();
-            label.Text="Redaguokite sarasa";
-            label.FontSize = 28;
-            label.VerticalTextAlignment=TextAlignment.Center;
-            label.HorizontalTextAlignment= TextAlignment.Center;
             DefaultList = given;
             ListView1.ItemsSource = DefaultList;
             ListView1.IsPullToRefreshEnabled = true;
@@ -38,12 +33,12 @@ namespace CityPuzzle
                         ListView1.ItemsSource = null; ;
                         ListView1.ItemsSource = DefaultList;
                         ListView1.IsRefreshing = false;
+                        CreateGamePage.Acction();
+
                     }}};
-            layout.Children.Add(label);
+
             layout.Children.Add(ListView1);
             //ListView1.ItemTemplate=
             this.Content = layout;
-
-        }
-    }
+        }}
 }

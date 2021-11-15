@@ -13,6 +13,7 @@ namespace CityPuzzle
 {
     public partial class LoginPage : ContentPage
     {
+        
         public LoginPage()
         {
 
@@ -24,8 +25,9 @@ namespace CityPuzzle
             base.OnAppearing();
             Vartotojo_vardas.Text = "";
             Slaptazodis.Text = "";
-            SimpleUser current_ = Sql.GetCurrentUser();
-            if (current_ != null && User.CheckHachedPassword(current_.UserName, current_.HashedPass)) Navigation.PushAsync(new GameEntryPage());  
+
+            SimpleUser current = Sql.GetCurrentUser();
+            if (current != null && User.CheckHachedPassword(current.UserName, current.HashedPass)) Navigation.PushAsync(new GameEntryPage());
         }
         void Login_Click(object sender, EventArgs e)
         {
@@ -44,7 +46,9 @@ namespace CityPuzzle
         }
         void Sign_Click(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new SignUpPage());
+            Slaptazodis.Text = "";
+            Navigation.PopToRootAsync();
+
         }
     }
 }
