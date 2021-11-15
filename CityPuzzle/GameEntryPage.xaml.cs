@@ -55,11 +55,11 @@ namespace CityPuzzle
         private void Leaderboard_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new LeaderboardPage());
-        }  
+        }
         private void Settings_Clicked(object sender, EventArgs e)
         {
             App.CurrentUser = null;
-            Sql.SaveCurrentUser(new User("",""));
+            Sql.SaveCurrentUser(new User("", ""));
             var existingPages = Navigation.NavigationStack.ToList();
             int stackSize = existingPages.Count;
             foreach (var page in existingPages)
@@ -68,5 +68,6 @@ namespace CityPuzzle
                 if (existingPages.Count != stackSize) Navigation.RemovePage(page);
             }
             Navigation.PopAsync();
-        }}
+        }
+    }
 }
