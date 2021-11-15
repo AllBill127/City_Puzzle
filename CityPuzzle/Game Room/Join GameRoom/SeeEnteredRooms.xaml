@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CityPuzzle.Game_Room.Join_GameRoom.SeeEnteredRooms"
+             BackgroundImageSource="logos.pmg" WidthRequest="600" HeightRequest="200">
+    <ContentPage.Content>
+        <StackLayout >
+            <Grid x:Name="LoadingGrid">
+                <Image x:Name="Loading" Source="loading.gif" IsAnimationPlaying="True"></Image>
+            </Grid>
+            <StackLayout IsVisible="False" x:Name="MainStack">
+                <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10" BorderColor="#0D0A0A">
+                    <Label Text="Jus esate GamePuzzle"  HorizontalTextAlignment="Center" TextColor="Black"   FontSize="20"/>
+                </Frame>
+                <Grid x:Name="LoadingSmallGrid" IsVisible="True">
+                    <Image Source="loading.gif" IsAnimationPlaying="True"></Image>
+                </Grid>
+                <Frame x:Name="NoRooms" BackgroundColor="#F3BD21" Padding="24" CornerRadius="10" IsVisible="False" BorderColor="#0D0A0A">
+                    <Label Text="Deja, Jus niekur dar nedalyvaujate 😞"   HorizontalTextAlignment="Center" TextColor="Black"   FontSize="15"/>
+                </Frame>
+                <ListView x:Name="MyListView"
+                    IsVisible="False"
+                    ItemTapped="Handle_ItemTapped"	            
+                    CachingStrategy="RecycleElement" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="1"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="0.2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Frame Grid.Column="1" BorderColor="#000000" BackgroundColor="#F3BD21" Opacity="0.5" CornerRadius="15"></Frame>
+                                    <Label Grid.Column="1"	Text="{Binding ID}" VerticalOptions="Center" FontSize="20" TextColor="#000000" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Entry x:Name="GamePin" Placeholder="GamePin"  BackgroundColor="#F3BD21" ></Entry>
+                    <Button Text="Registruotis I nauja gameroom" Clicked="Sign_Click" BackgroundColor="#F3BD21" CornerRadius="15" ></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

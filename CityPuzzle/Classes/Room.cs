@@ -12,16 +12,16 @@ namespace CityPuzzle.Classes
         public int Owner { get; set; }
         public int RoomSize { get; set; }
         public List<Lazy<Puzzle>> Tasks { get; set; }
-        public List<User> Participants{ get; set; }
+        public List<int> ParticipantIDs{ get; set; }
        
         public Room()
         {
             Tasks = new List<Lazy<Puzzle>>();
-            Participants = new List<User>();
+            ParticipantIDs = new List<int>();
         }
         public void setParticipants(User user)
         {
-            Participants.Add(user);
+            ParticipantIDs.Add(user.ID);
         }
 
         public void SetTask(Puzzle puzzle)
