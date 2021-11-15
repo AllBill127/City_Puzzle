@@ -108,8 +108,7 @@ namespace CityPuzzle
             catch(System.InvalidOperationException ex)
             {
                 return null;
-            }
-            
+            }       
         }
 
         // When called show all img masks and then reveal random masks depending on distance left

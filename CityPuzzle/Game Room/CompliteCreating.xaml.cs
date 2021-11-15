@@ -59,7 +59,9 @@ namespace CityPuzzle
 
 
         }
-
-
+        public void Save_Room()
+        {
+            Sql.SaveRoom(CreateGamePage.NewRoom);
+        }
     }
 }

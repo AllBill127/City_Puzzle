@@ -40,7 +40,7 @@ namespace CityPuzzle
         void Entry_Click(object sender, EventArgs e)
         {
 
-            Navigation.PushAsync(new EntryGameRoomPage());
+            Navigation.PushAsync(new SeeEnteredRooms());
 
         }
 
@@ -54,11 +54,11 @@ namespace CityPuzzle
         private void Leaderboard_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new LeaderboardPage());
-        }  
+        }
         private void Settings_Clicked(object sender, EventArgs e)
         {
             App.CurrentUser = null;
-            Sql.SaveCurrentUser(new User("",""));
+            Sql.SaveCurrentUser(new User("", ""));
             var existingPages = Navigation.NavigationStack.ToList();
             int stackSize = existingPages.Count;
             foreach (var page in existingPages)
@@ -68,6 +68,5 @@ namespace CityPuzzle
             }
             Navigation.PopAsync();
         }
-
     }
 }

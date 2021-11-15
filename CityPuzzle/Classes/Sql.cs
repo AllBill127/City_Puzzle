@@ -3,12 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-// del laizy i gamerooma nes Usually this is preferable when the object may or may not be used and the cost of constructing it is non-trivial.
-
-
-
-
 namespace CityPuzzle.Classes
 {
     public class Sql
@@ -57,15 +51,14 @@ namespace CityPuzzle.Classes
                         LastName = dataReader.GetString(3),
                         Pass = dataReader.GetString(4),
                         Email = dataReader.GetString(5),
-                        MaxQuestDistance = dataReader.GetInt32(6)
-                        
+                        MaxQuestDistance = dataReader.GetInt32(6)   
+                    };
                 };
-                    user.QuestsCompleted = ReadComplitedTasks(user);
-                    users.Add(user);
-                }
-                conn.Close();
-                return users;
+                user.QuestsCompleted = ReadComplitedTasks(user);
+                users.Add(user);
             }
+            conn.Close();
+            return users;
         }
 
         public static void SaveComplitedTasks(User user)
@@ -99,7 +92,6 @@ namespace CityPuzzle.Classes
       
         public static List<Lazy<Puzzle>> ReadComplitedTasks(User user)
         {
-            //System.Data.SqlClient.SqlException
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -130,7 +122,6 @@ namespace CityPuzzle.Classes
             {
                 return new List<Lazy<Puzzle>>();
             }
-
         }
       
         // -------------------------------------------------Puzzle--------------------------------------------------------------
@@ -150,8 +141,8 @@ namespace CityPuzzle.Classes
                 conn.Close();
             }
         }
-      
-        public static List<Lazy<Puzzle>> ReadPuzzles()// return all lazy puzzles
+
+        public static List<Lazy<Puzzle>> ReadPuzzles()
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
@@ -185,14 +176,12 @@ namespace CityPuzzle.Classes
                     Console.WriteLine(a.Value.Name);
                 }
                 return puzzles;
-               
             }
         }
         public static void SaveRoom(Room room)
         {
-            // Func<List <Puzzle>, string> convert =
-            var numbers = room.Tasks.Select(x => x.Value.ID);
-            string converted=string.Join("-", numbers)+"-";
+            var numbers = room.Value.Tasks.Select(x => x.Value.ID);
+            string converted = string.Join("-", numbers) + "-";
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
                 conn.Open();
@@ -201,7 +190,7 @@ namespace CityPuzzle.Classes
                 command.Parameters.AddWithValue("@Owner", room.Owner);
                 command.Parameters.AddWithValue("@RoomSize", room.RoomSize);
                 command.Parameters.AddWithValue("@Tasks", converted);
-                command.ExecuteNonQuery();/// exceptionai del System.Data.SqlClient.SqlException: 
+                command.ExecuteNonQuery();
                 conn.Close();
             }
         }
@@ -233,7 +222,58 @@ namespace CityPuzzle.Classes
 
             }
         }
-                                                           
+        public static void SaveParticipants(string roomId, int userID)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                conn.Open();
+                var command = new SqlCommand("INSERT INTO Participants (RoomPin,UserID) VALUES (@RoomPin,@UserID)", conn);
+                command.Parameters.AddWithValue("@RoomPin", roomId);
+                command.Parameters.AddWithValue("@UserID", userID);
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+        public static List<string> FindParticipantRoomsIDs(int userID)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                SqlCommand command;
+                SqlDataReader dataReader;
+                string sql = "Select RoomPin from Participants where UserID=@UserID";
+                conn.Open();
+                command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@UserID", userID);
+                dataReader = command.ExecuteReader();
+                List<string> roomPins = new List<string>();
+                while (dataReader.Read())
+                {
+                    roomPins.Add(dataReader.GetString(0));
+                }
+                conn.Close();
+                return roomPins;
+            }
+        }
+        public static List<int> FindRoomParticipantsID(string roomID)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnStr))
+            {
+                SqlCommand command;
+                SqlDataReader dataReader;
+                string sql = "Select UserID from Participants where RoomPin=@RoomPin";
+                conn.Open();
+                command = new SqlCommand(sql, conn);
+                command.Parameters.AddWithValue("@RoomPin", roomID);
+                dataReader = command.ExecuteReader();
+                List<int> participantsID = new List<int>();
+                while (dataReader.Read())
+                {
+                    participantsID.Add(dataReader.GetInt32(0));
+                }
+                conn.Close();
+                return participantsID;
+            }
+        }
         private static List<Lazy<Puzzle>> ConvertTasks(string strtask)
         {
             List<Lazy<Puzzle>> allpuzzles = new List<Lazy<Puzzle>>();
@@ -292,9 +332,6 @@ namespace CityPuzzle.Classes
                 conn.DeleteAll<SimpleUser>();
                 var rows = conn.Insert(simpleUser);
             }
-            
         }
-
-
     }
 }
