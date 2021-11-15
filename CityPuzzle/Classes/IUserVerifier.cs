@@ -2,14 +2,15 @@
 {
     public interface IUserVerifier
     {
-        //Called by CheckPassword in User.cs
+        //Checks password
         bool CPass(string name, string pass);
-        //Called by CheckUser in User.cs
+        //Checks username
         bool CUser(string name);
-        //Called by PassToHash in User.cs
+        //Hashes password
         string PToH(string pass);
-        //Used by CPass
+        //Verifies hashed password
         bool PassVer(string pass, string passwordHash);
+        //Checks hashed password
         bool CheckHashPass(string name, string pass);
     }
 }
