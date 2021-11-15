@@ -16,7 +16,7 @@ namespace CityPuzzle
         public AddPage()
         {
             Nr = 0;
-            CreateGamePage.NewRoom.Value.Tasks= new List<Lazy<Puzzle>>(); 
+            CreateGamePage.NewRoom.Value.Tasks = new List<Lazy<Puzzle>>(); 
             InitializeComponent();
             AllPuzzles = Sql.ReadPuzzles();
             if (AllPuzzles.Count == 0)

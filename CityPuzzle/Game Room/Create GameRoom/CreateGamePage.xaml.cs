@@ -14,7 +14,7 @@ namespace CityPuzzle
     {
         public static List<Room> AllRooms;
         public static Lazy<Room> NewRoom = new Lazy<Room>();
-        public static List<Lazy<Puzzle>> DefaultPuzzles;
+        public static List<Lazy<Puzzle>> AllPuzzles;
         public static Thread Data_collector_thread;
         public static int Status = -1;
 
@@ -34,7 +34,7 @@ namespace CityPuzzle
         {
             int i = 0;
             AllRooms = Sql.ReadRooms();
-            DefaultPuzzles = Sql.ReadPuzzles();
+            AllPuzzles = Sql.ReadPuzzles();
             string roomPin = "";
             Random _random = new Random();
             await Task.Run(() =>

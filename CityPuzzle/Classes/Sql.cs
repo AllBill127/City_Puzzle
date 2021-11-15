@@ -3,10 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-// del laizy i gamerooma nes Usually this is preferable when the object may or may not be used and the cost of constructing it is non-trivial.
-
-
-
 
 namespace CityPuzzle.Classes
 {
@@ -58,7 +54,6 @@ namespace CityPuzzle.Classes
                         Pass = dataReader.GetString(4),
                         Email = dataReader.GetString(5),
                         MaxQuestDistance = dataReader.GetInt32(6)
-
                     };
                     user.QuestsCompleted = ReadComplitedTasks(user);
                     users.Add(user);
@@ -67,7 +62,6 @@ namespace CityPuzzle.Classes
                 return users;
             }
         }
-
         public static void SaveComplitedTasks(User user)
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -99,7 +93,6 @@ namespace CityPuzzle.Classes
 
         public static List<Lazy<Puzzle>> ReadComplitedTasks(User user)
         {
-            //System.Data.SqlClient.SqlException
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -130,7 +123,6 @@ namespace CityPuzzle.Classes
             {
                 return new List<Lazy<Puzzle>>();
             }
-
         }
 
         // -------------------------------------------------Puzzle--------------------------------------------------------------
@@ -151,7 +143,7 @@ namespace CityPuzzle.Classes
             }
         }
 
-        public static List<Lazy<Puzzle>> ReadPuzzles()// return all lazy puzzles
+        public static List<Lazy<Puzzle>> ReadPuzzles()
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
@@ -181,13 +173,11 @@ namespace CityPuzzle.Classes
 
                 conn.Close();
                 return puzzles;
-
             }
         }
         // -------------------------------------------------Rooms--------------------------------------------------------------
         public static void SaveRoom(Lazy<Room> room)
         {
-            // Func<List <Puzzle>, string> convert =
             var numbers = room.Value.Tasks.Select(x => x.Value.ID);
             string converted = string.Join("-", numbers) + "-";
             using (SqlConnection conn = new SqlConnection(ConnStr))
@@ -198,7 +188,7 @@ namespace CityPuzzle.Classes
                 command.Parameters.AddWithValue("@Owner", room.Value.Owner);
                 command.Parameters.AddWithValue("@RoomSize", room.Value.RoomSize);
                 command.Parameters.AddWithValue("@Tasks", converted);
-                command.ExecuteNonQuery();/// exceptionai del System.Data.SqlClient.SqlException: 
+                command.ExecuteNonQuery();
                 conn.Close();
             }
         }
@@ -238,7 +228,7 @@ namespace CityPuzzle.Classes
                 var command = new SqlCommand("INSERT INTO Participants (RoomPin,UserID) VALUES (@RoomPin,@UserID)", conn);
                 command.Parameters.AddWithValue("@RoomPin", roomId);
                 command.Parameters.AddWithValue("@UserID", userID);
-                command.ExecuteNonQuery();///TasksComplited
+                command.ExecuteNonQuery();
                 conn.Close();
             }
         }
@@ -337,6 +327,10 @@ namespace CityPuzzle.Classes
                 }
                 return info[0];
             }
+            catch (ArgumentNullException)
+            {
+                return null;
+            }
             catch (NullReferenceException)
             {
                 return null;
@@ -353,7 +347,6 @@ namespace CityPuzzle.Classes
                 conn.DeleteAll<SimpleUser>();
                 var rows = conn.Insert(simpleUser);
             }
-
         }
     }
 }
