@@ -19,10 +19,13 @@ namespace CityPuzzle.Classes
         public string UserName { get; set; }
         public string Pass { get; set; }
         public string Email { get; set; }
-        public List<Lazy<Puzzle>> QuestsCompleted { get; set; }
+        public List<Lazy<Puzzle>> QuestsCompleted = new List<Lazy<Puzzle>>();
         public double MaxQuestDistance { get; set; }
 
         public User() { }
+        public User(string userName,string pass) {
+            UserName = userName;
+            Pass = pass;}
         public static Boolean CheckPassword(string name, string pass)
         {
              if (String.IsNullOrWhiteSpace(name) || String.IsNullOrWhiteSpace(pass))
@@ -32,6 +35,17 @@ namespace CityPuzzle.Classes
             // pass = PassToHash(pass);//     //                              //encrypt
             var info = Sql.ReadUsers();
             App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && PassVerification(pass,x.Pass));
+            if (App.CurrentUser != null) Sql.SaveCurrentUser(App.CurrentUser);
+            return App.CurrentUser != null;
+        }
+        public static Boolean CheckHachedPassword(string name, string pass)
+        {
+            if (String.IsNullOrWhiteSpace(name) || String.IsNullOrWhiteSpace(pass))
+            {
+                return false;
+            }
+            var info = Sql.ReadUsers();
+            App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && pass.Equals(x.Pass));
             return App.CurrentUser != null;
         }
         public static Boolean CheckUser(string name)

@@ -7,6 +7,8 @@ using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Net;
+using CityPuzzle.Classes;
+using CityPuzzle.Game_Room.Join_GameRoom;
 
 namespace CityPuzzle
 {
@@ -39,7 +41,7 @@ namespace CityPuzzle
         void Entry_Click(object sender, EventArgs e)
         {
 
-            Navigation.PushAsync(new EntryGameRoomPage());
+            Navigation.PushAsync(new SeeEnteredRooms());
 
         }
 
@@ -53,6 +55,19 @@ namespace CityPuzzle
         private void Leaderboard_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new LeaderboardPage());
+        }
+        private void Settings_Clicked(object sender, EventArgs e)
+        {
+            App.CurrentUser = null;
+            Sql.SaveCurrentUser(new User("", ""));
+            var existingPages = Navigation.NavigationStack.ToList();
+            int stackSize = existingPages.Count;
+            foreach (var page in existingPages)
+            {
+                if (existingPages.Count == 2) break;
+                if (existingPages.Count != stackSize) Navigation.RemovePage(page);
+            }
+            Navigation.PopAsync();
         }
     }
 }

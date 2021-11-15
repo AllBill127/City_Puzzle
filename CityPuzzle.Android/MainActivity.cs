@@ -33,7 +33,7 @@ namespace CityPuzzle.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            string fileName = "App_data.db3";
+            string fileName = "App_data1.db3";
             string fileName3 = "App_data3.db3";
             string fileName2 = "App_data2.db3";
             string folderPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);

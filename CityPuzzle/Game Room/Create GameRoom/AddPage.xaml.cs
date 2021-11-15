@@ -16,7 +16,7 @@ namespace CityPuzzle
         public AddPage()
         {
             Nr = 0;
-            CreateGamePage.NewRoom.Tasks.Clear();
+            CreateGamePage.NewRoom.Value.Tasks = new List<Lazy<Puzzle>>(); 
             InitializeComponent();
             AllPuzzles = Sql.ReadPuzzles();
             if (AllPuzzles.Count == 0)
@@ -28,14 +28,13 @@ namespace CityPuzzle
                 Show();
             }
         }
-
         async void EmptyListError()
         {
             await DisplayAlert("Error", "Nepavyksta aptikti delioniu.", "OK");
         }
         void Add_puzzle(object sender, EventArgs e)
         {
-            CreateGamePage.NewRoom.Tasks.Add(AllPuzzles[Nr]);
+            CreateGamePage.NewRoom.Value.Tasks.Add(AllPuzzles[Nr]);
             Next_puzzle(sender, e);
         }
         void Next_puzzle(object sender, EventArgs e)
