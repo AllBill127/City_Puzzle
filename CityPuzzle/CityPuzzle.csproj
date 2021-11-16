@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<Protobuf Include="WebService\Protos\SqlKeyService.proto" GrpcServices="Server" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
     <PackageReference Include="Google.Protobuf" Version="3.19.1" />
     <PackageReference Include="Grpc.Net.Client" Version="2.40.0" />

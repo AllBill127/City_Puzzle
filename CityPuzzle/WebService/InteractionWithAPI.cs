@@ -8,7 +8,7 @@ namespace CityPuzzle
     {
         static async Task Main(string[] args)
         {
-            using var sqlKeyChannel = GrpcChannel.ForAddress("https://localhost:5001");
+            var sqlKeyChannel = GrpcChannel.ForAddress("https://localhost:5001");
             var sqlKeyClient = new SqlKey.SqlKeyClient(sqlKeyChannel);
             var getKey = sqlKeyClient.GetSqlKeyAsync(
                               new GetToken { Token = "Token_1" });
