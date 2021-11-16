@@ -68,7 +68,10 @@ namespace CityPuzzle
         // Change radar image/gif
         private void ChangeRadar(string s)
         {
-            radar.Source = s;
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                radar.Source = s;
+            });
         }
 
         // Show alert message when quest is completed and go to CompletedPage

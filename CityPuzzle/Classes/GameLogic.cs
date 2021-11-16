@@ -65,10 +65,9 @@ namespace CityPuzzle.Classes
                 RadarThread.Start();
 
                 await RevealImg();      // Start the quest completion loop
-                RadarThread.Abort();    // Stop radar updates
 
                 App.CurrentUser.QuestsCompleted.Add(new Lazy<Puzzle>(() => target));            // TO DO: save user data to database after finishing quest or loging out
-                OnQuestCompleted?.Invoke(this, new OnQuestCompletedEventArgs { QuestCompleted = questInProgress});
+                OnQuestCompleted?.Invoke(this, new OnQuestCompletedEventArgs { QuestCompleted = questInProgress });
             }
         }
 
@@ -100,7 +99,7 @@ namespace CityPuzzle.Classes
                 }
                 else if (newMaskCount == 9)
                 {
-                    distLeft = 0;
+                    //distLeft = 0;
                 }
             }
         }
@@ -112,12 +111,14 @@ namespace CityPuzzle.Classes
 
         private async void ChangeRadar()
         {
+            OnRadarChange?.Invoke(Radar.Vidutine + ".gif");
+
             await UpdateCurrentLocation();
             double startDist = DistanceToPoint(questLat, questLng);
             double distCheck = startDist;
             double distChange;
 
-            while (distCheck > 0.1)
+            while (distCheck > 0.01)      // While quest location is not reached continue radar updates
             {
                 await UpdateCurrentLocation();
                 distChange = DistanceToPoint(questLat, questLng);
