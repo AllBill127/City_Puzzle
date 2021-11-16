@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "CityPuzzle";
+
+package getKey;
+
+service SqlKey {
+  rpc GetSqlKey(GetToken) returns (SqlKeyLogin);
+}
+
+message GetToken {
+	string token = 1;
+}
+
+message SqlKeyLogin {
+  string message = 1;
+  string message1 = 2;
+
+}
