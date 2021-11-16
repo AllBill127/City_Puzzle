@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+
 namespace CityPuzzle.Classes
 {
     public class Sql
@@ -11,7 +12,7 @@ namespace CityPuzzle.Classes
             "Persist Security Info = False; User ID = citypuzzle; Password = User123*; MultipleActiveResultSets = False; " +
             "Encrypt = True; TrustServerCertificate = False; Connection Timeout=30;";
 
-        public static void SaveUser(User user)
+        public static void SaveUser(User user)//SAU ZINUTE- pakeisk kad grazintu userio id, nes kai useri sukuri- jo id nesukuri!!!
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
@@ -99,7 +100,7 @@ namespace CityPuzzle.Classes
                     SqlCommand command;
                     SqlDataReader dataReader;
                     string sql;
-                    sql = "Select PuzzleID from Users where UserID=@UserID";
+                    sql = "Select PuzzleID from Tasks where UserID=@UserID";
                     conn.Open();
                     command = new SqlCommand(sql, conn);
                     command.Parameters.AddWithValue("@UserID", user.ID);
@@ -326,11 +327,7 @@ namespace CityPuzzle.Classes
                 }
                 return info[0];
             }
-            catch (ArgumentNullException)
-            {
-                return null;
-            }
-            catch (NullReferenceException)
+            catch (ArgumentOutOfRangeException)
             {
                 return null;
             }

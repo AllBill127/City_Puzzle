@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,51 +14,55 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
     {
         public static List<Room> AllRooms = new List<Room>();
         public static List<User> AllUsers = new List<User>();
-        public static List<Room> EnteredRooms = new List<Room>();
-        public delegate void Change();
+        private static List<Room> EnteredRooms = new List<Room>();
+        private delegate void Change();
+
         public SeeEnteredRooms()
         {
             InitializeComponent();
             tRefreash();
         }
-        public async void tRefreash()
+        private async void tRefreash()
         {
             await Task.Run(() =>
             {
                 Refreash();
             });
         }
-        public void ChangeView(Change del)
+        private void ChangeView(Change del)
         {
             Device.BeginInvokeOnMainThread(() =>
             {
                 del();
             });
         }
-        public void Refreash()
+        private void Refreash()
         {
             Thread tReadRooms = new Thread(() => { AllRooms = Sql.ReadRooms(); });
             Thread tReadUsers = new Thread(() => { AllUsers = Sql.ReadUsers(); });
             tReadRooms.Start();
             tReadUsers.Start();
-            while (tReadRooms.IsAlive || tReadUsers.IsAlive) Thread.Sleep(300);
-            ChangeView(delegate () { LoadingGrid.IsVisible = false; MainStack.IsVisible = true; });//dar vienas anonimas
-            Task<List<Room>> treadFindRooms = new Task<List<Room>>(() => { return GetData(); });
-            treadFindRooms.Start();
+            while (tReadRooms.IsAlive || tReadUsers.IsAlive)
+                Thread.Sleep(300);
+            ChangeView(delegate () { LoadingGrid.IsVisible = false; MainStack.IsVisible = true; });
+            Task<List<Room>> taskFindRooms = new Task<List<Room>>(() => { return GetData(); });
+            taskFindRooms.Start();
             Task.WaitAll();
-            if (treadFindRooms.Result == null) ChangeView(delegate () { NoRooms.IsVisible = true; });
+
+            if (taskFindRooms.Result == null)
+                ChangeView(delegate () { NoRooms.IsVisible = true; });
             else
             {
-                EnteredRooms = treadFindRooms.Result;
+                EnteredRooms = taskFindRooms.Result;
                 ChangeView(delegate ()
                 {
-                    MyListView.ItemsSource = treadFindRooms.Result;
+                    MyListView.ItemsSource = taskFindRooms.Result;
                     MyListView.IsVisible = true;
                 });
             }
             ChangeView(delegate () { LoadingSmallGrid.IsVisible = false; });
         }
-        public static List<Room> GetData()
+        private static List<Room> GetData()
         {
             List<Room> foundRooms = new List<Room>();
             Task<List<string>> tFind = new Task<List<string>>(
@@ -75,57 +78,58 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             }
             return foundRooms;
         }
-        void Sign_Click(object sender, EventArgs e)
+        private async void Sign_Click(object sender, EventArgs e)
         {
             try
             {
                 string gamePin = GamePin.Text;
                 Room current = EnteredRooms.SingleOrDefault(x => x.ID.Equals(gamePin));
-                if (current != null) throw new MultiRegistrationException(current);
+                if (current != null)
+                    throw new MultiRegistrationException(current);
                 current = AllRooms.SingleOrDefault(x => x.ID.Equals(gamePin));
-                if (current == null) throw new RoomNotExistException();
+                if (current == null)
+                    throw new RoomNotExistException();
                 CheckAvailability(current);
-                Navigation.PushAsync(new EntryGameRoomPage(gamePin));
+                await Navigation.PushAsync(new EntryGameRoomPage(gamePin));
             }
             catch (RoomFullException exception)
             {
-                DisplayAlert("Demesio", exception.Message, "Gerai");
+                await DisplayAlert("Dėmesio!", exception.Message, "Gerai");
             }
             catch (RoomNotExistException exception)
             {
-                DisplayAlert("Demesio", exception.Message, "Gerai");
+                await DisplayAlert ("Dėmesio!", exception.Message, "Gerai");
             }
             catch (MultiRegistrationException exception)
             {
-                RoomExistError(exception.CurrentRoom, exception.Message);
+                RoomExistsError(exception.CurrentRoom, exception.Message);
             }
         }
-        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item != null)
             {
-                SelectMsg(EnteredRooms[e.ItemIndex]);
+                AskIfContinueRoom(EnteredRooms[e.ItemIndex]);
             }
             MyListView.SelectedItem = null;
             Console.WriteLine(" " + e.Item);
         }
-        async void SelectMsg(Room selectedRoom)
+        private async void AskIfContinueRoom(Room selectedRoom)
         {
-            bool answer = await DisplayAlert("Demesio", "Ar norite testi zaidima- " + selectedRoom.ID, "Taip", "Ne");
-            if (answer == true) Console.WriteLine("Iveinu  ");
+            bool answer = await DisplayAlert("Dėmesio!", "Ar norite tęsti žaidimą - " + selectedRoom.ID, "Taip", "Ne");
+            if (answer)
+                await Navigation.PushAsync(new QuestPage(selectedRoom.Tasks));
         }
-        public void EntryGame(Room room)
+        private async void RoomExistsError(Room selectedRoom, string msg)
         {
-            // Navigation.PushAsync("Quest Page")- dar neturiu tokio pago.
+            bool answer = await DisplayAlert("Dėmesio!", msg, "Taip", "Ne");
+            if (answer)
+                AskIfContinueRoom(selectedRoom);
         }
-        async void RoomExistError(Room selectedRoom, string msg)
+        private void CheckAvailability(Room selectedRoom)
         {
-            bool answer = await DisplayAlert("Demesio", msg, "Taip", "Ne");
-            if (answer == true) EntryGame(selectedRoom);
-        }
-        public void CheckAvailability(Room selectedRoom)
-        {
-            if (selectedRoom.ParticipantIDs.Count >= selectedRoom.RoomSize) throw new RoomFullException();
+            if (selectedRoom.ParticipantIDs.Count >= selectedRoom.RoomSize)
+                throw new RoomFullException();
         }
     }
 }

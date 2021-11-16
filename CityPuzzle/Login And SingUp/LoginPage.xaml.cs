@@ -41,7 +41,6 @@ namespace CityPuzzle
         async void OnAlertYesNoClicked()
         {
             await DisplayAlert("Error", "Naudotojas su tokiu prisijungimo vardu nerastas, arba neteisingai įvedėte slaptažodį. Pasitikrinkite prisijungimo vardą ir bandykite dar kartą.", "OK");
-
         }
         void Sign_Click(object sender, EventArgs e)
         {

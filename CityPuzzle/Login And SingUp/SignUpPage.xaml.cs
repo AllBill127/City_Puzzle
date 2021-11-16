@@ -18,9 +18,9 @@ namespace CityPuzzle
 
         public void Validation(List<Entry> fields)
         {
-            Validator validateUsername = new Validator(RegexDelegate.validUsername);
-            Validator validatePassword = new Validator(RegexDelegate.validPassword);
-            Validator validateEmail = new Validator(RegexDelegate.validEmail);
+            Validator validateUsername = new Validator(RegexDelegate.ValidUsername);
+            Validator validatePassword = new Validator(RegexDelegate.ValidPassword);
+            Validator validateEmail = new Validator(RegexDelegate.ValidEmail);
 
             foreach (Entry field in fields)
             {

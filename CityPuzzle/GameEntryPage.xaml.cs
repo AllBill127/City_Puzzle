@@ -36,9 +36,7 @@ namespace CityPuzzle
 
         void Entry_Click(object sender, EventArgs e)
         {
-
             Navigation.PushAsync(new SeeEnteredRooms());
-
         }
 
         void Button_Click(object sender, EventArgs e)
