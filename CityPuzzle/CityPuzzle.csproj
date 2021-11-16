@@ -12,6 +12,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="WebService\Protos\SqlKeyService.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <OpenApiReference Include="WebService\Protos\SqlKeyService.proto" CodeGenerator="NSwagCSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
 	<Protobuf Include="WebService\Protos\SqlKeyService.proto" GrpcServices="Server" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
     <PackageReference Include="Google.Protobuf" Version="3.19.1" />
@@ -20,7 +28,16 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="NSwag.ApiDescription.Client" Version="13.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
