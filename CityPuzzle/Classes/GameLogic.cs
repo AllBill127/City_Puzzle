@@ -26,16 +26,16 @@ namespace CityPuzzle.Classes
         public event EventHandler<OnQuestStartEventArgs> OnQuestStart;
         public class OnQuestStartEventArgs : EventArgs { public string QuestImg; public string Quest; }
         public event EventHandler<OnQuestCompletedEventArgs> OnQuestCompleted;
-        public class OnQuestCompletedEventArgs : EventArgs { public Puzzle QuestCompleted; }
+        public class OnQuestCompletedEventArgs : EventArgs { public Puzzle QuestCompleted; public List<Lazy<Puzzle>> QuestsList; }
         public event EventHandler OnNoQuestsLoaded;
 
         //========================================== Event trigger methods =================================================
         // OnNoQuestsLoaded trigger method
-        public void StartGame()
+        public void StartGame(List<Lazy<Puzzle>> targets)
         {
-            targets = Sql.ReadPuzzles();
+            this.targets = targets;
 
-            if (targets.Count == 0)
+            if (this.targets.Count == 0)
             {
                 OnNoQuestsLoaded?.Invoke(this, EventArgs.Empty);
             }
@@ -66,8 +66,8 @@ namespace CityPuzzle.Classes
 
                 await RevealImg();      // Start the quest completion loop
 
-                App.CurrentUser.QuestsCompleted.Add(new Lazy<Puzzle>(() => target));            // TO DO: save user data to database after finishing quest or loging out
-                OnQuestCompleted?.Invoke(this, new OnQuestCompletedEventArgs { QuestCompleted = questInProgress });
+                App.CurrentUser.QuestsCompleted.Add(new Lazy<Puzzle>(() => target));
+                OnQuestCompleted?.Invoke(this, new OnQuestCompletedEventArgs { QuestCompleted = questInProgress, QuestsList = targets });
             }
         }
 

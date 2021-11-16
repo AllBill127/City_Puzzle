@@ -112,7 +112,11 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
         async void SelectMsg(Room selectedRoom)
         {
             bool answer = await DisplayAlert("Demesio", "Ar norite testi zaidima- " + selectedRoom.ID, "Taip", "Ne");
-            if (answer == true) Console.WriteLine("Iveinu  ");
+            if (answer == true)
+            {
+                List<Lazy<Puzzle>> roomQuestsList; // NEED Sql.ReadRoomQuestst(RoomID)
+                await Navigation.PushAsync(new QuestPage());        //Console.WriteLine("Iveinu  ");
+            }
         }
         public void EntryGame(Room room)
         {

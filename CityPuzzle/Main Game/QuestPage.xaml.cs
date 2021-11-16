@@ -27,7 +27,24 @@ namespace CityPuzzle
             gamelogic.OnRadarChange += ChangeRadar;
             gamelogic.OnQuestCompleted += QuestCompleted;
 
-            gamelogic.StartGame();
+            List<Lazy<Puzzle>> allTargets = Sql.ReadPuzzles();
+            gamelogic.StartGame(allTargets);
+        }
+
+        public QuestPage(List<Lazy<Puzzle>> targets)
+        {
+            InitializeComponent();
+
+            GameLogic gamelogic = new GameLogic();
+            gamelogic.OnNoQuestsLoaded += NoQuestsLoaded;
+            gamelogic.OnNoLocationFound += CurrentLocationError;
+            gamelogic.OnNoNearbyQuest += NoNearbyQuest;
+            gamelogic.OnQuestStart += QuestStart;
+            gamelogic.OnMaskHide += HideMask;
+            gamelogic.OnRadarChange += ChangeRadar;
+            gamelogic.OnQuestCompleted += QuestCompleted;
+
+            gamelogic.StartGame(targets);
         }
 
         //========================================= Event subscriber methods ===============================================
@@ -78,7 +95,7 @@ namespace CityPuzzle
         private async void QuestCompleted(object sender, GameLogic.OnQuestCompletedEventArgs e)
         {
             await DisplayAlert("Congratulations", "You have reached the destination", "OK");
-            await Navigation.PushAsync(new ComplitedPage(e.QuestCompleted)); //When loop ends go to quest completed page
+            await Navigation.PushAsync(new ComplitedPage(e.QuestCompleted, e.QuestsList));      // When loop ends go to quest completed page and send current Quests list used
         }
 
         // Shortly reveal whole image and then return masks
