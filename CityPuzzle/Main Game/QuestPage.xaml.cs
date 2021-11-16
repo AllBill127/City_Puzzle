@@ -14,6 +14,8 @@ namespace CityPuzzle
     public partial class QuestPage : ContentPage
     {
         private static object locker = new object();
+        private const int revealTime = 10000;
+
         public QuestPage()
         {
             InitializeComponent();
@@ -57,22 +59,33 @@ namespace CityPuzzle
         // Alert message when current location was not found
         private async void CurrentLocationError(object sender, EventArgs e)
         {
-            await DisplayAlert("Error", "Nepavyksta aptikti jusu buvimo vietos.", "OK");
+            await DisplayAlert("Dėmesio!", "Nepavyksta aptikti jūsų buvimo vietos.", "Gerai");
         }
 
         // Show alert message when no quests were found around user and go back to previous window
         private async void NoNearbyQuest(object sender, EventArgs e)
         {
-            await DisplayAlert("No destinations in " + App.CurrentUser.MaxQuestDistance + " km radius", "Consider creating a nearby destination yourself.", "OK");
+            await DisplayAlert("Dėmesio!", "Naujų užduočių " + App.CurrentUser.MaxQuestDistance + " km spinduliu nerasta.\nPabandykite sukurti naują užduotį.", "Gerai");
+
+            /* Page removal from NavigationStack needs work and testing
+             * var existingPages = Navigation.NavigationStack.ToList();
+            existingPages.Reverse();
+            foreach (var page in existingPages)
+            {
+                if (existingPages.Count == 3)
+                    break;
+                else
+                    Navigation.RemovePage(page);
+            }*/
             await Navigation.PopAsync();
         }
 
         // Set QuestPage variables
         private void QuestStart(object sender, GameLogic.OnQuestStartEventArgs e)
         {
-            objimg.Source = e.QuestImg;
-            MissionLabel.Text = "Tavo uzduotis- surasti mane!";
-            QuestField.Text = e.Quest;
+            objImg.Source = e.QuestImg;
+            missionLabel.Text = "Tavo užduotis - surasti mane!";
+            questField.Text = e.Quest;
         }
 
         // Method to hide one random mask 
@@ -94,12 +107,12 @@ namespace CityPuzzle
         // Show alert message when quest is completed and go to CompletedPage
         private async void QuestCompleted(object sender, GameLogic.OnQuestCompletedEventArgs e)
         {
-            await DisplayAlert("Congratulations", "You have reached the destination", "OK");
+            await DisplayAlert("Sveikiname!", "Jūs pasiekėte savo tikslą.", "Gerai");
             await Navigation.PushAsync(new ComplitedPage(e.QuestCompleted, e.QuestsList));      // When loop ends go to quest completed page and send current Quests list used
         }
 
         // Shortly reveal whole image and then return masks
-        void Help_Click(object sender, EventArgs e)
+        private void Help_Click(object sender, EventArgs e)
         {
             Thread helpImg = new Thread(HelpImg);
             helpImg.Start();
@@ -107,7 +120,7 @@ namespace CityPuzzle
         }
 
         // Shuffle current masks around
-        void Shuffle_Click(object sender, EventArgs e)
+        private void Shuffle_Click(object sender, EventArgs e)
         {
             Thread shuffleMasks = new Thread(ShuffleMasks);
             shuffleMasks.Start();
@@ -117,7 +130,7 @@ namespace CityPuzzle
 
         //=============================================== Thread methods ===================================================
         private List<int> masksIndex = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
-        private async void HideOneMask()
+        private void HideOneMask()
         {
             int index;
             lock (locker)
@@ -154,7 +167,7 @@ namespace CityPuzzle
                     });
                 }
 
-                Thread.Sleep(10000);
+                Thread.Sleep(revealTime);
 
                 foreach (var index in masksIndex)
                 {

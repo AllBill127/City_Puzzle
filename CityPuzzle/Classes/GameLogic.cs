@@ -10,6 +10,8 @@ namespace CityPuzzle.Classes
 {
     class GameLogic
     {
+        private const int gifPlayTime = 5000;
+
         private double userLat;
         private double userLng;
         private double questLat;
@@ -46,10 +48,10 @@ namespace CityPuzzle.Classes
         }
 
         // OnNoQuestStart and OnNoQuestCompleted trigger method
-        async private void ShowQuest()
+        private async void ShowQuest()
         {
             await UpdateCurrentLocation();
-            Puzzle target = GetQuest(targets);
+            Puzzle target = GetQuest(this.targets);
             if (target == null)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
             {
                 OnNoNearbyQuest?.Invoke(this, EventArgs.Empty);
@@ -97,10 +99,6 @@ namespace CityPuzzle.Classes
                         OnMaskHide?.Invoke(this, EventArgs.Empty);      // Invoke event if it has any subscribers
                     }
                 }
-                else if (newMaskCount == 9)
-                {
-                    //distLeft = 0;
-                }
             }
         }
 
@@ -143,7 +141,7 @@ namespace CityPuzzle.Classes
                     }
 
                     OnRadarChange?.Invoke(myRadar.ToString() + ".gif");
-                    Thread.Sleep(5000);     // Sleep for a while so gif has time to play
+                    Thread.Sleep(gifPlayTime);     // Sleep for a while so gif has time to play
                     OnRadarChange?.Invoke(Radar.Vidutine + ".gif");
 
                     distCheck = distChange;
@@ -153,7 +151,7 @@ namespace CityPuzzle.Classes
 
         //OnNoLocationFound trigger method
         //Thread that updates current user location
-        async Task UpdateCurrentLocation()
+        private async Task UpdateCurrentLocation()
         {
             try
             {
@@ -162,7 +160,6 @@ namespace CityPuzzle.Classes
                 var location = await Geolocation.GetLocationAsync(request, cts.Token);
                 if (location != null)
                 {
-                    string x = " " + location.Latitude + " " + location.Longitude + " " + location.Altitude;
                     userLat = location.Latitude;
                     userLng = location.Longitude;
                 }
@@ -212,8 +209,8 @@ namespace CityPuzzle.Classes
                         return true;
                     }
                 }
+
                 //Linq query
-                //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)).ToList();
                 var inRange =
                     (from puzzle in puzzles
                      where InRange(puzzle)

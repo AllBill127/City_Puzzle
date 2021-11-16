@@ -17,12 +17,12 @@
                 </Grid.RowDefinitions>
 
                 <StackLayout Grid.Row="1">
-                    <Label x:Name="MissionLabel" FontSize="20" Text=""
+                    <Label x:Name="missionLabel" FontSize="20" Text=""
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand"
                            BackgroundColor="#F3BD21"/>
                     <Grid>
-                        <Image x:Name="objimg"></Image>
+                        <Image x:Name="objImg"></Image>
 
                         <Image x:Name="mask1" Source="mask1.png"></Image>
                         <Image x:Name="mask2" Source="Mask2.png"></Image>
@@ -35,7 +35,7 @@
                         <Image x:Name="mask9" Source="mask9.png"></Image>
                     </Grid>
     
-                    <Label x:Name="QuestField" FontSize="20" Text=""
+                    <Label x:Name="questField" FontSize="20" Text=""
                         VerticalOptions="CenterAndExpand" 
                         HorizontalOptions="CenterAndExpand" 
                            BackgroundColor="#F3BD21"/>

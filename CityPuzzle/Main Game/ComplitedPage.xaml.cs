@@ -13,7 +13,7 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ComplitedPage : ContentPage
     {
-        private List<Lazy<Puzzle>> questsList;
+        private readonly List<Lazy<Puzzle>> questsList;
 
         public ComplitedPage(Puzzle quest, List<Lazy<Puzzle>> questsList)
         {
@@ -21,11 +21,11 @@ namespace CityPuzzle
 
             this.questsList = questsList;
             Sql.SaveComplitedTask(quest);
-            Complitedname.Text = quest.Name;
-            Complitedinfo.Text = quest.About;
-            ComplitedImg.Source = quest.ImgAdress;
+            completedName.Text = quest.Name;
+            completedInfo.Text = quest.About;
+            completedImg.Source = quest.ImgAdress;
         }
-        void NewPuzzle(object sender, EventArgs e)
+        private void NewPuzzle_clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new QuestPage(questsList));
         }
