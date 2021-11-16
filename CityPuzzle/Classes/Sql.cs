@@ -100,7 +100,7 @@ namespace CityPuzzle.Classes
                     SqlCommand command;
                     SqlDataReader dataReader;
                     string sql;
-                    sql = "Select PuzzleID from Users where UserID=@UserID";
+                    sql = "Select PuzzleID from Tasks where UserID=@UserID";
                     conn.Open();
                     command = new SqlCommand(sql, conn);
                     command.Parameters.AddWithValue("@UserID", user.ID);
@@ -327,11 +327,7 @@ namespace CityPuzzle.Classes
                 }
                 return info[0];
             }
-            catch (ArgumentNullException)
-            {
-                return null;
-            }
-            catch (NullReferenceException)
+            catch (ArgumentOutOfRangeException)
             {
                 return null;
             }

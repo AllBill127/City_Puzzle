@@ -196,12 +196,28 @@ namespace CityPuzzle.Classes
                         return true;
                     return false;
                 }
+
+                bool IsCompleted(Lazy<Puzzle> puzzle)
+                {
+                    try
+                    {
+                        Lazy<Puzzle> puz = App.CurrentUser.QuestsCompleted.SingleOrDefault(x => x.Value.ID.Equals(puzzle.Value.ID));
+                        if (puz == null)
+                            return false;
+                        else
+                            return true;
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        return true;
+                    }
+                }
                 //Linq query
                 //List<Puzzle> inRange = puzzles.Where(puzzle => InRange(puzzle) && !App.CurrentUser.QuestsCompleted.Contains(puzzle.Name)).ToList();
                 var inRange =
                     (from puzzle in puzzles
                      where InRange(puzzle)
-                     where !App.CurrentUser.QuestsCompleted.Contains(puzzle)
+                     where !IsCompleted(puzzle)
                      select puzzle)
                     .ToList();
                 if (inRange.Count != 0)
