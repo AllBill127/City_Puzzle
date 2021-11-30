@@ -52,7 +52,6 @@ namespace CityPuzzle
 
         public void Show()
         {
-            Console.WriteLine("ciadaejo");
             PuzzleName.Text = AllPuzzles[Nr].Value.Name;
             PuzzleImg.Source = AllPuzzles[Nr].Value.ImgAdress;
             PuzzleInfo.Text = AllPuzzles[Nr].Value.About;
