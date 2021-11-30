@@ -16,6 +16,7 @@ namespace CityPuzzleWebSer
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -51,6 +52,17 @@ namespace CityPuzzleWebSer
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.Use(async (context, next) =>
+            {
+                await next.Invoke();
+                var dt = new DateTime();
+                dt = DateTime.UtcNow - Process.GetCurrentProcess().StartTime.ToUniversalTime();
+            });
+            app.Run(async context =>
+            {
+                await context.Response.WriteAsync("App starting time:{0}", dt);
             });
         }
     }
