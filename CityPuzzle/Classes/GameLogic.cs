@@ -8,7 +8,7 @@ using Xamarin.Essentials;
 
 namespace CityPuzzle.Classes
 {
-    class GameLogic
+    public class GameLogic
     {
         private const int gifPlayTime = 5000;
 

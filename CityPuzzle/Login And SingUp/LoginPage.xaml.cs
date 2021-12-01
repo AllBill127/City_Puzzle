@@ -8,10 +8,9 @@ namespace CityPuzzle
     {
         public LoginPage()
         {
-
             InitializeComponent();
-
         }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -24,7 +23,8 @@ namespace CityPuzzle
                 Navigation.PushAsync(new GameEntryPage());
             }
         }
-        void Login_Click(object sender, EventArgs e)
+
+        private void Login_Click(object sender, EventArgs e)
         {
             var tempUser = new User(new UserVerifier());
             if (tempUser.CheckPassword(Vartotojo_vardas.Text, Slaptazodis.Text))
@@ -38,7 +38,8 @@ namespace CityPuzzle
                 OnAlertYesNoClicked();
             }
         }
-        async void OnAlertYesNoClicked()
+
+        private async void OnAlertYesNoClicked()
         {
             await DisplayAlert("Error", "Naudotojas su tokiu prisijungimo vardu nerastas, arba neteisingai įvedėte slaptažodį. Pasitikrinkite prisijungimo vardą ir bandykite dar kartą.", "OK");
         }
