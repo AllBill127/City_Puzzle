@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CityPuzzle.Side_Pages.SettingsPage"
+             BackgroundImageSource="logos.pmg" WidthRequest="600" HeightRequest="200">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="20">
+                <Label Text="Nustatymai " BackgroundColor="#F3BD21" FontAttributes="Bold" FontSize="30" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" TextColor="#000000" />
+            </Frame>
+            <Frame Padding="20" Opacity="0">
+            </Frame>
+            <Grid  HeightRequest="400">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*" />
+                <RowDefinition Height="0.2*" />
+                <RowDefinition Height="0.2*" />
+                <RowDefinition Height="0.2*" />
+                <RowDefinition Height="0.2*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*" />
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="0.5*" />
+                </Grid.ColumnDefinitions>
+
+            <Frame CornerRadius="10" BackgroundColor="#F3BD21" Grid.Row="0" Grid.Column="0">
+                    <Label  Text="Vartotojo vardas" FontAttributes="Bold"  FontSize="16" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+            </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#F3BD21" Grid.Row="0" Grid.Column="2">
+                    <Label  FontAttributes="Bold" x:Name="userNameField" FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+            </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#F3BD21" Grid.Row="1" Grid.Column="0">
+                    <Label  Text=" Vardas " FontAttributes="Bold"  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+            </Frame>
+            <Frame CornerRadius="10" BackgroundColor="#F3BD21" Grid.Row="2" Grid.Column="0">
+                    <Label  Text=" Pavarde " FontAttributes="Bold"  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+            </Frame>
+            <Frame CornerRadius="10" BackgroundColor="#F3BD21" Grid.Row="3" Grid.Column="0">
+                    <Label  Text=" Email " FontAttributes="Bold"  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+            </Frame>
+            <Frame CornerRadius="10" BackgroundColor="#F3BD21" Grid.Row="4" Grid.Column="0">
+                    <Label  Text=" Atstumas " FontAttributes="Bold"  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+            </Frame>
+
+                <Frame CornerRadius="10" BackgroundColor="#F3BD21" Grid.Row="1" Grid.Column="2">
+                    <Label x:Name="nameField" FontAttributes="Bold" FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+            </Frame>
+                <Frame CornerRadius="10" BackgroundColor="#F3BD21" Grid.Row="2" Grid.Column="2">
+                    <Label x:Name="secondNameField" FontAttributes="Bold" FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+            </Frame>
+
+                <Frame CornerRadius="10" BackgroundColor="#F3BD21" Grid.Row="3" Grid.Column="2">
+                    <Label x:Name="emailField" FontSize="17" FontAttributes="Bold" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+            </Frame>
+             <Frame CornerRadius="10" BackgroundColor="#F3BD21" Grid.Row="4" Grid.Column="2">
+                    <Label x:Name="distanceField" FontSize="17" FontAttributes="Bold" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+             </Frame>
+            </Grid>
+            <Button Text="Atsijungti" BackgroundColor="#F3BD21" TextColor="Red" FontAttributes="Bold" CornerRadius="20" VerticalOptions="EndAndExpand"  Clicked="Sign_Out_Click"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

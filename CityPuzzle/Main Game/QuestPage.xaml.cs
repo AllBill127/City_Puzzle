@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Forms.Maps;
+
 namespace CityPuzzle
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -127,6 +129,21 @@ namespace CityPuzzle
             shuffleButton.IsVisible = false;
         }
 
+        private void Map_Click(object sender, EventArgs e)
+        {
+            if (puzzleGrid.IsVisible == true)
+            {
+                puzzleGrid.IsVisible = false;
+                targetMapGrid.IsVisible = true;
+                RevealLocation();
+            }
+            else
+            {
+                puzzleGrid.IsVisible = true;
+                targetMapGrid.IsVisible = false;
+            }
+        }
+
 
         //=============================================== Thread methods ===================================================
         private List<int> masksIndex = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
@@ -222,6 +239,19 @@ namespace CityPuzzle
                     }
                 }
             }
+        }
+        public void RevealLocation()
+        {
+            Position targetPosition = GameLogic.GetTargetPosition();
+            MapSpan targetSpan = MapSpan.FromCenterAndRadius(targetPosition, Distance.FromKilometers(.5));
+            Pin targetPin = new Pin()
+            {
+                Label = "Puzzle",
+                Position = targetPosition,
+                Type = PinType.Generic
+            };
+            map.Pins.Add(targetPin);
+            map.MoveToRegion(targetSpan);
         }
     }
 }
