@@ -3,10 +3,6 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using static CityPuzzle.Classes.Structs;
@@ -16,65 +12,36 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LeaderboardPage : ContentPage
     {
-        private List<UserInfo> lbUsers = null;
-        private int pageNr = 1;
-        private IEnumerable<UserInfo> pageList = null;
+        LeaderboardLogic lbLogic = new LeaderboardLogic();
 
         public LeaderboardPage()
         {
             InitializeComponent();
 
-            // Form a sorted list of user info items for leaderboard
-            lbUsers = Sql.ReadUsers().CastToLeaderboard(new PointsComparer(), (user, index) => new UserInfo
-            {
-                Username = user.UserName,
-                Score = user.QuestsCompleted.Count,
-                Index = index
-            });
+            lbLogic.OnPageChange += UpdatePage;
 
-            pageNumber.Text = "Page " + pageNr.ToString();
-            pageList = lbUsers.Skip(10).Take(10);
-            ObservableCollection<UserInfo> leaderboard = new ObservableCollection<UserInfo>(pageList);
+            lbLogic.ChangePage(true);
+        }
+
+        private void UpdatePage(object sender, LeaderboardLogic.OnPageChangeEventArgs e)
+        {
+            pageNumber.Text = "Page " + e.PageNr.ToString();
+            ObservableCollection<UserInfo> leaderboard = new ObservableCollection<UserInfo>(e.PageList);
 
             Leaderboard.ItemsSource = leaderboard;
         }
 
         private void PrevButton_Clicked(object sender, EventArgs e)
         {
-            if (pageNr > 1)
-            {
-                pageNr--;
-                pageNumber.Text = "Page " + pageNr.ToString();
-                pageList = lbUsers.Skip((pageNr - 1) * 10).Take(10);
-                ObservableCollection<UserInfo> prevPage = new ObservableCollection<UserInfo>(pageList);
-
-                Leaderboard.ItemsSource = prevPage;
-            }
+            lbLogic.ChangePage(false);
         }
 
         private void NextButton_Clicked(object sender, EventArgs e)
         {
-            if (pageNr < lbUsers.Count / 10)
-            {
-                pageNr++;
-                pageNumber.Text = "Page " + pageNr.ToString();
-                pageList = lbUsers.Skip((pageNr - 1) * 10).Take(10);
-                ObservableCollection<UserInfo> nextPage = new ObservableCollection<UserInfo>(pageList);
-
-                Leaderboard.ItemsSource = nextPage;
-            }
-            else if (pageNr == lbUsers.Count / 10)
-            {
-                pageNr++;
-                pageNumber.Text = "Page " + pageNr.ToString();
-                pageList = lbUsers.Skip((pageNr - 1) * 10).Take(lbUsers.Count % 10);
-                ObservableCollection<UserInfo> nextPage = new ObservableCollection<UserInfo>(pageList);
-
-                Leaderboard.ItemsSource = nextPage;
-            }
+            lbLogic.ChangePage(true);
         }
 
-        private List<UserInfo> GetTop10 ()
+        private List<UserInfo> GetTop10()
         {
             // Form a top10 list with specified comparer and cast items in to new format with index
             List<UserInfo> top10 = Sql.ReadUsers().Top10Cast(new PointsComparer(), (user, index) => new UserInfo
@@ -85,6 +52,12 @@ namespace CityPuzzle
             });
 
             return top10;
+        }
+
+        private void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
+            return;
         }
     }
 }
