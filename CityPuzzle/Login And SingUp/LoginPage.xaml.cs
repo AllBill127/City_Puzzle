@@ -6,7 +6,7 @@ namespace CityPuzzle
 {
     public partial class LoginPage : ContentPage
     {
-        LoginLogic loginLogic = new LoginLogic();
+        LoginPageLogic loginLogic = new LoginPageLogic();
         public LoginPage()
         {
             InitializeComponent();

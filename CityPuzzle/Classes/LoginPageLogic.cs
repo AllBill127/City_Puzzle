@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CityPuzzle.Classes
 {
-    public class LoginLogic
+    public class LoginPageLogic
     {
         public event EventHandler OnUserIsLogedIn;
         public event EventHandler OnUserNotFound;
