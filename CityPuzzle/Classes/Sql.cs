@@ -38,7 +38,7 @@ namespace CityPuzzle.Classes
                 SqlCommand command;
                 SqlDataReader dataReader;
                 string sql;
-                sql = "Select ID,UserName,FirstName,LastName,Pass,Email,MaxQuestDistance from Users";
+                sql = "Select Id,UserName,FirstName,LastName,Pass,Email,MaxQuestDistance from Users";
                 conn.Open();
                 command = new SqlCommand(sql, conn);
                 dataReader = command.ExecuteReader();
@@ -72,7 +72,7 @@ namespace CityPuzzle.Classes
                 {
                     var command = new SqlCommand("INSERT INTO Tasks (UserID,PuzzleID) VALUES (@UserID,@PuzzleID)", conn);
                     command.Parameters.AddWithValue("@UserID", user.ID);
-                    command.Parameters.AddWithValue("@PuzzleID", p.Value.ID);
+                    command.Parameters.AddWithValue("@PuzzleID", p.Value.Id);
                     command.ExecuteNonQuery();
                 }
                 conn.Close();
@@ -86,7 +86,7 @@ namespace CityPuzzle.Classes
                 conn.Open();
                 var command = new SqlCommand("INSERT INTO Tasks (UserID,PuzzleID) VALUES (@UserID,@PuzzleID)", conn);
                 command.Parameters.AddWithValue("@UserID", App.CurrentUser.ID);
-                command.Parameters.AddWithValue("@PuzzleID", puzzle.ID);
+                command.Parameters.AddWithValue("@PuzzleID", puzzle.Id);
                 command.ExecuteNonQuery();
                 conn.Close();
             }
@@ -111,7 +111,7 @@ namespace CityPuzzle.Classes
                     while (dataReader.Read())
                     {
                         int puzzleID = dataReader.GetInt32(0);
-                        Lazy<Puzzle> complitedPuzzle = allPuzzles.SingleOrDefault(x => x.Value.ID == puzzleID);
+                        Lazy<Puzzle> complitedPuzzle = allPuzzles.SingleOrDefault(x => x.Value.Id == puzzleID);
                         puzzles.Add(complitedPuzzle);
 
                     }
@@ -160,7 +160,7 @@ namespace CityPuzzle.Classes
                 {
                     Puzzle puz = new Puzzle()
                     {
-                        ID = dataReader.GetInt32(0),
+                        Id = dataReader.GetInt32(0),
                         Name = dataReader.GetString(1),
                         About = dataReader.GetString(2),
                         Quest = dataReader.GetString(3),
@@ -179,13 +179,13 @@ namespace CityPuzzle.Classes
         // -------------------------------------------------Rooms--------------------------------------------------------------
         public static void SaveRoom(Lazy<Room> room)
         {
-            var numbers = room.Value.Tasks.Select(x => x.Value.ID);
+            var numbers = room.Value.Tasks.Select(x => x.Value.Id);
             string converted = string.Join("-", numbers) + "-";
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
                 conn.Open();
                 var command = new SqlCommand("INSERT INTO Rooms (RoomPin,Owner,RoomSize,Tasks) VALUES (@RoomPin,@Owner,@RoomSize,@Tasks)", conn);
-                command.Parameters.AddWithValue("@RoomPin", room.Value.ID);
+                command.Parameters.AddWithValue("@RoomPin", room.Value.Id);
                 command.Parameters.AddWithValue("@Owner", room.Value.Owner);
                 command.Parameters.AddWithValue("@RoomSize", room.Value.RoomSize);
                 command.Parameters.AddWithValue("@Tasks", converted);
@@ -208,12 +208,12 @@ namespace CityPuzzle.Classes
                 {
                     Room room = new Room()
                     {
-                        ID = dataReader.GetString(0),
+                       // Id = dataReader.GetString(0),
                         Owner = dataReader.GetInt32(1),
                         RoomSize = dataReader.GetInt32(2),
                         Tasks = ConvertTasks(dataReader.GetString(3))
                     };
-                    room.ParticipantIDs = FindRoomParticipantsID(room.ID);
+                    room.ParticipantIDs = FindRoomParticipantsID(room.Id);
                     rooms.Add(room);
                 }
                 conn.Close();
@@ -252,7 +252,7 @@ namespace CityPuzzle.Classes
                 return roomPins;
             }
         }
-        public static List<int> FindRoomParticipantsID(string roomID)
+        public static List<int> FindRoomParticipantsID(int roomID)
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
@@ -294,7 +294,7 @@ namespace CityPuzzle.Classes
             List<Lazy<Puzzle>> puzzles = ReadPuzzles();
             foreach (int Id in TaskIDs)
             {
-                Lazy<Puzzle> task = puzzles.SingleOrDefault(x => x.Value.ID.Equals(Id));
+                Lazy<Puzzle> task = puzzles.SingleOrDefault(x => x.Value.Id.Equals(Id));
                 tasks.Add(task);
             }
             return tasks;
@@ -304,7 +304,7 @@ namespace CityPuzzle.Classes
         {
             Puzzle p = new Puzzle()
             {
-                ID = puzzle.Value.ID,
+                Id = puzzle.Value.Id,
                 About = puzzle.Value.About,
                 Name = puzzle.Value.Name,
                 Latitude = puzzle.Value.Latitude,

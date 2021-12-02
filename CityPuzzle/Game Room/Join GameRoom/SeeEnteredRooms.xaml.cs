@@ -71,7 +71,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             Task.WaitAll();
             foreach (string pin in tFind.Result)
             {
-                foundRooms .Add(AllRooms.SingleOrDefault(x => x.ID == pin));
+                foundRooms .Add(AllRooms.SingleOrDefault(x => x.RoomPin == pin));
             }
             return foundRooms ;
         }
@@ -80,9 +80,9 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             try
             {
                 string gamePin = GamePin.Text;
-                Room current = EnteredRooms.SingleOrDefault(x => x.ID.Equals(gamePin));
+                Room current = EnteredRooms.SingleOrDefault(x => x.RoomPin.Equals(gamePin));
                 if (current != null) throw new MultiRegistrationException(current);
-                current = AllRooms.SingleOrDefault(x => x.ID.Equals(gamePin));
+                current = AllRooms.SingleOrDefault(x => x.RoomPin.Equals(gamePin));
                 if (current == null) throw new RoomNotExistException();
                 CheckAvailability(current);
                 Navigation.PushAsync(new EntryGameRoomPage(gamePin));
@@ -109,7 +109,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
         }
         async void SelectMsg(Room selectedRoom)//cia exseption negalima panaudoti
         {
-            bool answer = await DisplayAlert("Demesio", "Ar norite testi zaidima- " + selectedRoom.ID, "Taip", "Ne");
+            bool answer = await DisplayAlert("Demesio", "Ar norite testi zaidima- " + selectedRoom.RoomPin, "Taip", "Ne");
             if (answer == true) Console.WriteLine("Iveinu  ");
         }
         public void EntryGame(Room room)

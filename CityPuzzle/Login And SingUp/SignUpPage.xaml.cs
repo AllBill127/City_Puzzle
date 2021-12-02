@@ -66,7 +66,7 @@ namespace CityPuzzle
                 User user;
                 if (distEntry.Text != null || distEntry.Text == "")
                 {
-                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text), email: emailEntry.Text, maxDist: double.Parse(distEntry.Text));
+                    user = CreateUser(name: nameEntry.Text, userName: usernameEntry.Text, lastName: lastnameEntry.Text, password: User.PassToHash(passEntry.Text), email: emailEntry.Text, maxDist: int.Parse(distEntry.Text));
                 }
                 else
                 {
@@ -101,7 +101,7 @@ namespace CityPuzzle
             await DisplayAlert("Klaida", message, "Gerai");
         }
 
-        private User CreateUser(string userName, string name, string lastName, string email, string password, double maxDist = 3)
+        private User CreateUser(string userName, string name, string lastName, string email, string password, int maxDist = 3)
         {
             User user = new User()
             {
