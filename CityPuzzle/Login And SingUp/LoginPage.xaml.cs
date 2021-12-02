@@ -6,44 +6,39 @@ namespace CityPuzzle
 {
     public partial class LoginPage : ContentPage
     {
+        LoginLogic loginLogic = new LoginLogic();
         public LoginPage()
         {
             InitializeComponent();
+            loginLogic.OnUserIsLogedIn += LoadGameMenu;
+            loginLogic.OnUserNotFound += UserNotFoundAlert;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Vartotojo_vardas.Text = "";
-            Slaptazodis.Text = "";
-            SimpleUser current = Sql.GetCurrentUser();
-            var tempUser = new User(new UserVerifier());
-            if (current != null && tempUser.CheckHachedPassword(current.UserName, current.HashedPass))
-            {
-                Navigation.PushAsync(new GameEntryPage());
-            }
+            username.Text = "";
+            password.Text = "";
+            loginLogic.LogIn(null, null);
         }
 
-        private void Login_Click(object sender, EventArgs e)
+        private void LoadGameMenu(object sender, EventArgs e)
         {
-            var tempUser = new User(new UserVerifier());
-            if (tempUser.CheckPassword(Vartotojo_vardas.Text, Slaptazodis.Text))
-            {
-                Navigation.PushAsync(new GameEntryPage());
-            }
-            else
-            {
-                Vartotojo_vardas.Text = "";
-                Slaptazodis.Text = "";
-                OnAlertYesNoClicked();
-            }
+            Navigation.PushAsync(new GameEntryPage());
         }
 
-        private async void OnAlertYesNoClicked()
+        private void Login_Clicked(object sender, EventArgs e)
         {
+            loginLogic.LogIn(username.Text, password.Text);
+        }
+
+        private async void UserNotFoundAlert(object sender, EventArgs e)
+        {
+            username.Text = "";
+            password.Text = "";
             await DisplayAlert("Error", "Naudotojas su tokiu prisijungimo vardu nerastas, arba neteisingai įvedėte slaptažodį. Pasitikrinkite prisijungimo vardą ir bandykite dar kartą.", "OK");
         }
-        void Sign_Click(object sender, EventArgs e)
+        private void SignIn_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new SignUpPage());
         }
