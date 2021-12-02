@@ -16,8 +16,7 @@ namespace CityPuzzle.Classes.Tests
 
             room.setParticipants(user);
 
-            Assert.Contains(1478, room.ParticipantIDs);
-            Assert.Contains(1410, room.ParticipantIDs);
+            Assert.Contains(user.ID, room.ParticipantIDs);
         }
 
         [Theory]
