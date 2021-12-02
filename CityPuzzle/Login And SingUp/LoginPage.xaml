@@ -12,8 +12,8 @@
         
         <Entry x:Name="password" Placeholder="Slaptažodis" IsPassword="true" BackgroundColor="#F3BD21" ></Entry>
         <Label Padding="0,0,0,50"></Label>
-        <Button x:Name="Login_Clicked" Text="Prisijungti" Clicked="Login_Click" BackgroundColor="#F3BD21"  Padding="0,0,0,0"></Button>
-        <Button x:Name="SignIn_Clicked" Text="Registruotis" Clicked="Sign_Click" BackgroundColor="#F3BD21"></Button>
+        <Button x:Name="Login_Click" Text="Prisijungti" Clicked="Login_Clicked" BackgroundColor="#F3BD21"  Padding="0,0,0,0"></Button>
+        <Button x:Name="SignIn_Click" Text="Registruotis" Clicked="SignIn_Clicked" BackgroundColor="#F3BD21"></Button>
 
     </StackLayout>
 
