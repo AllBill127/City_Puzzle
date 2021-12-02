@@ -11,15 +11,10 @@ namespace CityPuzzle
         public static string FilePath;
         public static string GamePath;
         public static string ObjectPath;
-                                         
-    public static User CurrentUser { get; set; }
-        public App()
-        {
-            InitializeComponent();
 
-            MainPage = new MainPage();
-        }
-     public App(string filePath, string objectPath,string gamePath)
+        public static User CurrentUser { get; set; }
+
+        public App(string filePath, string objectPath, string gamePath)
         {
             InitializeComponent();
 
@@ -28,18 +23,6 @@ namespace CityPuzzle
             FilePath = filePath;
             GamePath = gamePath;
             ObjectPath = objectPath;
-        }
-
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
         }
     }
 }
