@@ -12,8 +12,8 @@ namespace CityPuzzle.Classes
         public int Owner { get; set; }
         public int RoomSize { get; set; }
         public List<Lazy<Puzzle>> Tasks { get; set; }
-        public List<int> ParticipantIDs{ get; set; }
-       
+        public List<int> ParticipantIDs { get; set; }
+
         public Room()
         {
             Tasks = new List<Lazy<Puzzle>>();
@@ -23,9 +23,5 @@ namespace CityPuzzle.Classes
         {
             ParticipantIDs.Add(user.ID);
         }
-
-        public void SetTask(Puzzle puzzle)
-        {
-            Tasks.Add(new Lazy<Puzzle>(() =>puzzle));
-        }}
+    }
 }
