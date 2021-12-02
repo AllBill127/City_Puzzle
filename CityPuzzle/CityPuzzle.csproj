@@ -39,9 +39,6 @@
     <Compile Update="Side Pages\AddObjectPage.xaml.cs">
       <DependentUpon>AddObjectPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Side Pages\LookPage.xaml.cs">
-      <DependentUpon>LookPage.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Main Game\ComplitedPage.xaml.cs">
       <DependentUpon>ComplitedPage.xaml</DependentUpon>
     </Compile>
@@ -79,9 +76,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Side Pages\AddObjectPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Side Pages\LookPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Main Game\ComplitedPage.xaml">
