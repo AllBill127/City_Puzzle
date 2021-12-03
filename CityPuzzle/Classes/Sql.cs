@@ -38,7 +38,7 @@ namespace CityPuzzle.Classes
                 SqlCommand command;
                 SqlDataReader dataReader;
                 string sql;
-                sql = "Select ID,UserName,FirstName,LastName,Pass,Email,MaxQuestDistance from Users";
+                sql = "Select Id,UserName,FirstName,LastName,Pass,Email,MaxQuestDistance from Users";
                 conn.Open();
                 command = new SqlCommand(sql, conn);
                 dataReader = command.ExecuteReader();
@@ -207,7 +207,7 @@ namespace CityPuzzle.Classes
                 {
                     Room room = new Room()
                     {
-                        ID = dataReader.GetString(0),
+                       // Id = dataReader.GetString(0),
                         Owner = dataReader.GetInt32(1),
                         RoomSize = dataReader.GetInt32(2),
                         Tasks = ConvertTasks(dataReader.GetString(3))
@@ -252,7 +252,7 @@ namespace CityPuzzle.Classes
                 return roomPins;
             }
         }
-        public static List<int> FindRoomParticipantsID(string roomID)
+        public static List<int> FindRoomParticipantsID(int roomID)
         {
             using (SqlConnection conn = new SqlConnection(ConnStr))
             {
