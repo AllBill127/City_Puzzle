@@ -16,26 +16,32 @@ namespace CityPuzzle
         {
             InitializeComponent();
         }
-        void StartButton_click(object sender, EventArgs e)
+        void StartButton_Clicked(object sender, EventArgs e)
         {
 
             Navigation.PushAsync(new QuestPage());
 
         }
-        void Create_Click(object sender, EventArgs e)
+
+        private void Leaderboard_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new LeaderboardPage());
+        }
+
+        void CreateRoom_Clicked(object sender, EventArgs e)
         {
 
             Navigation.PushAsync(new CreateGamePage());
 
         }
-        void Add_Click(object sender, EventArgs e)
+        void AddPuzzle_Clicked(object sender, EventArgs e)
         {
 
             Navigation.PushAsync(new AddObjectPage());
 
         }
 
-        void Entry_Click(object sender, EventArgs e)
+        void JoinRoom_Clicked(object sender, EventArgs e)
         {
 
             Navigation.PushAsync(new SeeEnteredRooms());
@@ -49,10 +55,6 @@ namespace CityPuzzle
             Console.WriteLine(theTextFile);
         }
 
-        private void Leaderboard_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new LeaderboardPage());
-        }
         private void Settings_Clicked(object sender, EventArgs e)
         {
             App.CurrentUser = null;
@@ -61,8 +63,15 @@ namespace CityPuzzle
             int stackSize = existingPages.Count;
             foreach (var page in existingPages)
             {
-                if (existingPages.Count == 2) break;
-                if (existingPages.Count != stackSize) Navigation.RemovePage(page);
+                if (existingPages.Count == 2)
+                {
+                    break;
+                }
+
+                if (existingPages.Count != stackSize)
+                {
+                    Navigation.RemovePage(page);
+                }
             }
             Navigation.PopAsync();
         }
