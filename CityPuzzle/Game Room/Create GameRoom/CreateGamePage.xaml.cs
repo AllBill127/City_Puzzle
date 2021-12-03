@@ -23,7 +23,6 @@ namespace CityPuzzle
             Data_collector_thread = new Thread(new ThreadStart(FillGameRomm));
             Data_collector_thread.Start();
             InitializeComponent();
-            addObj.IsVisible = true;
         }
         public async static void FillGameRomm()
         {
@@ -53,24 +52,24 @@ namespace CityPuzzle
             NewRoom.Value.RoomPin = roomPin;
         }
 
-        async void AddObj_click(object sender, EventArgs e)
+        async void AddPuzzles_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new AddPage());
-            lookObj.IsVisible = true;
+            showRoomPuzzles.IsVisible = true;
             saveRoom.IsVisible = true;
         }
 
-        async void Look_click(object sender, EventArgs e)
+        async void ShowRoomPuzzles_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new SelectPuzzles<Lazy<Puzzle>>(NewRoom.Value.Tasks));
             NewRoom.Value.Tasks = SelectPuzzles<Lazy<Puzzle>>.getList();
         }
 
-        async void AddGamer_click(object sender, EventArgs e)
+        async void SaveRoom_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new CompliteCreating());
         }
-        async void Look_Rooms_Click(object sender, EventArgs e)
+        async void LookupRooms_Clicked(object sender, EventArgs e)
         {
             List<string> usersRooms = Sql.FindParticipantRoomsIDs(App.CurrentUser.ID);
             await Navigation.PushAsync(new SelectPuzzles<string>(usersRooms));
