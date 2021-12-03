@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CityPuzzle.Classes
 {
-    class PointsComparer : IComparer<User>
+    public class PointsComparer : IComparer<User>
     {
         public int Compare(User U1, User U2)
         {

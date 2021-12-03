@@ -24,7 +24,7 @@ namespace CityPuzzle.Classes
         public List<Lazy<Puzzle>> Tasks { get; set; }
         [IgnoreDataMember]
         public List<int> ParticipantIDs{ get; set; }
-       
+      
         public Room()
         {
             Tasks = new List<Lazy<Puzzle>>();
@@ -33,11 +33,6 @@ namespace CityPuzzle.Classes
         public void setParticipants(User user)
         {
             ParticipantIDs.Add(user.ID);
-        }
-
-        public void SetTask(Puzzle puzzle)
-        {
-            Tasks.Add(new Lazy<Puzzle>(() =>puzzle));
         }
 
         public void Delete()
@@ -58,6 +53,7 @@ namespace CityPuzzle.Classes
                 Console.WriteLine("Error: else " + ex);
             }
         }
+      
         public async void Save()
         {
             try

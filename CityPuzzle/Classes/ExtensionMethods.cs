@@ -24,6 +24,8 @@ namespace CityPuzzle.Classes
             {
                 if (user.Equals(prev) == false)
                     ++j;
+                if (j > 10) 
+                    break;
 
                 temp.Username = user.UserName;
                 temp.Score = user.QuestsCompleted.Count;
@@ -36,7 +38,7 @@ namespace CityPuzzle.Classes
             return TopUsers;
         }
 
-        public static List<TResult> Top10Cast<TResult, IComparer, TSource> (this List<TSource> items, 
+        public static List<TResult> Top10Cast<TResult, IComparer, TSource> (this List<TSource> items,
             IComparer comparer, Func<TSource, int, TResult> cast) where TSource : IEquatable<TSource>
         {
             items.Sort((IComparer<TSource>)comparer);
