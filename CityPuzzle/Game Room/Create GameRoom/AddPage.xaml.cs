@@ -5,57 +5,60 @@ using System.Collections.Generic;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static CityPuzzle.Classes.AddPageLogic;
 
 namespace CityPuzzle
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddPage : ContentPage
     {
-        public List<Lazy<Puzzle>> AllPuzzles;
-        public static int Nr = 0;
+        private AddPageLogic addPageLogic = new AddPageLogic();
+
         public AddPage()
         {
-            Nr = 0;
-            CreateGamePage.NewRoom.Value.Tasks = new List<Lazy<Puzzle>>(); 
             InitializeComponent();
-            AllPuzzles = Sql.ReadPuzzles();
-            if (AllPuzzles.Count == 0)
-            {
-                EmptyListError();
-            }
-            else
-            {
-                Show();
-            }
-        }
-        async void EmptyListError()
-        {
-            await DisplayAlert("Error", "Nepavyksta aptikti delioniu.", "OK");
-        }
-        void Add_puzzle(object sender, EventArgs e)
-        {
-            CreateGamePage.NewRoom.Value.Tasks.Add(AllPuzzles[Nr]);
-            Next_puzzle(sender, e);
-        }
-        void Next_puzzle(object sender, EventArgs e)
-        {
-            if (Nr == AllPuzzles.Count - 1)
-            {
-                Navigation.PopAsync();
-            }
-            else
-            {
-                Nr += 1;
-                Show();
-            }
+            addPageLogic.OnEndOfPuzzles += EndOfPuzzles;
+            addPageLogic.OnPuzzleChange += ShowPuzzle;
+            addPageLogic.OnNoPuzzlesFound += EmptyListError;
+
+            addPageLogic.ChangePuzzle(true);
         }
 
-        public void Show()
+        private void AddPuzzle_Clicked(object sender, EventArgs e)
         {
-            Console.WriteLine("ciadaejo");
-            PuzzleName.Text = AllPuzzles[Nr].Value.Name;
-            PuzzleImg.Source = AllPuzzles[Nr].Value.ImgAdress;
-            PuzzleInfo.Text = AllPuzzles[Nr].Value.About;
+            addPageLogic.AddPuzzle();
+        }
+
+        private void NextPuzzle_Clicked(object sender, EventArgs e)
+        {
+            addPageLogic.ChangePuzzle(true);
+        }
+
+        private void PrevPuzzle_Clicked(object sender, EventArgs e)
+        {
+            addPageLogic.ChangePuzzle(false);
+        }
+
+        private void FinishSelecting_Clicked(object sender, EventArgs e)
+        {
+            CreateGamePage.NewRoom.Value.Tasks.AddRange(addPageLogic.SelectedPuzzles);
+        }
+
+        private void ShowPuzzle(object sender, OnPuzzleChangeEventArgs e)
+        {
+            PuzzleName.Text = e.Name;
+            PuzzleImg.Source = e.ImgAdress;
+            PuzzleInfo.Text = e.About;
+        }
+
+        private void EndOfPuzzles(object sender, EventArgs e)
+        {
+            Navigation.PopAsync();
+        }
+
+        private async void EmptyListError(object sender, EventArgs e)
+        {
+            await DisplayAlert("Error", "Nepavyksta aptikti delionių.", "Uždaryti");
         }
     }
 }
