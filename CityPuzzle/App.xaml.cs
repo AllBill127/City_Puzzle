@@ -3,7 +3,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using CityPuzzle.Classes;
 using System.IO;
-using CityPuzzle.Rest_Services.Client;
 
 namespace CityPuzzle
 {
@@ -12,8 +11,7 @@ namespace CityPuzzle
         public static string FilePath;
         public static string GamePath;
         public static string ObjectPath;
-        public static APICommands WebServices= new APICommands();
-        
+
         public static User CurrentUser { get; set; }
 
         public App(string filePath, string objectPath, string gamePath)
