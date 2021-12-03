@@ -74,7 +74,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             Task.WaitAll();
             foreach (string pin in tFind.Result)
             {
-                foundRooms .Add(AllRooms.SingleOrDefault(x => x.RoomPin == pin));
+                foundRooms.Add(AllRooms.SingleOrDefault(x => x.ID == pin));
             }
             return foundRooms;
         }
@@ -83,10 +83,12 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             try
             {
                 string gamePin = GamePin.Text;
-                Room current = EnteredRooms.SingleOrDefault(x => x.RoomPin.Equals(gamePin));
-                if (current != null) throw new MultiRegistrationException(current);
-                current = AllRooms.SingleOrDefault(x => x.RoomPin.Equals(gamePin));
-                if (current == null) throw new RoomNotExistException();
+                Room current = EnteredRooms.SingleOrDefault(x => x.ID.Equals(gamePin));
+                if (current != null)
+                    throw new MultiRegistrationException(current);
+                current = AllRooms.SingleOrDefault(x => x.ID.Equals(gamePin));
+                if (current == null)
+                    throw new RoomNotExistException();
                 CheckAvailability(current);
                 await Navigation.PushAsync(new EntryGameRoomPage(gamePin));
             }
@@ -112,13 +114,6 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             MyListView.SelectedItem = null;
             Console.WriteLine(" " + e.Item);
         }
-        
-        async void SelectMsg(Room selectedRoom)//cia exseption negalima panaudoti
-        {
-            bool answer = await DisplayAlert("Demesio", "Ar norite testi zaidima- " + selectedRoom.RoomPin, "Taip", "Ne");
-            if (answer == true) Console.WriteLine("Iveinu  ");
-        }
-
         private async void AskIfContinueRoom(Room selectedRoom)
         {
             bool answer = await DisplayAlert("Dėmesio!", "Ar norite tęsti žaidimą - " + selectedRoom.ID, "Taip", "Ne");

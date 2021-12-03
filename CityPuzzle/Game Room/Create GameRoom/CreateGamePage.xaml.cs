@@ -43,14 +43,14 @@ namespace CityPuzzle
                 {
                     int roomID = _random.Next(100, 10000);
                     roomPin = "kambarys" + roomID;
-                    Room existing = AllRooms.SingleOrDefault(x => x.RoomPin.ToLower().Equals(roomPin.ToLower()));
+                    Room existing = AllRooms.SingleOrDefault(x => x.ID.ToLower().Equals(roomPin.ToLower()));
                     if (existing == null)
                     {
                         i = 1;
                     }
                 }
             });
-            NewRoom.Value.RoomPin = roomPin;
+            NewRoom.Value.ID = roomPin;
         }
 
         async void AddObj_click(object sender, EventArgs e)
