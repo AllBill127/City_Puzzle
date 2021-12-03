@@ -71,6 +71,8 @@
                 CornerRadius="20"/>
 
         </Grid>
+        <Button x:Name="AddButton" Text="Prideti objekta" Clicked="AddPuzzle_Clicked" BackgroundColor="#F3BD21"></Button>
+        <Button x:Name="test" Text="Prideti objekta" Clicked="test_Click" BackgroundColor="#F3BD21"></Button>
 
         <Button x:Name="addPuzzleButton" Text="Pridėti užduotį" Clicked="AddPuzzle_Clicked" BackgroundColor="#F3BD21"></Button>
     </StackLayout>

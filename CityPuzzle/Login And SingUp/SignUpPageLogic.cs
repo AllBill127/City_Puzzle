@@ -19,7 +19,7 @@ namespace CityPuzzle
                 UserName = userNameEntry,
                 Email = emailEntry,
                 Pass = tempUser.PassToHash(passEntry),
-                MaxQuestDistance = double.Parse(distEntry)
+                MaxQuestDistance = int.Parse(distEntry)
             };
 
             Sql.SaveUser(user);

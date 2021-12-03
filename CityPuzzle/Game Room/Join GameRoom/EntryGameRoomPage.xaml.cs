@@ -68,7 +68,7 @@ namespace CityPuzzle
         {
             Loading.IsVisible = false;
             RoomInfo.IsVisible = true;
-            CurrentRoom = SeeEnteredRooms.AllRooms.SingleOrDefault(x => x.ID.Equals(EntryRoomID));
+            CurrentRoom = SeeEnteredRooms.AllRooms.SingleOrDefault(x => x.RoomPin.Equals(EntryRoomID));
             if (CurrentRoom == null) NoRoomFoundError();/// exeptionas
             else
             {
@@ -129,7 +129,7 @@ namespace CityPuzzle
     
     void Start_Click(object sender, EventArgs e)
     {
-        Sql.SaveParticipants(CurrentRoom.ID, App.CurrentUser.ID);
+        Sql.SaveParticipants(CurrentRoom.RoomPin, App.CurrentUser.ID);
         CompitedJoin();
         Navigation.PopAsync();
     }
