@@ -21,7 +21,6 @@ namespace CityPuzzle
             InitializeComponent();
 
             MainPage = new NavigationPage(new LoginPage());
-
             FilePath = filePath;
             GamePath = gamePath;
             ObjectPath = objectPath;

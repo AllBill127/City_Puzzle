@@ -11,8 +11,9 @@ namespace CityPuzzle.Rest_Services.Client
         private const string url = "http://10.0.2.2:5000/api/";
         static HttpClient httpClient = new HttpClient();
 
-        protected async Task<string> SendCommand(string objectPath)
+        public async Task<string> SendCommand(string objectPath)
         {
+            Console.WriteLine("url + objectPath"+ url + objectPath);
             var content = await httpClient.GetStringAsync(url + objectPath);
             return content;
         }

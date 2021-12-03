@@ -244,6 +244,7 @@ namespace CityPuzzle.Rest_Services.Client
                 var json = await SendCommand("Puzzles");
                 var _puzzles = JsonConvert.DeserializeObject<List<Puzzle>>(json);
                 puzzles = new List<Puzzle>(_puzzles);
+                Console.WriteLine("SKAITYTI BAIGTA");
                 return puzzles;
             }
             catch (System.Net.Http.HttpRequestException ex)

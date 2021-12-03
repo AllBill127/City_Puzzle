@@ -17,6 +17,10 @@ namespace CityPuzzle.Classes
         [DataMember]
         public int PuzzleId { get; set; }
 
+        public CompletedTask()
+        {
+
+        }
         public async void Save()
         {
             try

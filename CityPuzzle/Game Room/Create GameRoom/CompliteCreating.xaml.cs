@@ -52,7 +52,7 @@ namespace CityPuzzle
         }
         public void Save_Room()
         {
-            var or=CreateGamePage.NewRoom;
+            CreateGamePage.NewRoom.Value.Save(CreateGamePage.PuzzleIds);
         }
     }
 }

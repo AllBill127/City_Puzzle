@@ -72,29 +72,29 @@ namespace CityPuzzle
             if (CurrentRoom == null) NoRoomFoundError();/// exeptionas
             else
             {
-                PuzzleCount.Text = "" + CurrentRoom.Tasks.Count();
+                PuzzleCount.Text = "" + CurrentRoom.RoomTasks.Count();
                 RoomOwner = SeeEnteredRooms.AllUsers.SingleOrDefault(x => x.ID.Equals(CurrentRoom.Owner));
                 if (RoomOwner == null) NoOwnerFoundError();/// exeptionas
                 else OwnerName.Text = RoomOwner.Name;
                 RoomPinas.Text = EntryRoomID;
-                Calculate distance = delegate (double Lat1, double Lon1, double Lat2, double Lon2)
-                {
-                    Location start = new Location(Lat1, Lon1);
-                    Location end = new Location(Lat2, Lon2);
-                    return Location.CalculateDistance(start, end, 0);
-                };
-                double totaldistance = 0;
-                Lazy<Puzzle> preTask = null;
-                foreach (Lazy<Puzzle> task in CurrentRoom.Tasks)
-                {
-                    if (preTask == null) preTask = task;
-                    else
-                    {
-                        totaldistance += distance(preTask.Value.Latitude, preTask.Value.Longitude, task.Value.Latitude, task.Value.Longitude);
-                        preTask = task;
-                    }
-                }
-                RoadDistance.Text = totaldistance + "km";
+                //Calculate distance = delegate (double Lat1, double Lon1, double Lat2, double Lon2)
+                //{
+                //    Location start = new Location(Lat1, Lon1);
+                //    Location end = new Location(Lat2, Lon2);
+                //    return Location.CalculateDistance(start, end, 0);
+                //};
+                //double totaldistance = 0;
+                //Lazy<Puzzle> preTask = null;
+                //foreach (Lazy<Puzzle> task in CurrentRoom.Tasks)
+                //{
+                //    if (preTask == null) preTask = task;
+                //    else
+                //    {
+                //        totaldistance += distance(preTask.Value.Latitude, preTask.Value.Longitude, task.Value.Latitude, task.Value.Longitude);
+                //        preTask = task;
+                //    }
+                //}
+                //RoadDistance.Text = totaldistance + "km";
             }
         }
         void ShowAbout(Room room)
@@ -102,29 +102,29 @@ namespace CityPuzzle
             Loading.IsVisible = false;
             RoomInfo.IsVisible = true;
             CurrentRoom = room;
-            PuzzleCount.Text = "" + CurrentRoom.Tasks.Count();
+            PuzzleCount.Text = "" + CurrentRoom.RoomTasks.Count();
             RoomOwner = SeeEnteredRooms.AllUsers.SingleOrDefault(x => x.ID.Equals(CurrentRoom.Owner));
             if (RoomOwner == null) NoOwnerFoundError();
             OwnerName.Text = RoomOwner.Name;
             RoomPinas.Text = EntryRoomID;
-            Calculate distance = delegate (double Lat1, double Lon1, double Lat2, double Lon2)
-                 {
-                     Location start = new Location(Lat1, Lon1);
-                     Location end = new Location(Lat2, Lon2);
-                     return Location.CalculateDistance(start, end, 0);
-                 };
-            double totaldistance = 0;
-            Lazy<Puzzle> preTask = null;
-            foreach (Lazy<Puzzle> task in CurrentRoom.Tasks)
-            {
-                if (preTask == null) preTask = task;
-                else
-                {
-                    totaldistance += distance(preTask.Value.Latitude, preTask.Value.Longitude, task.Value.Latitude, task.Value.Longitude);
-                    preTask = task;
-                }
-            }
-            RoadDistance.Text = totaldistance + "km";
+            //Calculate distance = delegate (double Lat1, double Lon1, double Lat2, double Lon2)
+            //     {
+            //         Location start = new Location(Lat1, Lon1);
+            //         Location end = new Location(Lat2, Lon2);
+            //         return Location.CalculateDistance(start, end, 0);
+            //     };
+            //double totaldistance = 0;
+            //Lazy<Puzzle> preTask = null;
+            //foreach (Puzzle task in CurrentRoom.)
+            //{
+            //    if (preTask == null) preTask = task;
+            //    else
+            //    {
+            //        totaldistance += distance(preTask.Value.Latitude, preTask.Value.Longitude, task.Value.Latitude, task.Value.Longitude);
+            //        preTask = task;
+            //    }
+            //}
+            //RoadDistance.Text = totaldistance + "km";
         }
     
     void Start_Click(object sender, EventArgs e)

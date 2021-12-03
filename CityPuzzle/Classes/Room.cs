@@ -71,13 +71,23 @@ namespace CityPuzzle.Classes
                 Console.WriteLine("Error: else " + ex);
             }
         }
-        public async void Save()
+        public async void Save(List<int> puzzleIds)
         {
             try
             {
                 var response = await App.WebServices.SaveObject(this);
                 ID = response.ID;
-                Console.WriteLine("Saving is working");
+                Console.WriteLine("Saving Room is working");
+                foreach(int puzzleId in puzzleIds)
+                {
+                    RoomTask rt = new RoomTask()
+                    {
+                        PuzzleId = puzzleId,
+                        RoomId = 0,
+                    };
+                    rt.Save();
+                    this.RoomTasks.Add(rt);
+                }
             }
             catch (APIFailedSaveException ex)
             {

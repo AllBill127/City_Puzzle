@@ -14,7 +14,7 @@ namespace CityPuzzle
     {
         public static List<Room> AllRooms;
         public static Lazy<Room> NewRoom = new Lazy<Room>();
-        public static List<Lazy<Puzzle>> AllPuzzles;
+        public static List<int> PuzzleIds = new List<int>();
         public static Thread Data_collector_thread;
         public static int Status = -1;
 
@@ -33,7 +33,6 @@ namespace CityPuzzle
         {
             int i = 0;
             AllRooms = Sql.ReadRooms();
-            AllPuzzles = Sql.ReadPuzzles();
             string roomPin = "";
             Random _random = new Random();
             await Task.Run(() =>
@@ -61,8 +60,8 @@ namespace CityPuzzle
 
         async void ShowRoomPuzzles_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SelectPuzzles<Lazy<Puzzle>>(NewRoom.Value.Tasks));
-            NewRoom.Value.Tasks = SelectPuzzles<Lazy<Puzzle>>.getList();
+            await Navigation.PushAsync(new SelectPuzzles<RoomTask>(NewRoom.Value.RoomTasks));
+            NewRoom.Value.RoomTasks = SelectPuzzles<RoomTask>.getList();
         }
 
         async void SaveRoom_Clicked(object sender, EventArgs e)

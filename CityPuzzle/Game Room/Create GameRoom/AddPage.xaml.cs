@@ -2,7 +2,7 @@
 using SQLite;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using static CityPuzzle.Classes.AddPageLogic;
@@ -41,7 +41,8 @@ namespace CityPuzzle
 
         private void FinishSelecting_Clicked(object sender, EventArgs e)
         {
-            CreateGamePage.NewRoom.Value.Tasks.AddRange(addPageLogic.SelectedPuzzles);
+            List<int> puzzleIds = addPageLogic.SelectedPuzzles.Select(x => x.ID).ToList();
+            CreateGamePage.PuzzleIds.AddRange(puzzleIds);
         }
 
         private void ShowPuzzle(object sender, OnPuzzleChangeEventArgs e)

@@ -34,18 +34,23 @@ namespace CityPuzzle.Classes
 
         public static List<User> ReadUsers()
         {
-            var t = App.WebServices.GetUsers();
-            return t.Result;
+            Task<List<User>> obTask = Task.Run(() => App.WebServices.GetUsers());
+            obTask.Wait();
+            return obTask.Result;
         }
+
+
         public static List<Puzzle> ReadPuzzles()
         {
-            var t = App.WebServices.GetPuzzles();
-            return t.Result;
+            Task<List<Puzzle>> obTask = Task.Run(() => App.WebServices.GetPuzzles());
+            obTask.Wait();
+            return obTask.Result;
         }
         public static List<Room> ReadRooms()
         {
-            var t = App.WebServices.GetRooms();
-            return t.Result;
+            Task<List<Room>> obTask = Task.Run(() => App.WebServices.GetRooms());
+            obTask.Wait();
+            return obTask.Result;
         }
         //public static List<User> ReadUsers()
         //{
@@ -328,7 +333,7 @@ namespace CityPuzzle.Classes
                     conn.CreateTable<SimpleUser>();
                     info = conn.Table<SimpleUser>().ToList();
                 }
-                return info[0];
+                return null;
             }
             catch (ArgumentOutOfRangeException)
             {

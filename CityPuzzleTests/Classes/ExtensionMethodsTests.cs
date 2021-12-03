@@ -18,7 +18,8 @@ namespace CityPuzzle.Classes.Tests
             {
                 for (int i = 0; i < user.ID; ++i)
                 {
-                    user.QuestsCompleted.Add(new Lazy<Puzzle>());
+                    
+                    user.QuestsCompleted.Add(new CompletedTask());
                 }
             }
 

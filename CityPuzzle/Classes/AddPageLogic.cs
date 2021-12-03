@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CityPuzzle.Classes
 {
     public class AddPageLogic
     {
-        private int puzzleNr = -1;
-        private List<Lazy<Puzzle>> allPuzzles;
-        public List<Lazy<Puzzle>> SelectedPuzzles { get; private set; }
+        private int puzzleNr = 0;
+        private List<Puzzle> allPuzzles;
+        public List<Puzzle> SelectedPuzzles { get; private set; }
+        private Task<List<Puzzle>> data_collector_task;
 
         public event EventHandler OnNoPuzzlesFound;
         public event EventHandler OnEndOfPuzzles;
@@ -17,11 +19,13 @@ namespace CityPuzzle.Classes
 
         public AddPageLogic()
         {
-            allPuzzles = Sql.ReadPuzzles();
+            data_collector_task = Task.Run(() => App.WebServices.GetPuzzles());
         }
 
         public void ChangePuzzle(bool direction)
         {
+            data_collector_task.Wait();
+            allPuzzles=data_collector_task.Result;
             if (allPuzzles.Count == 0)
             {
                 OnNoPuzzlesFound?.Invoke(this, EventArgs.Empty);
@@ -41,7 +45,7 @@ namespace CityPuzzle.Classes
             else if (direction)
             {
                 puzzleNr++;
-                OnPuzzleChange?.Invoke(this, new OnPuzzleChangeEventArgs { Name = allPuzzles[puzzleNr].Value.Name, ImgAdress = allPuzzles[puzzleNr].Value.ImgAdress, About = allPuzzles[puzzleNr].Value.About });
+                OnPuzzleChange?.Invoke(this, new OnPuzzleChangeEventArgs { Name = allPuzzles[puzzleNr].Name, ImgAdress = allPuzzles[puzzleNr].ImgAdress, About = allPuzzles[puzzleNr].About });
             }
             else if (puzzleNr == 0 && !direction)
             {
@@ -50,12 +54,13 @@ namespace CityPuzzle.Classes
             else if (!direction)
             {
                 puzzleNr--;
-                OnPuzzleChange?.Invoke(this, new OnPuzzleChangeEventArgs { Name = allPuzzles[puzzleNr].Value.Name, ImgAdress = allPuzzles[puzzleNr].Value.ImgAdress, About = allPuzzles[puzzleNr].Value.About });
+                OnPuzzleChange?.Invoke(this, new OnPuzzleChangeEventArgs { Name = allPuzzles[puzzleNr].Name, ImgAdress = allPuzzles[puzzleNr].ImgAdress, About = allPuzzles[puzzleNr].About });
             }
         }
 
         public void AddPuzzle()
         {
+            Console.WriteLine("imu");
             SelectedPuzzles.Add(allPuzzles[puzzleNr]);
             ChangePuzzle(true);
         }

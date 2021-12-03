@@ -40,6 +40,7 @@ namespace CityPuzzle.Classes
         {
             _verifier = ver;
         }
+        public User() { }
         
         public User(string userName,string pass) 
         {
@@ -64,6 +65,7 @@ namespace CityPuzzle.Classes
 
         public bool CheckHachedPassword(string name, string pass)
         {
+            Console.WriteLine("TIKRINU useri");
             return _verifier.CheckHashPass(name, pass);
         }
 
