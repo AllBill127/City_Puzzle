@@ -22,7 +22,7 @@ namespace CityPuzzle
                 MaxQuestDistance = int.Parse(distEntry)
             };
 
-            Sql.SaveUser(user);
+            user.Save();
         }
 
         private delegate bool Validator(string text);

@@ -18,7 +18,7 @@ namespace CityPuzzle
         public CompliteCreating()
         {
             InitializeComponent();
-            MyListView.ItemsSource = CreateGamePage.NewRoom.Value.Tasks;
+            MyListView.ItemsSource = CreateGamePage.NewRoom.Value.RoomTasks;// pakeisti jei netinka i puzzle lista
             idplace.Text = "Game pin: " + CreateGamePage.NewRoom.Value.ID;
             picker.ItemsSource = Size;
         }
@@ -52,7 +52,7 @@ namespace CityPuzzle
         }
         public void Save_Room()
         {
-            Sql.SaveRoom(CreateGamePage.NewRoom);
+            var or=CreateGamePage.NewRoom;
         }
     }
 }

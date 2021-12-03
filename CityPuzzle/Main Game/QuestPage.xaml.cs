@@ -29,11 +29,11 @@ namespace CityPuzzle
             gamelogic.OnRadarChange += ChangeRadar;
             gamelogic.OnQuestCompleted += QuestCompleted;
 
-            List<Lazy<Puzzle>> allTargets = Sql.ReadPuzzles();
+            List<Puzzle> allTargets =Sql.ReadPuzzles();
             gamelogic.StartGame(allTargets);
         }
 
-        public QuestPage(List<Lazy<Puzzle>> targets)
+        public QuestPage(List<Puzzle> targets)
         {
             InitializeComponent();
 

@@ -104,15 +104,15 @@ namespace CityPuzzle.Rest_Services.Client
                 {
                     try
                     {
-                        a.CompletedTasks = await GetUserComplitedTasks(a.ID);
+                        a.QuestsCompleted = await GetUserComplitedTasks(a.ID);
                     }
                     catch (System.Net.Http.HttpRequestException ex)
                     {
-                        a.CompletedTasks = new List<CompletedTask>();
+                        a.QuestsCompleted = new List<CompletedTask>();
                     }
                     catch (APIFailedGetException ex)
                     {
-                        a.CompletedTasks = new List<CompletedTask>();
+                        a.QuestsCompleted = new List<CompletedTask>();
                     }
                 }
                 return users;
@@ -135,15 +135,15 @@ namespace CityPuzzle.Rest_Services.Client
                 var user = JsonConvert.DeserializeObject<User>(json);
                 try
                 {
-                    user.CompletedTasks = await GetUserComplitedTasks(UserId);
+                    user.QuestsCompleted = await GetUserComplitedTasks(UserId);
                 }
                 catch (System.Net.Http.HttpRequestException ex)
                 {
-                    user.CompletedTasks = new List<CompletedTask>();
+                    user.QuestsCompleted = new List<CompletedTask>();
                 }
                 catch (APIFailedGetException ex)
                 {
-                    user.CompletedTasks = new List<CompletedTask>();
+                    user.QuestsCompleted = new List<CompletedTask>();
                 }
                 return user;
             }

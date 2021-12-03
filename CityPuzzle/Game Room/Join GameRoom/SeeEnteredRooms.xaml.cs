@@ -123,7 +123,12 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
         {
             bool answer = await DisplayAlert("Dėmesio!", "Ar norite tęsti žaidimą - " + selectedRoom.ID, "Taip", "Ne");
             if (answer)
-                await Navigation.PushAsync(new QuestPage(selectedRoom.Tasks));
+            {
+                var allpuzzles = Sql.ReadPuzzles();
+                var questpuzzles = allpuzzles.Where(x => x.ID.Equals(selectedRoom)).ToList();
+                await Navigation.PushAsync(new QuestPage(questpuzzles));
+            }
+               
         }
         private async void RoomExistsError(Room selectedRoom, string msg)
         {
@@ -133,7 +138,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
         }
         private void CheckAvailability(Room selectedRoom)
         {
-            if (selectedRoom.ParticipantIDs.Count >= selectedRoom.RoomSize)
+            if (selectedRoom.Participants.Count >= selectedRoom.RoomSize)
                 throw new RoomFullException();
         }
     }

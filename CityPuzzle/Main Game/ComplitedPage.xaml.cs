@@ -13,9 +13,9 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ComplitedPage : ContentPage
     {
-        private readonly List<Lazy<Puzzle>> questsList;
+        private readonly List<Puzzle> questsList;
 
-        public ComplitedPage(Puzzle quest, List<Lazy<Puzzle>> questsList)
+        public ComplitedPage(Puzzle quest, List<Puzzle> questsList)
         {
             InitializeComponent();
 

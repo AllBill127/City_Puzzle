@@ -12,7 +12,8 @@ namespace CityPuzzle.Classes
     [DataContract]
     public class Room
     {
-        [Key][DataMember]
+        [Key]
+        [DataMember]
         [JsonProperty(PropertyName = "Id")]
         public int ID { get; set; }
         [DataMember]
@@ -23,27 +24,33 @@ namespace CityPuzzle.Classes
         public int? RoomSize { get; set; }
 
         [IgnoreDataMember]
-        public List<Lazy<Puzzle>> Tasks { get; set; }
-        [IgnoreDataMember]
-        public List<int> ParticipantIDs{ get; set; }
-        [IgnoreDataMember]
         public List<RoomTask> RoomTasks { get; set; }
         [IgnoreDataMember]
         public List<Participant> Participants { get; set; }
 
         public Room()
         {
-            Tasks = new List<Lazy<Puzzle>>();
-            ParticipantIDs = new List<int>();
+            RoomTasks = new List<RoomTask>();
+            Participants = new List<Participant>();
         }
         public void setParticipants(User user)
         {
-            ParticipantIDs.Add(user.ID);
+            Participants.Add(new Participant()
+            {
+                UserId = user.ID,
+                RoomId = ID
+            }
+            );
         }
 
         public void SetTask(Puzzle puzzle)
         {
-            Tasks.Add(new Lazy<Puzzle>(() =>puzzle));
+            RoomTasks.Add(new RoomTask()
+            {
+                PuzzleId = puzzle.ID,
+                RoomId = ID
+            }
+            );
         }
 
         public void Delete()
@@ -72,7 +79,7 @@ namespace CityPuzzle.Classes
                 ID = response.ID;
                 Console.WriteLine("Saving is working");
             }
-            catch (APIFailedSaveException ex)  
+            catch (APIFailedSaveException ex)
             {
                 Console.WriteLine("APIFailedSaveException Error" + ex);
             }
