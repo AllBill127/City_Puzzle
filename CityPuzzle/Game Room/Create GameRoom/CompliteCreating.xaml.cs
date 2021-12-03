@@ -19,7 +19,7 @@ namespace CityPuzzle
         {
             InitializeComponent();
             MyListView.ItemsSource = CreateGamePage.NewRoom.Value.Tasks;
-            idplace.Text = "Game pin: " + CreateGamePage.NewRoom.Value.Id;
+            idplace.Text = "Game pin: " + CreateGamePage.NewRoom.Value.ID;
             picker.ItemsSource = Size;
         }
 

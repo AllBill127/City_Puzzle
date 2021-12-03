@@ -34,6 +34,8 @@ namespace CityPuzzle.Classes
         public int MaxQuestDistance { get; set; }
         [IgnoreDataMember]
         public List<Lazy<Puzzle>> QuestsCompleted = new List<Lazy<Puzzle>>();
+        [IgnoreDataMember]
+        public List<CompletedTask> CompletedTasks = new List<CompletedTask>();
 
         public User() { }
         public User(string userName,string pass) {

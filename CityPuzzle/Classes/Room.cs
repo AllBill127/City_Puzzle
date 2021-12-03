@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using Newtonsoft.Json;
+using SQLite;
 using SQLiteNetExtensions.Attributes;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,8 @@ namespace CityPuzzle.Classes
     public class Room
     {
         [Key][DataMember]
-        public int Id { get; set; }
+        [JsonProperty(PropertyName = "Id")]
+        public int ID { get; set; }
         [DataMember]
         public string RoomPin { get; set; }
         [DataMember]
@@ -24,7 +26,11 @@ namespace CityPuzzle.Classes
         public List<Lazy<Puzzle>> Tasks { get; set; }
         [IgnoreDataMember]
         public List<int> ParticipantIDs{ get; set; }
-       
+        [IgnoreDataMember]
+        public List<RoomTask> RoomTasks { get; set; }
+        [IgnoreDataMember]
+        public List<Participant> Participants { get; set; }
+
         public Room()
         {
             Tasks = new List<Lazy<Puzzle>>();
@@ -42,7 +48,7 @@ namespace CityPuzzle.Classes
 
         public void Delete()
         {
-            string adress = "Rooms/" + this.Id;
+            string adress = "Rooms/" + this.ID;
 
             try
             {
@@ -63,7 +69,7 @@ namespace CityPuzzle.Classes
             try
             {
                 var response = await App.WebServices.SaveObject(this);
-                Id = response.Id;
+                ID = response.ID;
                 Console.WriteLine("Saving is working");
             }
             catch (APIFailedSaveException ex)  

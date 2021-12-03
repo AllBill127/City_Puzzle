@@ -1,9 +1,5 @@
 ﻿using CityPuzzle.Classes;
-using CityPuzzle.Rest_Services.Model;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,12 +19,7 @@ namespace CityPuzzle.Rest_Services.Client
         protected async Task<HttpResponseMessage> SendItem(string objectPath, string json)
         {
 
-            HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-
-
-            Console.WriteLine("Siunciamas i " + url + objectPath + " " + json);
-           
+            HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");           
             var result = await httpClient.PostAsync(url + objectPath, content).ConfigureAwait(true);
             if (result.IsSuccessStatusCode)
             {
@@ -40,7 +31,6 @@ namespace CityPuzzle.Rest_Services.Client
         protected async Task<HttpResponseMessage> DeleateItem(string objectPath)
         {
             var content = await httpClient.DeleteAsync(url + objectPath);
-            Console.WriteLine(content);
             return content;
         }
 

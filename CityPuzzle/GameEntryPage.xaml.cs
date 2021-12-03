@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Net;
 using CityPuzzle.Classes;
 using CityPuzzle.Game_Room.Join_GameRoom;
-using CityPuzzle.Rest_Services;
-using CityPuzzle.Rest_Services.Model;
+
 
 namespace CityPuzzle
 {
@@ -73,53 +68,8 @@ namespace CityPuzzle
         }
         private async void test_Click(object sender, EventArgs e)
         {
-            //App.WebServices.GetParticipants();
-            //App.WebServices.GetTasks();
-            //App.WebServices.GetUsers();
-            // App.WebServices.GetRooms();
-            // App.WebServices.GetPuzzles();
-            //  App.WebServices.GetRoomTasks();
-            //Rest_Services.Model.Room articipant = new Rest_Services.Model.Room()
-            //{
-            //    id=9999,
-            //    roomPin="1000",
-            //    owner=9999,
-            //    roomSize=8888
-            //};
-            //await App.WebServices.GetPuzzles();
-
-            CompletedTask articipant = new CompletedTask()
-            {
-                PuzzleId=88,
-                UserId=89
-
-
-            };
-            CompletedTask sarticipant = new CompletedTask()
-            {
-                PuzzleId = 88,
-                UserId = 88
-
-
-            };
-            Task taskA = Task.Run(() => sarticipant.Save());
-            taskA.Wait();
-            List<CompletedTask> sa = await App.WebServices.GetTasks();
-            articipant.Delete();
-            //Rest_Services.Model.RoomTask articipant = new Rest_Services.Model.RoomTask()
-            //{
-            //    PuzzleId=10,
-            //    RoomId=100
-            //};
-            //App.WebServices.SaveObject(articipant);
-
-            //Console.WriteLine("SIunciu");
-            //List<Rest_Services.Model.Puzzle> part = await App.WebServices.GetPuzzles();
-            //Console.WriteLine("Trinu");
-            //part[0].Delete();
-
-            // App.WebServices.SaveObject(articipant);
-            //HttpClientRequest.GetParticipants();
+            var a = await App.WebServices.GetRoom(4);
+            Console.WriteLine("Trinu"+ a.RoomPin);
         }
 
     }

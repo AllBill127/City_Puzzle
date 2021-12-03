@@ -1,17 +1,14 @@
 ﻿using CityPuzzle.Classes;
-using CityPuzzle.Rest_Services.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CityPuzzle.Rest_Services.Client
 {
-    public class APICommands: HttpClientRequest
+    public class APICommands : HttpClientRequest
     {
         private static List<Participant> participants;
         private static List<CompletedTask> tasks;
@@ -20,105 +17,336 @@ namespace CityPuzzle.Rest_Services.Client
         private static List<Puzzle> puzzles;
         private static List<RoomTask> roomTasks;
 
-
+        //Komandos su Participant
         public async Task<List<Participant>> GetParticipants()
         {
-            var json=await SendCommand("Participants");
-            var _participant = JsonConvert.DeserializeObject<List<Participant>>(json);
-            participants = new List<Participant>(_participant);
-            foreach (var a in participants)
+            try
             {
-                Console.WriteLine(a.RoomId);
+                var json = await SendCommand("Participants");
+                var _participant = JsonConvert.DeserializeObject<List<Participant>>(json);
+                participants = new List<Participant>(_participant);
+                return participants;
             }
-            return participants;
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedGetException();
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
+            }
         }
+
+        public async Task<List<Participant>> GetRoomParticipants(int roomid)
+        {
+            try
+            {
+                var json = await SendCommand("Participants/" + roomid);
+                var _participants = JsonConvert.DeserializeObject<List<Participant>>(json);
+                participants = new List<Participant>(_participants);
+                return participants;
+            }
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedGetException(ex.Message); ;
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
+            }
+        }
+        //Komandos su CompletedTask
         public async Task<List<CompletedTask>> GetTasks()
         {
-            var json = await SendCommand("Tasks");
-            var _tasks = JsonConvert.DeserializeObject<List<CompletedTask>>(json);
-            tasks = new List<CompletedTask>(_tasks);
-            foreach (var a in tasks)
+            try
             {
-                Console.WriteLine(a.UserId+" "+a.PuzzleId);
+                var json = await SendCommand("Tasks");
+                var _tasks = JsonConvert.DeserializeObject<List<CompletedTask>>(json);
+                tasks = new List<CompletedTask>(_tasks);
+                return tasks;
             }
-            return tasks;
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
+            }
         }
+        public async Task<List<CompletedTask>> GetUserComplitedTasks(int userId)
+        {
+            try
+            {
+                var json = await SendCommand("Tasks/" + userId);
+                var _tasks = JsonConvert.DeserializeObject<List<CompletedTask>>(json);
+                tasks = new List<CompletedTask>(_tasks);
+                return tasks;
+            }
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
+            }
+        }
+        //Komandos su User
         public async Task<List<User>> GetUsers()
         {
-            var json = await SendCommand("Users");
-            var _users = JsonConvert.DeserializeObject<List<User>>(json);
-            users = new List<User>(_users);
-            foreach (var a in users)
+            try
             {
-                Console.WriteLine(a.ID+a.UserName);
+                var json = await SendCommand("Users");
+                var _users = JsonConvert.DeserializeObject<List<User>>(json);
+                users = new List<User>(_users);
+                foreach (var a in users)
+                {
+                    try
+                    {
+                        a.CompletedTasks = await GetUserComplitedTasks(a.ID);
+                    }
+                    catch (System.Net.Http.HttpRequestException ex)
+                    {
+                        a.CompletedTasks = new List<CompletedTask>();
+                    }
+                    catch (APIFailedGetException ex)
+                    {
+                        a.CompletedTasks = new List<CompletedTask>();
+                    }
+                }
+                return users;
             }
-            return users;
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
+            }
         }
+
+        public async Task<User> GetUser(int UserId)
+        {
+            try
+            {
+                var json = await SendCommand("Users/" + UserId);
+                var user = JsonConvert.DeserializeObject<User>(json);
+                try
+                {
+                    user.CompletedTasks = await GetUserComplitedTasks(UserId);
+                }
+                catch (System.Net.Http.HttpRequestException ex)
+                {
+                    user.CompletedTasks = new List<CompletedTask>();
+                }
+                catch (APIFailedGetException ex)
+                {
+                    user.CompletedTasks = new List<CompletedTask>();
+                }
+                return user;
+            }
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
+            }
+        }
+        //Komandos su Room
         public async Task<List<Room>> GetRooms()
         {
             var json = await SendCommand("Rooms");
-            var _rooms = JsonConvert.DeserializeObject<List<Room>>(json);
-            rooms = new List<Room>(_rooms);
-            foreach (var a in rooms)
+            try
             {
-                Console.WriteLine(a.Id + a.Owner);
+                var _rooms = JsonConvert.DeserializeObject<List<Room>>(json);
+                rooms = new List<Room>(_rooms);
+                foreach (var a in rooms)
+                {
+                    try
+                    {
+                        a.Participants = await GetRoomParticipants(a.ID);
+                    }
+                    catch (System.Net.Http.HttpRequestException ex)
+                    {
+                        a.RoomTasks = new List<RoomTask>();
+                    }
+                    catch (APIFailedGetException ex)
+                    {
+                        a.RoomTasks = new List<RoomTask>();
+                    }
+                    try
+                    {
+                        a.RoomTasks = await GetRoomsTasks(a.ID);
+                    }
+                    catch (System.Net.Http.HttpRequestException ex)
+                    {
+                        a.RoomTasks = new List<RoomTask>();
+                    }
+                    catch (APIFailedGetException ex)
+                    {
+                        a.RoomTasks = new List<RoomTask>();
+                    }
+                }
+                return rooms;
             }
-            return rooms;
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
+            }
         }
+
+        public async Task<Room> GetRoom(int roomId)
+        {
+            try
+            {
+                var json = await SendCommand("Rooms/" + roomId);
+                var Room = JsonConvert.DeserializeObject<Room>(json);
+                try
+                {
+                    Room.Participants = await GetRoomParticipants(roomId);
+                }
+                catch (System.Net.Http.HttpRequestException ex)
+                {
+                    Room.Participants = new List<Participant>();
+                }
+                catch (APIFailedGetException ex)// GALIMA PERNESTI DAUG REIKLAINGOS INFORMACIJOS REIKLAINGOS TESTINIMUI
+                {
+                    Room.Participants = new List<Participant>();
+                }
+                try
+                {
+                    Room.RoomTasks = await GetRoomsTasks(Room.ID);
+                }
+                catch (System.Net.Http.HttpRequestException ex)
+                {
+                    Room.RoomTasks = new List<RoomTask>();
+                }
+                catch (APIFailedGetException ex)// GALIMA PERNESTI DAUG REIKLAINGOS INFORMACIJOS REIKLAINGOS TESTINIMUI
+                {
+                    Room.RoomTasks = new List<RoomTask>();
+                }
+                return Room;
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
+            }
+        }
+        //Komandos su Puzzle
         public async Task<List<Puzzle>> GetPuzzles()
         {
-            var json = await SendCommand("Puzzles");
-            Console.WriteLine("json " + json.ToString());
-            var _puzzles = JsonConvert.DeserializeObject<List<Puzzle>>(json);
-            puzzles = new List<Puzzle>(_puzzles);
-            foreach (var a in puzzles)
+            try
             {
-                Console.WriteLine("iNFO "+a.Id + a.About);
+                var json = await SendCommand("Puzzles");
+                var _puzzles = JsonConvert.DeserializeObject<List<Puzzle>>(json);
+                puzzles = new List<Puzzle>(_puzzles);
+                return puzzles;
             }
-            Console.WriteLine("Gaunu");
-
-            return puzzles;
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
         }
+
+        public async Task<Puzzle> GetPuzzle(int puzzleId)
+        {
+            try
+            {
+                var json = await SendCommand("Puzzles/" + puzzleId);
+                var puzzle = JsonConvert.DeserializeObject<Puzzle>(json);
+                return puzzle;
+            }
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
+        }
+        //Komandos su RoomTasks
         public async Task<List<RoomTask>> GetRoomTasks()
         {
-            var json = await SendCommand("RoomTasks");
-            var _roomTasks = JsonConvert.DeserializeObject<List<RoomTask>>(json);
-            roomTasks = new List<RoomTask>(_roomTasks);
-            foreach (var a in puzzles)
+            try
             {
-                Console.WriteLine(a.Id + a.About);
+                var json = await SendCommand("RoomTasks");
+                var _roomTasks = JsonConvert.DeserializeObject<List<RoomTask>>(json);
+                roomTasks = new List<RoomTask>(_roomTasks);
+                return roomTasks;
             }
-            return roomTasks;
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedGetException();
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
         }
+
+        public async Task<List<RoomTask>> GetRoomsTasks(int roomID)
+        {
+            try
+            {
+                var json = await SendCommand("RoomTasks/" + roomID);
+                var _roomTasks = JsonConvert.DeserializeObject<List<RoomTask>>(json);
+                var roomTasks = new List<RoomTask>(_roomTasks);
+                return roomTasks;
+            }
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
+            }
+        }
+        //Komandos su Savinti
         public async Task<T> SaveObject<T>(T item)//pabaigtas
         {
             Type typeParameterType = typeof(T);
-            string jsonItem = Serialize(item);
             try
             {
-                var response=await SendItem(GetAdress(item), jsonItem);
-                Console.WriteLine("res: "+await response.Content.ReadAsStringAsync());
-
+                string jsonItem = Serialize(item);
+                var response = await SendItem(GetAdress(item), jsonItem);
                 if (response.IsSuccessStatusCode)
                 {
-                   
+
                     var responseItem = JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
                     return responseItem;
                 }
                 else
                 {
-                    throw new APIFailedSaveException("response StatusCode is bad "+ jsonItem);
+                    throw new APIFailedSaveException("response StatusCode is bad " + jsonItem);
                 }
             }
             catch (APIFailedSaveException ex)
             {
                 throw ex;
             }
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedSaveException(ex.Message);
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedSaveException("Serialize error: " + ex.Message);
+            }
             catch (Exception ex)
             {
                 throw ex;
             }
-            throw new APIFailedSaveException("Unknown error");
+  
         }
         public static string Serialize<T>(T item)
         {

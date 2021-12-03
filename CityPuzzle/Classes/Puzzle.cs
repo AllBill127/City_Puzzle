@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using Newtonsoft.Json;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +12,8 @@ namespace CityPuzzle.Classes
     {
         [Key]
         [DataMember]
-        public int Id { get; set; }
+        [JsonProperty(PropertyName = "Id")]
+        public int ID { get; set; }
         [DataMember]
         public string Name { get; set; }
         [DataMember]
@@ -27,7 +29,7 @@ namespace CityPuzzle.Classes
 
         public void Delete()
         {
-            string adress = "Puzzles/" + this.Id;
+            string adress = "Puzzles/" + this.ID;
             
             try
             {
@@ -49,7 +51,7 @@ namespace CityPuzzle.Classes
             try
             {
                 var response = await App.WebServices.SaveObject(this);
-                Id = response.Id;
+                ID = response.ID;
                 Console.WriteLine("Saving is working");
             }
             catch (APIFailedSaveException ex) //reikia pagalvot kaip handlinti(galima mesti toliau ir try kur skaitoma(throw)) 

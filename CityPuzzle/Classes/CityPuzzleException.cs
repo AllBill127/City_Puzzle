@@ -44,7 +44,7 @@ namespace CityPuzzle.Classes
     {
         public Room CurrentRoom;
         public MultiRegistrationException(Room room)
-            : base(String.Format("Jus jau registruotas šiame zaidyme. Ar norite testi zaidima "+ room.Id))
+            : base(String.Format("Jus jau registruotas šiame zaidyme. Ar norite testi zaidima "+ room.ID))
         {
             CurrentRoom = room;
         }
@@ -104,6 +104,16 @@ namespace CityPuzzle.Classes
         { }
         public APIFailedDeleteException(string message)
             : base(String.Format(message))
+        { }
+    }
+    [Serializable]
+    public class APIFailedGetException : Exception
+    {
+        public APIFailedGetException()
+            : base(String.Format("Error:failed Get"))
+        { }
+        public APIFailedGetException(string message)
+            : base(String.Format("Error:failed Get :"+message))
         { }
     }
 }
