@@ -5,13 +5,13 @@
     <ContentPage.Content>
         <StackLayout>
             <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
-                <Label x:Name="Complitedname" HorizontalOptions="CenterAndExpand" FontSize="36" TextColor="Black" ></Label>
+                <Label x:Name="completedName" HorizontalOptions="CenterAndExpand" FontSize="36" TextColor="Black" ></Label>
             </Frame>
-                <Image x:Name="ComplitedImg" WidthRequest="300" HeightRequest="300"></Image>
+                <Image x:Name="completedImg" WidthRequest="300" HeightRequest="300"></Image>
             <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
-                <Label x:Name="Complitedinfo" HorizontalOptions="CenterAndExpand" FontSize="18" TextColor="Black" ></Label>
+                <Label x:Name="completedInfo" HorizontalOptions="CenterAndExpand" FontSize="18" TextColor="Black" ></Label>
             </Frame>
-            <Button Text="Delioti kita puzzle" Clicked="NewPuzzle"></Button>
+            <Button Text="Pradėti naują užduotį" Clicked="NewPuzzle_clicked"></Button>
 
         </StackLayout>
     </ContentPage.Content>
