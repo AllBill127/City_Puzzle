@@ -78,4 +78,42 @@ namespace CityPuzzle.Classes
              : base(String.Format(message))
         { }
     }
+
+    [Serializable]
+    public class TypeNotExistException : Exception
+    {
+    public TypeNotExistException()
+        : base(String.Format("Error: bad call- GetAdress<T>(T item)"))
+    { }
+    }
+    [Serializable]
+    public class APIFailedSaveException : Exception
+    {
+        public APIFailedSaveException()
+            : base(String.Format("Error:failed saved"))
+        { }
+        public APIFailedSaveException(string message)
+            : base(String.Format(message))
+        { }
+    }
+    [Serializable]
+    public class APIFailedDeleteException : Exception
+    {
+        public APIFailedDeleteException()
+            : base(String.Format("Error:failed delete"))
+        { }
+        public APIFailedDeleteException(string message)
+            : base(String.Format(message))
+        { }
+    }
+    [Serializable]
+    public class APIFailedGetException : Exception
+    {
+        public APIFailedGetException()
+            : base(String.Format("Error:failed Get"))
+        { }
+        public APIFailedGetException(string message)
+            : base(String.Format("Error:failed Get :"+message))
+        { }
+    }
 }
