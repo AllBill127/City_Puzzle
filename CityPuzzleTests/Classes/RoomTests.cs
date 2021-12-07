@@ -1,6 +1,7 @@
 ﻿using CityPuzzle.Classes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -10,24 +11,34 @@ namespace CityPuzzle.Classes.Tests
     {
         [Theory]
         [MemberData(nameof(GetUsers))]
-        public void setParticipantsTestPass(User user)
+        public void setParticipantsTest(User user)
         {
             Room room = new Room() { ID = 100, Owner = 0, RoomSize = 0};
-
             room.setParticipants(user);
 
-            //Assert.Contains(user.ID, room.Participants);
+            Assert.True(room.Participants.Any(part => part.UserId == user.ID && part.RoomId == room.ID));
         }
 
         [Theory]
-        [MemberData(nameof(GetUsers))]
-        public void setParticipantsTestFail(User user)
+        [MemberData(nameof(GetPuzzles))]
+        public void setTaskTest(Puzzle puzzle)
         {
             Room room = new Room() { ID = 100, Owner = 0, RoomSize = 0 };
+            room.SetTask(puzzle);
 
-            room.setParticipants(user);
+            Assert.True(room.RoomTasks.Any(rt => rt.PuzzleId == puzzle.ID && rt.RoomId == room.ID));
+        }
 
-            //Assert.DoesNotContain(1889, room.Participants);
+        public static IEnumerable<object[]> GetPuzzles
+        {
+            get
+            {
+                return new[]
+                {
+                    new object[] { new Puzzle() { ID = 12 } },
+                    new object[] { new Puzzle() { ID = 13 } }
+                };
+            }
         }
 
         public static IEnumerable<object[]> GetUsers
