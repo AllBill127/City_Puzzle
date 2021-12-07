@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MiddlewareExamples.WebApi.Middleware;
+using Serilog;
 
 namespace CityPuzzleWebSer
 {
@@ -24,6 +26,11 @@ namespace CityPuzzleWebSer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("log-.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
+            services.AddControllers();
             services.AddControllersWithViews();
         }
 
@@ -40,6 +47,10 @@ namespace CityPuzzleWebSer
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //Handle errors from every used middleware
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -47,22 +58,14 @@ namespace CityPuzzleWebSer
 
             app.UseAuthorization();
 
+            //Check how long it takes to process HTTP requests
+            app.UseMiddleware<StatisticsMiddleware>();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
-
-            app.Use(async (context, next) =>
-            {
-                await next.Invoke();
-                var dt = new DateTime();
-                dt = DateTime.UtcNow - Process.GetCurrentProcess().StartTime.ToUniversalTime();
-            });
-            app.Run(async context =>
-            {
-                await context.Response.WriteAsync("App starting time:{0}", dt);
             });
         }
     }
