@@ -29,5 +29,17 @@ namespace CityPuzzle
         {
             Navigation.PushAsync(new QuestPage(questsList));
         }
+        protected override void OnDisappearing()// GAL reiktu tam klase nauja sukurt (Navigation)
+        {
+            var existingPages = Navigation.NavigationStack.ToList();
+            int stackSize = existingPages.Count;
+            Navigation.RemovePage(existingPages[existingPages.Count - 1]);
+        }
+        protected override void OnAppearing()
+        {
+            var existingPages = Navigation.NavigationStack.ToList();
+            int stackSize = existingPages.Count;
+            Navigation.RemovePage(existingPages[existingPages.Count - 2]);
+        }
     }
 }
