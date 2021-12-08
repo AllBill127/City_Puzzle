@@ -59,7 +59,7 @@ namespace CityPuzzle
                     Navigation.RemovePage(page);
             }
 
-            Navigation.PushAsync(new GameEntryPage());
+            Navigation.PushAsync(new GameMenuPage());
         }
     }
 }

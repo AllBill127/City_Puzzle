@@ -49,8 +49,8 @@
     <Compile Update="Login And SingUp\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="GameEntryPage.xaml.cs">
-      <DependentUpon>GameEntryPage.xaml</DependentUpon>
+    <Compile Update="GameMenuPage.xaml.cs">
+      <DependentUpon>GameMenuPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Side Pages\AddObjectPage.xaml.cs">
       <DependentUpon>AddObjectPage.xaml</DependentUpon>
@@ -88,7 +88,7 @@
     <EmbeddedResource Update="Login And SingUp\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="GameEntryPage.xaml">
+    <EmbeddedResource Update="GameMenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Side Pages\AddObjectPage.xaml">

@@ -24,7 +24,7 @@ namespace CityPuzzle
 
         private void LoadGameMenu(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new GameEntryPage());
+            Navigation.PushAsync(new GameMenuPage());
         }
 
         private void Login_Clicked(object sender, EventArgs e)
