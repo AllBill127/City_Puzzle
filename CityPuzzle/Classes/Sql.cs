@@ -33,6 +33,20 @@ namespace CityPuzzle.Classes
             return obTask.Result;
         }
 
+        public static List<Room> ReadUserRooms()
+        {
+            List<Room> allRooms = ReadRooms();
+
+            Task<List<Room>> taskFindUserRooms = Task.Run(() =>
+                (from room in allRooms
+                 where room.Owner == App.CurrentUser.ID
+                 select room).ToList()
+                 );
+            taskFindUserRooms.Wait();
+
+            return taskFindUserRooms.Result;
+        }
+
         // -------------------------------------------------Rooms--------------------------------------------------------------
         public static void SaveParticipants(string roomId, int userID)
         {
