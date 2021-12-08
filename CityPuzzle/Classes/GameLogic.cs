@@ -218,6 +218,7 @@ namespace CityPuzzle.Classes
                      where !IsCompleted(puzzle)
                      select puzzle)
                     .ToList();
+
                 if (inRange.Count != 0)
                 {
                     var random = new Random();
@@ -235,7 +236,8 @@ namespace CityPuzzle.Classes
             }
 
         }
-        public static Position GetTargetPosition()
+
+        public Position GetTargetPosition()
         {
             Position targetPosition = new Position(questLat,questLng);
             return targetPosition;
