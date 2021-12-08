@@ -22,6 +22,7 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 if (sendcommand.IsCompleted)
                 {
+                    timer.Abort();
                     return sendcommand.Result;
                 }
             }
