@@ -17,6 +17,11 @@ namespace CityPuzzle.Rest_Services.Client
         private static List<Puzzle> puzzles;
         private static List<RoomTask> roomTasks;
 
+        public APICommands() { }
+        public APICommands(string url) {
+            this.SetUrl(url);
+        }
+
         //Komandos su Participant
         public async Task<List<Participant>> GetParticipants()
         {

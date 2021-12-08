@@ -9,6 +9,7 @@ using BCryptNet = BCrypt.Net.BCrypt;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using CityPuzzle.Rest_Services.Client;
 
 namespace CityPuzzle.Classes
 {
@@ -102,6 +103,23 @@ namespace CityPuzzle.Classes
             try
             {
                 var response = await App.WebServices.SaveObject(this);
+                ID = response.ID;
+                Console.WriteLine("Saving is working");
+            }
+            catch (APIFailedSaveException ex) //reikia pagalvot kaip handlinti(galima mesti toliau ir try kur skaitoma(throw)) 
+            {
+                Console.WriteLine("APIFailedSaveException Error" + ex);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: else " + ex);
+            }
+        }
+        public async void Save(APICommands aPICommands)
+        {
+            try
+            {
+                var response = await aPICommands.SaveObject(this);
                 ID = response.ID;
                 Console.WriteLine("Saving is working");
             }

@@ -9,9 +9,13 @@ namespace CityPuzzle.Rest_Services.Client
 {
     public class HttpClientRequest
     {
-        private const string url = "http://10.0.2.2:5000/api/";
+        private string url = "http://10.0.2.2:5000/api/";
         static HttpClient httpClient = new HttpClient();
 
+        protected void SetUrl(string url)
+        {
+            this.url = url;
+        }
         public async Task<string> SendCommand(string objectPath)
         {
             Console.WriteLine("url + objectPath" + url + objectPath);
@@ -22,7 +26,6 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 if (sendcommand.IsCompleted)
                 {
-                    timer.Abort();
                     return sendcommand.Result;
                 }
             }
