@@ -20,7 +20,7 @@ namespace CityPuzzle
             InitializeComponent();
 
             this.questsList = questsList;
-            Sql.SaveComplitedTask(quest);
+            Sql.SaveCompletedPuzzle(quest);
             completedName.Text = quest.Name;
             completedInfo.Text = quest.About;
             completedImg.Source = quest.ImgAdress;

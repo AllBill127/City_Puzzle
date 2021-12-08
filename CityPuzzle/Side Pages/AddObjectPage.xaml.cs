@@ -36,7 +36,7 @@ namespace CityPuzzle
                     Latitude = Convert.ToDouble(objectX.Text),
                     Longitude = Convert.ToDouble(objectY.Text),
                 };
-                Sql.SavePuzzle(obj);
+                obj.Save();
 
                 Navigation.PopAsync();
             }
