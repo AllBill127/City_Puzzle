@@ -2,6 +2,7 @@
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CityPuzzle.Rest_Services.Client

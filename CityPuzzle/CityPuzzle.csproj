@@ -58,8 +58,8 @@
     <Compile Update="Main Game\ComplitedPage.xaml.cs">
       <DependentUpon>ComplitedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Game Room\Create GameRoom\CreateGamePage.xaml.cs">
-      <DependentUpon>CreateGamePage.xaml</DependentUpon>
+    <Compile Update="Game Room\Create GameRoom\CreateRoomPage.xaml.cs">
+      <DependentUpon>CreateRoomPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Game Room\Create GameRoom\AddPage.xaml.cs">
       <DependentUpon>AddPage.xaml</DependentUpon>
@@ -97,7 +97,7 @@
     <EmbeddedResource Update="Main Game\ComplitedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Game Room\Create GameRoom\CreateGamePage.xaml">
+    <EmbeddedResource Update="Game Room\Create GameRoom\CreateRoomPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Game Room\Create GameRoom\AddPage.xaml">
