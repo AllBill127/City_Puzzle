@@ -11,11 +11,11 @@ using Xamarin.Forms.Xaml;
 namespace CityPuzzle
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ComplitedPage : ContentPage
+    public partial class CompletedQuestPage : ContentPage
     {
         private readonly List<Puzzle> questsList;
 
-        public ComplitedPage(Puzzle quest, List<Puzzle> questsList)
+        public CompletedQuestPage(Puzzle quest, List<Puzzle> questsList)
         {
             InitializeComponent();
 

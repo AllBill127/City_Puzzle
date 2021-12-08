@@ -55,8 +55,8 @@
     <Compile Update="Side Pages\AddObjectPage.xaml.cs">
       <DependentUpon>AddObjectPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Main Game\ComplitedPage.xaml.cs">
-      <DependentUpon>ComplitedPage.xaml</DependentUpon>
+    <Compile Update="Main Game\CompletedQuestPage.xaml.cs">
+      <DependentUpon>CompletedQuestPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Game Room\Create GameRoom\CreateRoomPage.xaml.cs">
       <DependentUpon>CreateRoomPage.xaml</DependentUpon>
@@ -94,7 +94,7 @@
     <EmbeddedResource Update="Side Pages\AddObjectPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Main Game\ComplitedPage.xaml">
+    <EmbeddedResource Update="Main Game\CompletedQuestPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Game Room\Create GameRoom\CreateRoomPage.xaml">

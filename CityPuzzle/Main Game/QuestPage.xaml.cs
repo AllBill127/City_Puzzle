@@ -109,7 +109,7 @@ namespace CityPuzzle
         private async void QuestCompleted(object sender, GameLogic.OnQuestCompletedEventArgs e)
         {
             await DisplayAlert("Sveikiname!", "Jūs pasiekėte savo tikslą.", "Gerai");
-            await Navigation.PushAsync(new ComplitedPage(e.QuestCompleted, e.QuestsList));
+            await Navigation.PushAsync(new CompletedQuestPage(e.QuestCompleted, e.QuestsList));
         }
 
         // Shortly reveal whole image and then return masks
