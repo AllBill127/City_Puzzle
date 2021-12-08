@@ -91,6 +91,10 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
             }
+            catch (Exception ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
         }
         //Komandos su User
         public async Task<List<User>> GetUsers()
@@ -347,7 +351,7 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 throw ex;
             }
-  
+
         }
         public static string Serialize<T>(T item)
         {
