@@ -28,7 +28,7 @@ namespace CityPuzzle
         private static async void FillGameRomm()
         {
             await CreatePin();
-            NewRoom.Value.Owner = App.CurrentUser.ID;
+            
         }
         private static async Task CreatePin()
         {
@@ -76,6 +76,7 @@ namespace CityPuzzle
             // TO DO:
             // show loading gif on screen
             data_collector_thread.Join();
+            NewRoom.Value.Owner = App.CurrentUser.ID;
             await Navigation.PushAsync(new CompleteRoomPage());
         }
         private async void LookupRooms_Clicked(object sender, EventArgs e)
