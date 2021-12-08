@@ -20,26 +20,32 @@ namespace CityPuzzle
             InitializeComponent();
 
             this.questsList = questsList;
-            Sql.SaveCompletedPuzzle(quest);
+
+            var completedPuzzle = new CompletedPuzzle() { UserId = App.CurrentUser.ID, PuzzleId = quest.ID };
+            completedPuzzle.Save();
+
             completedName.Text = quest.Name;
             completedInfo.Text = quest.About;
             completedImg.Source = quest.ImgAdress;
         }
-        private void NewPuzzle_clicked(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new QuestPage(questsList));
-        }
+
         protected override void OnDisappearing()// GAL reiktu tam klase nauja sukurt (Navigation)
         {
             var existingPages = Navigation.NavigationStack.ToList();
             int stackSize = existingPages.Count;
             Navigation.RemovePage(existingPages[existingPages.Count - 1]);
         }
+
         protected override void OnAppearing()
         {
             var existingPages = Navigation.NavigationStack.ToList();
             int stackSize = existingPages.Count;
             Navigation.RemovePage(existingPages[existingPages.Count - 2]);
+        }
+
+        private void NewPuzzle_clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new QuestPage(questsList));
         }
     }
 }

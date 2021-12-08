@@ -33,20 +33,6 @@ namespace CityPuzzle.Classes
             return obTask.Result;
         }
 
-        // -------------------------------------------------Completed Puzzles--------------------------------------------------------------
-        public static void SaveCompletedPuzzle(Puzzle puzzle)
-        {
-            using (SqlConnection conn = new SqlConnection(ConnStr))
-            {
-                conn.Open();
-                var command = new SqlCommand("INSERT INTO Tasks (UserID,PuzzleID) VALUES (@UserID,@PuzzleID)", conn);
-                command.Parameters.AddWithValue("@UserID", App.CurrentUser.ID);
-                command.Parameters.AddWithValue("@PuzzleID", puzzle.ID);
-                command.ExecuteNonQuery();
-                conn.Close();
-            }
-        }
-
         // -------------------------------------------------Rooms--------------------------------------------------------------
         public static void SaveParticipants(string roomId, int userID)
         {

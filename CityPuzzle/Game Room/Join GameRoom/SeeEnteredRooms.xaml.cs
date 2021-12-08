@@ -13,8 +13,9 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
     public partial class SeeEnteredRooms : ContentPage
     {
         public static List<Room> AllRooms = new List<Room>();
-        public static List<User> AllUsers = new List<User>();
-        private static List<Room> EnteredRooms = new List<Room>();
+        public static List<User> AllUsers = new List<User>()
+
+        private static List<Room> enteredRooms = new List<Room>();
         private delegate void Change();
 
         public SeeEnteredRooms()
@@ -22,6 +23,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             InitializeComponent();
             tRefreash();
         }
+
         private async void tRefreash()
         {
             await Task.Run(() =>
@@ -29,6 +31,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
                 Refreash();
             });
         }
+
         private void ChangeView(Change del)
         {
             Device.BeginInvokeOnMainThread(() =>
@@ -36,6 +39,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
                 del();
             });
         }
+
         private void Refreash()
         {
             Thread tReadRooms = new Thread(() => { AllRooms = Sql.ReadRooms(); });
@@ -53,7 +57,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
                 ChangeView(delegate () { NoRooms.IsVisible = true; });
             else
             {
-                EnteredRooms = taskFindRooms.Result;
+                enteredRooms = taskFindRooms.Result;
                 ChangeView(delegate ()
                 {
                     MyListView.ItemsSource = taskFindRooms.Result;
@@ -62,6 +66,7 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             }
             ChangeView(delegate () { LoadingSmallGrid.IsVisible = false; });
         }
+
         private static List<Room> GetData()
         {
             List<Room> foundRooms = new List<Room>();
@@ -74,16 +79,17 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             Task.WaitAll();
             foreach (string pin in tFind.Result)
             {
-                foundRooms .Add(AllRooms.SingleOrDefault(x => x.RoomPin == pin));
+                foundRooms.Add(AllRooms.SingleOrDefault(x => x.RoomPin == pin));
             }
             return foundRooms;
         }
+
         private async void Sign_Click(object sender, EventArgs e)
         {
             try
             {
                 string gamePin = GamePin.Text;
-                Room current = EnteredRooms.SingleOrDefault(x => x.RoomPin.Equals(gamePin));
+                Room current = enteredRooms.SingleOrDefault(x => x.RoomPin.Equals(gamePin));
                 if (current != null) throw new MultiRegistrationException(current);
                 current = AllRooms.SingleOrDefault(x => x.RoomPin.Equals(gamePin));
                 if (current == null) throw new RoomNotExistException();
@@ -96,23 +102,24 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
             }
             catch (RoomNotExistException exception)
             {
-                await DisplayAlert ("Dėmesio!", exception.Message, "Gerai");
+                await DisplayAlert("Dėmesio!", exception.Message, "Gerai");
             }
             catch (MultiRegistrationException exception)
             {
                 RoomExistsError(exception.CurrentRoom, exception.Message);
             }
         }
+
         private void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item != null)
             {
-                AskIfContinueRoom(EnteredRooms[e.ItemIndex]);
+                AskIfContinueRoom(enteredRooms[e.ItemIndex]);
             }
             MyListView.SelectedItem = null;
             Console.WriteLine(" " + e.Item);
         }
-        
+
         async void SelectMsg(Room selectedRoom)//cia exseption negalima panaudoti
         {
             bool answer = await DisplayAlert("Demesio", "Ar norite testi zaidima- " + selectedRoom.RoomPin, "Taip", "Ne");
@@ -128,14 +135,15 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
                 var questpuzzles = allpuzzles.Where(x => x.ID.Equals(selectedRoom)).ToList();
                 await Navigation.PushAsync(new QuestPage(questpuzzles));
             }
-               
         }
+
         private async void RoomExistsError(Room selectedRoom, string msg)
         {
             bool answer = await DisplayAlert("Dėmesio!", msg, "Taip", "Ne");
             if (answer)
                 AskIfContinueRoom(selectedRoom);
         }
+
         private void CheckAvailability(Room selectedRoom)
         {
             if (selectedRoom.Participants.Count >= selectedRoom.RoomSize)

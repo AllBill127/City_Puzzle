@@ -15,7 +15,8 @@ namespace CityPuzzle.Rest_Services.Client
         public async Task<string> SendCommand(string objectPath)
         {
             Console.WriteLine("url + objectPath" + url + objectPath);
-            Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
+            return await httpClient.GetStringAsync(url + objectPath);
+            /*Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
             Thread timer = new Thread(new ThreadStart(() => Thread.Sleep(3000)));
             timer.Start();
             while (timer.IsAlive)
@@ -27,7 +28,7 @@ namespace CityPuzzle.Rest_Services.Client
                 }
             }
             Console.WriteLine("Canceled");
-            throw new APIFailedGetException("AFTER 3 SEC NO RESPONSE");
+            throw new APIFailedGetException("AFTER 3 SEC NO RESPONSE");*/
         }
         protected async Task<HttpResponseMessage> SendItem(string objectPath, string json)
         {
@@ -63,7 +64,7 @@ namespace CityPuzzle.Rest_Services.Client
                 return "RoomTasks";
             if (typeParameterType == typeof(User))
                 return "Users";
-            if (typeParameterType == typeof(CompletedTask))
+            if (typeParameterType == typeof(CompletedPuzzle))
                 return "Tasks";
             throw new Classes.TypeNotExistException();
         }

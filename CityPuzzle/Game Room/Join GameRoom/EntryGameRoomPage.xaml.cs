@@ -16,11 +16,11 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EntryGameRoomPage : ContentPage
     {
-        public string EntryRoomID;
-        public XElement grupedList;
-        public Room CurrentRoom;
-        public User RoomOwner;
-        public delegate double Calculate(double Lat1, double Lon1, double Lat2, double Lon2);
+        private string entryRoomID;
+        private Room currentRoom;
+        private User roomOwner;
+        private delegate double calculate(double Lat1, double Lon1, double Lat2, double Lon2);
+
         public EntryGameRoomPage()
         {
             InitializeComponent();
@@ -41,43 +41,43 @@ namespace CityPuzzle
         async void NoReadComplitedError()//exeotionus galima panaudoti
         {
             await DisplayAlert("Demesio", "Nepavyksta gauti duomenu. Bandykite veliau.", "OK");
-            Navigation.PopAsync();
+            await Navigation.PopAsync();
         }
         async void NoRoomFoundError()
         {
             await DisplayAlert("Demesio", "Nepavyksta aptikti kambario su Jusu GamePin.", "OK");
-            Navigation.PopAsync();
+            await Navigation.PopAsync();
         }
         async void NoOwnerFoundError()
         {
             await DisplayAlert("Demesio", "Nepavyksta aptikti duomenu susijusiu su Jusu GamePin.", "OK");
-            Navigation.PopAsync();
+            await Navigation.PopAsync();
         }
         async void CompitedJoin()
         {
             await DisplayAlert("Sveikiname", "Jus dalyvaujate GameRoome.", "OK");
-            Navigation.PopAsync();
+            await Navigation.PopAsync();
         }
-        protected override void OnAppearing()
+        /*protected override void OnAppearing()
         {
             base.OnAppearing();
 
-        }
-        // ----------------------------Galimi exeptionai----------------------
+        }*/
+
         void ShowAbout(string EntryRoomID)
         {
             Loading.IsVisible = false;
             RoomInfo.IsVisible = true;
-            CurrentRoom = SeeEnteredRooms.AllRooms.SingleOrDefault(x => x.RoomPin.Equals(EntryRoomID));
-            if (CurrentRoom == null) NoRoomFoundError();/// exeptionas
+            currentRoom = SeeEnteredRooms.AllRooms.SingleOrDefault(x => x.RoomPin.Equals(EntryRoomID));
+            if (currentRoom == null) NoRoomFoundError();/// exeptionas
             else
             {
-                PuzzleCount.Text = "" + CurrentRoom.RoomTasks.Count();
-                RoomOwner = SeeEnteredRooms.AllUsers.SingleOrDefault(x => x.ID.Equals(CurrentRoom.Owner));
-                if (RoomOwner == null) NoOwnerFoundError();/// exeptionas
-                else OwnerName.Text = RoomOwner.Name;
+                PuzzleCount.Text = "" + currentRoom.RoomTasks.Count();
+                roomOwner = SeeEnteredRooms.AllUsers.SingleOrDefault(x => x.ID.Equals(currentRoom.Owner));
+                if (roomOwner == null) NoOwnerFoundError();/// exeptionas
+                else OwnerName.Text = roomOwner.Name;
                 RoomPinas.Text = EntryRoomID;
-                //Calculate distance = delegate (double Lat1, double Lon1, double Lat2, double Lon2)
+                //calculate distance = delegate (double Lat1, double Lon1, double Lat2, double Lon2)
                 //{
                 //    Location start = new Location(Lat1, Lon1);
                 //    Location end = new Location(Lat2, Lon2);
@@ -101,13 +101,13 @@ namespace CityPuzzle
         {
             Loading.IsVisible = false;
             RoomInfo.IsVisible = true;
-            CurrentRoom = room;
-            PuzzleCount.Text = "" + CurrentRoom.RoomTasks.Count();
-            RoomOwner = SeeEnteredRooms.AllUsers.SingleOrDefault(x => x.ID.Equals(CurrentRoom.Owner));
-            if (RoomOwner == null) NoOwnerFoundError();
-            OwnerName.Text = RoomOwner.Name;
-            RoomPinas.Text = EntryRoomID;
-            //Calculate distance = delegate (double Lat1, double Lon1, double Lat2, double Lon2)
+            currentRoom = room;
+            PuzzleCount.Text = "" + currentRoom.RoomTasks.Count();
+            roomOwner = SeeEnteredRooms.AllUsers.SingleOrDefault(x => x.ID.Equals(currentRoom.Owner));
+            if (roomOwner == null) NoOwnerFoundError();
+            OwnerName.Text = roomOwner.Name;
+            RoomPinas.Text = entryRoomID;
+            //calculate distance = delegate (double Lat1, double Lon1, double Lat2, double Lon2)
             //     {
             //         Location start = new Location(Lat1, Lon1);
             //         Location end = new Location(Lat2, Lon2);
@@ -129,7 +129,7 @@ namespace CityPuzzle
     
     void Start_Click(object sender, EventArgs e)
     {
-        Sql.SaveParticipants(CurrentRoom.RoomPin, App.CurrentUser.ID);
+        Sql.SaveParticipants(currentRoom.RoomPin, App.CurrentUser.ID);
         CompitedJoin();
         Navigation.PopAsync();
     }

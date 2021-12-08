@@ -19,7 +19,7 @@ namespace CityPuzzle.Classes.Tests
                 for (int i = 0; i < user.ID; ++i)
                 {
                     
-                    user.QuestsCompleted.Add(new CompletedTask());
+                    user.QuestsCompleted.Add(new CompletedPuzzle());
                 }
             }
 

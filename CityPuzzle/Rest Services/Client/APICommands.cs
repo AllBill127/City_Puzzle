@@ -11,7 +11,7 @@ namespace CityPuzzle.Rest_Services.Client
     public class APICommands : HttpClientRequest
     {
         private static List<Participant> participants;
-        private static List<CompletedTask> tasks;
+        private static List<CompletedPuzzle> tasks;
         private static List<User> users;
         private static List<Room> rooms;
         private static List<Puzzle> puzzles;
@@ -55,14 +55,14 @@ namespace CityPuzzle.Rest_Services.Client
                 throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
             }
         }
-        //Komandos su CompletedTask
-        public async Task<List<CompletedTask>> GetTasks()
+        //Komandos su CompletedPuzzle
+        public async Task<List<CompletedPuzzle>> GetTasks()
         {
             try
             {
                 var json = await SendCommand("Tasks");
-                var _tasks = JsonConvert.DeserializeObject<List<CompletedTask>>(json);
-                tasks = new List<CompletedTask>(_tasks);
+                var _tasks = JsonConvert.DeserializeObject<List<CompletedPuzzle>>(json);
+                tasks = new List<CompletedPuzzle>(_tasks);
                 return tasks;
             }
             catch (System.Net.Http.HttpRequestException ex)
@@ -74,13 +74,13 @@ namespace CityPuzzle.Rest_Services.Client
                 throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
             }
         }
-        public async Task<List<CompletedTask>> GetUserComplitedTasks(int userId)
+        public async Task<List<CompletedPuzzle>> GetUserComplitedTasks(int userId)
         {
             try
             {
                 var json = await SendCommand("Tasks/" + userId);
-                var _tasks = JsonConvert.DeserializeObject<List<CompletedTask>>(json);
-                tasks = new List<CompletedTask>(_tasks);
+                var _tasks = JsonConvert.DeserializeObject<List<CompletedPuzzle>>(json);
+                tasks = new List<CompletedPuzzle>(_tasks);
                 return tasks;
             }
             catch (System.Net.Http.HttpRequestException ex)
@@ -112,11 +112,11 @@ namespace CityPuzzle.Rest_Services.Client
                     }
                     catch (System.Net.Http.HttpRequestException ex)
                     {
-                        a.QuestsCompleted = new List<CompletedTask>();
+                        a.QuestsCompleted = new List<CompletedPuzzle>();
                     }
                     catch (APIFailedGetException ex)
                     {
-                        a.QuestsCompleted = new List<CompletedTask>();
+                        a.QuestsCompleted = new List<CompletedPuzzle>();
                     }
                 }
                 return users;
@@ -143,11 +143,11 @@ namespace CityPuzzle.Rest_Services.Client
                 }
                 catch (System.Net.Http.HttpRequestException ex)
                 {
-                    user.QuestsCompleted = new List<CompletedTask>();
+                    user.QuestsCompleted = new List<CompletedPuzzle>();
                 }
                 catch (APIFailedGetException ex)
                 {
-                    user.QuestsCompleted = new List<CompletedTask>();
+                    user.QuestsCompleted = new List<CompletedPuzzle>();
                 }
                 return user;
             }

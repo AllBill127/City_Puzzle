@@ -8,7 +8,7 @@ using System.Text;
 namespace CityPuzzle.Classes
 {
     [DataContract]
-    public partial class CompletedTask
+    public partial class CompletedPuzzle
     {
         [Key]
         [DataMember]
@@ -17,7 +17,7 @@ namespace CityPuzzle.Classes
         [DataMember]
         public int PuzzleId { get; set; }
 
-        public CompletedTask()
+        public CompletedPuzzle()
         {
 
         }
