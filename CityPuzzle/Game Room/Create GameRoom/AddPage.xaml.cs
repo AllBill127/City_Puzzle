@@ -12,12 +12,13 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddPage : ContentPage
     {
-        private AddPageLogic addPageLogic = new AddPageLogic();
+        private AddPageLogic addPageLogic;
 
-        public AddPage()
+        public AddPage(List<Puzzle> roomPuzzles)
         {
             InitializeComponent();
-            addPageLogic.OnEndOfPuzzles += EndOfPuzzles;
+            addPageLogic = new AddPageLogic(roomPuzzles);
+            addPageLogic.OnEndOfPuzzles += FinishSelecting_Clicked;
             addPageLogic.OnPuzzleChange += ShowPuzzle;
             addPageLogic.OnNoPuzzlesFound += EmptyListError;
 
@@ -41,8 +42,8 @@ namespace CityPuzzle
 
         private void FinishSelecting_Clicked(object sender, EventArgs e)
         {
-            List<int> puzzleIds = addPageLogic.SelectedPuzzles.Select(x => x.ID).ToList();
-            CreateGamePage.PuzzleIds.AddRange(puzzleIds);
+            CreateGamePage.RoomPuzzles = addPageLogic.SelectedPuzzles;
+            Navigation.PopAsync();
         }
 
         private void ShowPuzzle(object sender, OnPuzzleChangeEventArgs e)
@@ -50,11 +51,6 @@ namespace CityPuzzle
             PuzzleName.Text = e.Name;
             PuzzleImg.Source = e.ImgAdress;
             PuzzleInfo.Text = e.About;
-        }
-
-        private void EndOfPuzzles(object sender, EventArgs e)
-        {
-            Navigation.PopAsync();
         }
 
         private async void EmptyListError(object sender, EventArgs e)
