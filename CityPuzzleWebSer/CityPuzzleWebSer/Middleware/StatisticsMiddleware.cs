@@ -8,7 +8,7 @@ using Serilog;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace MiddlewareExamples.WebApi.Middleware
+namespace Middleware.WebApi
 {
     public class StatisticsMiddleware
     {

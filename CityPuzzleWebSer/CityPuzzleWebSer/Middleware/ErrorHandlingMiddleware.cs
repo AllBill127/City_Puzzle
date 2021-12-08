@@ -10,7 +10,7 @@ using System.Net;
 using System.IO;
 using Microsoft.AspNetCore.Http.Extensions;
 
-namespace MiddlewareExamples.WebApi.Middleware
+namespace Middleware.WebApi
 {
     public class ErrorHandlingMiddleware
     {
