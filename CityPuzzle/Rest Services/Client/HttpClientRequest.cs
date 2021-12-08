@@ -16,7 +16,7 @@ namespace CityPuzzle.Rest_Services.Client
         {
             Console.WriteLine("url + objectPath" + url + objectPath);
             Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
-            Thread timer = new Thread(new ThreadStart(startTimer));
+            Thread timer = new Thread(new ThreadStart(() => Thread.Sleep(3000)));
             timer.Start();
             while (timer.IsAlive)
             {
@@ -66,10 +66,6 @@ namespace CityPuzzle.Rest_Services.Client
             if (typeParameterType == typeof(CompletedTask))
                 return "Tasks";
             throw new Classes.TypeNotExistException();
-        }
-        public void startTimer()
-        {
-            Thread.Sleep(3000);
         }
     }
 }
