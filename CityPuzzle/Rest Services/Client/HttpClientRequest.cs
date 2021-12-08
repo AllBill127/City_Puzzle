@@ -13,9 +13,19 @@ namespace CityPuzzle.Rest_Services.Client
 
         public async Task<string> SendCommand(string objectPath)
         {
-            Console.WriteLine("url + objectPath"+ url + objectPath);
-            var content = await httpClient.GetStringAsync(url + objectPath);
-            return content;
+            Console.WriteLine("url + objectPath" + url + objectPath);
+            Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
+            Thread timer = new Thread(new ThreadStart(startTimer));
+            timer.Start();
+            while (timer.IsAlive)
+            {
+                if (sendcommand.IsCompleted)
+                {
+                    return sendcommand.Result;
+                }
+            }
+            Console.WriteLine("Canceled");
+            throw new APIFailedGetException("AFTER 3 SEC NO RESPONSE");
         }
         protected async Task<HttpResponseMessage> SendItem(string objectPath, string json)
         {
@@ -53,6 +63,9 @@ namespace CityPuzzle.Rest_Services.Client
                 return "Tasks";
             throw new Classes.TypeNotExistException();
         }
-
+        public void startTimer()
+        {
+            Thread.Sleep(3000);
+        }
     }
 }
