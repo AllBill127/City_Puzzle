@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -57,23 +57,7 @@ namespace CityPuzzle
 
         private void Settings_Clicked(object sender, EventArgs e)
         {
-            App.CurrentUser = null;
-            Sql.SaveCurrentUser(new Classes.User("", ""));
-            var existingPages = Navigation.NavigationStack.ToList();
-            int stackSize = existingPages.Count;
-            foreach (var page in existingPages)
-            {
-                if (existingPages.Count == 2)
-                {
-                    break;
-                }
-
-                if (existingPages.Count != stackSize)
-                {
-                    Navigation.RemovePage(page);
-                }
-            }
-            Navigation.PopAsync();
+            Navigation.PushAsync(new SettingsPage());
         }
         private async void test_Click(object sender, EventArgs e)
         {

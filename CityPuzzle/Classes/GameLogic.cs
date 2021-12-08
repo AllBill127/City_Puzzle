@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms.Maps;
 
 namespace CityPuzzle.Classes
 {
@@ -21,7 +22,7 @@ namespace CityPuzzle.Classes
 
 
         public delegate void RadarChangeEventDelegate(string s);    // Custom delegate for event
-        public event RadarChangeEventDelegate OnRadarChange;        // Custom event
+        public event RadarChangeEventDelegate OnRadarChange;        // Custom event               
         public event EventHandler OnMaskHide;
         public event EventHandler OnNoLocationFound;
         public event EventHandler OnNoNearbyQuest;
@@ -233,6 +234,11 @@ namespace CityPuzzle.Classes
                 return null;
             }
 
+        }
+        public static Position GetTargetPosition()
+        {
+            Position targetPosition = new Position(questLat,questLng);
+            return targetPosition;
         }
 
         /*
