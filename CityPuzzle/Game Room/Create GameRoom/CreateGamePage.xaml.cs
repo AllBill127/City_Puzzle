@@ -10,29 +10,33 @@ using Xamarin.Forms.Xaml;
 namespace CityPuzzle
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CreateGamePage : ContentPage
+    public partial class CreateRoomPage : ContentPage
     {
-        public static List<Room> AllRooms;
         public static Lazy<Room> NewRoom = new Lazy<Room>();
+        public static List<Puzzle> RoomPuzzles = new List<Puzzle>();
         public static List<int> PuzzleIds = new List<int>();
-        public static Thread Data_collector_thread;
-        public static int Status = -1;
 
-        public CreateGamePage()
+        private static Thread data_collector_thread;
+
+        public CreateRoomPage()
         {
-            Data_collector_thread = new Thread(new ThreadStart(FillGameRomm));
-            Data_collector_thread.Start();
             InitializeComponent();
+
+            data_collector_thread = new Thread(new ThreadStart(FillGameRomm));
+            data_collector_thread.Start();
         }
-        public async static void FillGameRomm()
+        private static async void FillGameRomm()
         {
             await CreatePin();
             NewRoom.Value.Owner = App.CurrentUser.ID;
         }
-        public async static Task CreatePin()
+        private static async Task CreatePin()
         {
+            // TO DO:
+            // must be a better way to generate random pin and check if it does not exist already. Maybe Linq list.Any()
+
             int i = 0;
-            AllRooms = Sql.ReadRooms();
+            var AllRooms = Sql.ReadRooms();
             string roomPin = "";
             Random _random = new Random();
             await Task.Run(() =>
@@ -51,28 +55,35 @@ namespace CityPuzzle
             NewRoom.Value.RoomPin = roomPin;
         }
 
-        async void AddPuzzles_Clicked(object sender, EventArgs e)
+        private async void AddPuzzles_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new AddPage());
+            await Navigation.PushAsync(new AddPage(RoomPuzzles));
+            PuzzleIds = RoomPuzzles.Select(x => x.ID).ToList();
+
             showRoomPuzzles.IsVisible = true;
             saveRoom.IsVisible = true;
         }
 
-        async void ShowRoomPuzzles_Clicked(object sender, EventArgs e)
+        private async void ShowRoomPuzzles_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SelectPuzzles<RoomTask>(NewRoom.Value.RoomTasks));
-            NewRoom.Value.RoomTasks = SelectPuzzles<RoomTask>.getList();
+            await Navigation.PushAsync(new SelectViewList<Puzzle>(RoomPuzzles));
+            RoomPuzzles = SelectViewList<Puzzle>.GetList();
+            PuzzleIds = RoomPuzzles.Select(x => x.ID).ToList();
         }
 
-        async void SaveRoom_Clicked(object sender, EventArgs e)
+        private async void SaveRoom_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new CompliteCreating());
+            // TO DO:
+            // show loading gif on screen
+            data_collector_thread.Join();
+            await Navigation.PushAsync(new CompleteRoomPage());
         }
-        async void LookupRooms_Clicked(object sender, EventArgs e)
+        private async void LookupRooms_Clicked(object sender, EventArgs e)
         {
             List<string> usersRooms = Sql.FindParticipantRoomsIDs(App.CurrentUser.ID);
-            await Navigation.PushAsync(new SelectPuzzles<string>(usersRooms));
-            List<string> usersRooms2 = SelectPuzzles<string>.getList();
+            await Navigation.PushAsync(new SelectViewList<string>(usersRooms));
+            // TO DO:
+            // add some method to update userRooms in data base as SelectViewList allows to delete them and then return updated list with GetList()
         }
     }
 }

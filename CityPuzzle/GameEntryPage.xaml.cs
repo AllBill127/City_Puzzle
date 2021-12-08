@@ -31,7 +31,7 @@ namespace CityPuzzle
         void CreateRoom_Clicked(object sender, EventArgs e)
         {
 
-            Navigation.PushAsync(new CreateGamePage());
+            Navigation.PushAsync(new CreateRoomPage());
 
         }
         void AddPuzzle_Clicked(object sender, EventArgs e)

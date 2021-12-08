@@ -40,6 +40,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Game Room\Create GameRoom\CompleteRoomPage.xaml.cs">
+      <DependentUpon>CompleteRoomPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Game Room\Create GameRoom\SelectViewList.xaml.cs">
+      <DependentUpon>SelectViewList.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Login And SingUp\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -67,7 +73,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Game Room\Create GameRoom\CompliteCreating.xaml">
+    <EmbeddedResource Update="Game Room\Create GameRoom\CompleteRoomPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Game Room\Join GameRoom\EntryGameRoomPage.xaml">
@@ -100,7 +106,7 @@
     <EmbeddedResource Update="Main Game\QuestPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Game Room\Create GameRoom\SelectPuzzles.xaml">
+    <EmbeddedResource Update="Game Room\Create GameRoom\SelectViewList.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Login And SingUp\SignUpPage.xaml">

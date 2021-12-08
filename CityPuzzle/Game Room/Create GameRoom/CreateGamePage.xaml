@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               BackgroundImageSource="logos.pmg" WidthRequest="600" HeightRequest="200"
-             x:Class="CityPuzzle.CreateGamePage">
+             x:Class="CityPuzzle.CreateRoomPage">
     <ContentPage.Content>
         <StackLayout>
             <Grid >

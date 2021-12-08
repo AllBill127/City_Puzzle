@@ -42,7 +42,7 @@ namespace CityPuzzle
 
         private void FinishSelecting_Clicked(object sender, EventArgs e)
         {
-            CreateGamePage.RoomPuzzles = addPageLogic.SelectedPuzzles;
+            CreateRoomPage.RoomPuzzles = addPageLogic.SelectedPuzzles;
             Navigation.PopAsync();
         }
 
