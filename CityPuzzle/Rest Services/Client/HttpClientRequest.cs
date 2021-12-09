@@ -18,7 +18,6 @@ namespace CityPuzzle.Rest_Services.Client
         }
         public async Task<string> SendCommand(string objectPath)
         {
-            Console.WriteLine("url + objectPath" + url + objectPath);
             Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
             Thread timer = new Thread(new ThreadStart(() => Thread.Sleep(3000)));
             timer.Start();
@@ -26,6 +25,7 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 if (sendcommand.IsCompleted)
                 {
+                    //timer.Abort();
                     return sendcommand.Result;
                 }
             }
@@ -34,12 +34,13 @@ namespace CityPuzzle.Rest_Services.Client
         }
         protected async Task<HttpResponseMessage> SendItem(string objectPath, string json)
         {
-
+            Console.WriteLine("3");
             HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");           
-            var result = await httpClient.PostAsync(url + objectPath, content).ConfigureAwait(true);
+            var result = await httpClient.PostAsync(url + objectPath, content);
+            Console.WriteLine("3.1");
             if (result.IsSuccessStatusCode)
             {
-                Console.WriteLine("Complited" + result);
+                Console.WriteLine("3.2");
                 var tokenJson = await result.Content.ReadAsStringAsync();
             }
             else

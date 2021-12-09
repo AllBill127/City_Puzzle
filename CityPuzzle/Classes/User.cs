@@ -13,7 +13,7 @@ using CityPuzzle.Rest_Services.Client;
 
 namespace CityPuzzle.Classes
 {
-    public class User :IEquatable<User>
+    public class User : CityPuzzleObjects,IEquatable<User>
     {
         [Key]
         [DataMember]
@@ -34,6 +34,7 @@ namespace CityPuzzle.Classes
         public int MaxQuestDistance { get; set; }
         [IgnoreDataMember]
         public List<CompletedTask> QuestsCompleted = new List<CompletedTask>();
+        
 
         private readonly IUserVerifier _verifier;
 
@@ -85,7 +86,7 @@ namespace CityPuzzle.Classes
 
             try
             {
-                App.WebServices.DeleteObject(adress);
+                ApiCommands.DeleteObject(adress);
                 Console.WriteLine("Delete is working");
             }
             catch (APIFailedDeleteException ex)
@@ -102,24 +103,7 @@ namespace CityPuzzle.Classes
         {
             try
             {
-                var response = await App.WebServices.SaveObject(this);
-                ID = response.ID;
-                Console.WriteLine("Saving is working");
-            }
-            catch (APIFailedSaveException ex) //reikia pagalvot kaip handlinti(galima mesti toliau ir try kur skaitoma(throw)) 
-            {
-                Console.WriteLine("APIFailedSaveException Error" + ex);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: else " + ex);
-            }
-        }
-        public async void Save(APICommands aPICommands)
-        {
-            try
-            {
-                var response = await aPICommands.SaveObject(this);
+                var response = await ApiCommands.SaveObject(this);
                 ID = response.ID;
                 Console.WriteLine("Saving is working");
             }

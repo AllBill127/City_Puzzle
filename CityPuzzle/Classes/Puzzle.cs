@@ -8,7 +8,7 @@ using System.Text;
 
 namespace CityPuzzle.Classes
 {
-    public class Puzzle
+    public class Puzzle: CityPuzzleObjects
     {
         [Key]
         [DataMember]
@@ -33,7 +33,7 @@ namespace CityPuzzle.Classes
             
             try
             {
-                App.WebServices.DeleteObject(adress);
+                ApiCommands.DeleteObject(adress);
                 Console.WriteLine("Delete is working");
             }
             catch (APIFailedDeleteException ex)
@@ -50,7 +50,7 @@ namespace CityPuzzle.Classes
         {
             try
             {
-                var response = await App.WebServices.SaveObject(this);
+                var response = await ApiCommands.SaveObject(this);
                 ID = response.ID;
                 Console.WriteLine("Saving is working");
             }
