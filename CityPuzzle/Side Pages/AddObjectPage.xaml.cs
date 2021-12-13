@@ -17,29 +17,23 @@ namespace CityPuzzle
         public AddObjectPage()
         {
             InitializeComponent();
-        }
-        private void SaveObject_Clicked(object sender, EventArgs e)
-        {
-            if (objectAbout.Text != null || objectAbout.Text != "" ||
-                objectQuest.Text != null || objectQuest.Text != "" ||
-                objectName.Text != null || objectName.Text != "" ||
-                objectImg.Text != null || objectImg.Text != "" ||
-                objectX.Text != null || objectX.Text != "" ||
-                objectY.Text != null || objectY.Text != "")
-            {
-                Puzzle obj = new Puzzle()
-                {
-                    About = objectAbout.Text,
-                    Quest = objectQuest.Text,
-                    Name = objectName.Text,
-                    ImgAdress = objectImg.Text,
-                    Latitude = Convert.ToDouble(objectX.Text),
-                    Longitude = Convert.ToDouble(objectY.Text),
-                };
-                obj.Save();
 
-                Navigation.PopAsync();
-            }
+        }
+        void Save_Click(object sender, EventArgs e)
+        {
+            Puzzle obj = new Puzzle()
+            {
+                About = ObjectAbout.Text,
+                Quest = ObjectQuest.Text,
+                Name = ObjectName.Text,
+                ImgAdress = ObjectImg.Text,
+                Latitude= Convert.ToDouble(ObjectX.Text),
+                Longitude= Convert.ToDouble(ObjectY.Text),
+
+            };
+            Sql.SavePuzzle(obj);
+
+            Navigation.PopAsync();
         }
 
     }
