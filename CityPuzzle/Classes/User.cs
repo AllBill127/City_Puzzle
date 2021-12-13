@@ -33,8 +33,9 @@ namespace CityPuzzle.Classes
         [DataMember]
         public int MaxQuestDistance { get; set; }
         [IgnoreDataMember]
-        public List<CompletedTask> QuestsCompleted = new List<CompletedTask>();
-        
+
+        public List<CompletedPuzzle> QuestsCompleted = new List<CompletedPuzzle>();
+
 
         private readonly IUserVerifier _verifier;
 

@@ -30,7 +30,7 @@ namespace CityPuzzle.Classes
                 temp.Username = user.UserName;
                 temp.Score = user.QuestsCompleted.Count;
                 temp.Index = j;
-                
+
                 TopUsers.Add(temp);
 
                 prev = user;
@@ -62,6 +62,29 @@ namespace CityPuzzle.Classes
             }
 
             return topItems;
+        }
+
+        public static List<TResult> CastToLeaderboard<TResult, IComparer, TSource>(this List<TSource> items,
+            IComparer comparer, Func<TSource, int, TResult> cast) where TSource : IEquatable<TSource>
+        {
+            items.Sort((IComparer<TSource>)comparer);
+            items.Reverse();
+
+            List<TResult> list = new List<TResult>();
+            int index = 1;              // Place in the leaderboard
+            TSource prev = items[0];
+
+            foreach (var item in items)
+            {
+                if (item.Equals(prev) == false)
+                    ++index;
+
+                list.Add(cast(item, index));    // add a casted item with its place in the leaderboard to topList
+
+                prev = item;
+            }
+
+            return list;
         }
     }
 }

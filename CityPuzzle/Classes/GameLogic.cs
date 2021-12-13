@@ -69,7 +69,7 @@ namespace CityPuzzle.Classes
 
                 await RevealImg();      // Start the quest completion loop
 
-                App.CurrentUser.QuestsCompleted.Add(new CompletedTask() { PuzzleId = target.ID, UserId = App.CurrentUser.ID });
+                App.CurrentUser.QuestsCompleted.Add(new CompletedPuzzle() { PuzzleId = target.ID, UserId = App.CurrentUser.ID });
                 OnQuestCompleted?.Invoke(this, new OnQuestCompletedEventArgs { QuestCompleted = questInProgress, QuestsList = targets });
             }
         }
@@ -199,7 +199,7 @@ namespace CityPuzzle.Classes
                 {
                     try
                     {
-                        CompletedTask puz = App.CurrentUser.QuestsCompleted.SingleOrDefault(x => x.PuzzleId.Equals(puzzle.ID));
+                        CompletedPuzzle puz = App.CurrentUser.QuestsCompleted.SingleOrDefault(x => x.PuzzleId.Equals(puzzle.ID));
                         if (puz == null)
                             return false;
                         else

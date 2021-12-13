@@ -16,7 +16,7 @@ namespace CityPuzzle.Rest_Services.Client
         {
             this.url = url;
         }
-        public async Task<string> SendCommand(string objectPath)
+public async Task<string> SendCommand(string objectPath)
         {
             Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
             Thread timer = new Thread(new ThreadStart(() => Thread.Sleep(3000)));
@@ -67,7 +67,7 @@ namespace CityPuzzle.Rest_Services.Client
                 return "RoomTasks";
             if (typeParameterType == typeof(User))
                 return "Users";
-            if (typeParameterType == typeof(CompletedTask))
+            if (typeParameterType == typeof(CompletedPuzzle))
                 return "Tasks";
             throw new Classes.TypeNotExistException();
         }

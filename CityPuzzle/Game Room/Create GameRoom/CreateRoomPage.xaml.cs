@@ -81,8 +81,8 @@ namespace CityPuzzle
         }
         private async void LookupRooms_Clicked(object sender, EventArgs e)
         {
-            List<string> usersRooms = Sql.FindParticipantRoomsIDs(App.CurrentUser.ID);
-            await Navigation.PushAsync(new SelectViewList<string>(usersRooms));
+            List<string> userRoomPins = Sql.ReadUserRooms().Select(room => room.RoomPin).ToList();
+            await Navigation.PushAsync(new SelectViewList<string>(userRoomPins));
             // TO DO:
             // add some method to update userRooms in data base as SelectViewList allows to delete them and then return updated list with GetList()
         }

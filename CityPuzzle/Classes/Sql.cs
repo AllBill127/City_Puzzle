@@ -33,18 +33,18 @@ namespace CityPuzzle.Classes
             return obTask.Result;
         }
 
-        // -------------------------------------------------Completed Puzzles--------------------------------------------------------------
-        public static void SaveCompletedPuzzle(Puzzle puzzle)
+        public static List<Room> ReadUserRooms()
         {
-            using (SqlConnection conn = new SqlConnection(ConnStr))
-            {
-                conn.Open();
-                var command = new SqlCommand("INSERT INTO Tasks (UserID,PuzzleID) VALUES (@UserID,@PuzzleID)", conn);
-                command.Parameters.AddWithValue("@UserID", App.CurrentUser.ID);
-                command.Parameters.AddWithValue("@PuzzleID", puzzle.ID);
-                command.ExecuteNonQuery();
-                conn.Close();
-            }
+            List<Room> allRooms = ReadRooms();
+
+            Task<List<Room>> taskFindUserRooms = Task.Run(() =>
+                (from room in allRooms
+                 where room.Owner == App.CurrentUser.ID
+                 select room).ToList()
+                 );
+            taskFindUserRooms.Wait();
+
+            return taskFindUserRooms.Result;
         }
 
         // -------------------------------------------------Rooms--------------------------------------------------------------

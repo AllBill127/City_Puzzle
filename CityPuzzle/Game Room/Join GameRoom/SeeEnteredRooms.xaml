@@ -5,20 +5,24 @@
              BackgroundImageSource="logos.pmg" WidthRequest="600" HeightRequest="200">
     <ContentPage.Content>
         <StackLayout >
-            <Grid x:Name="LoadingGrid">
-                <Image x:Name="Loading" Source="loading.gif" IsAnimationPlaying="True"></Image>
+            <Grid x:Name="loadingView">
+                <Image Source="loading.gif" IsAnimationPlaying="True" />
             </Grid>
-            <StackLayout IsVisible="False" x:Name="MainStack">
+            
+            <StackLayout IsVisible="False" x:Name="roomMenuView">
                 <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10" BorderColor="#0D0A0A">
                     <Label Text="Jus esate GamePuzzle"  HorizontalTextAlignment="Center" TextColor="Black"   FontSize="20"/>
                 </Frame>
-                <Grid x:Name="LoadingSmallGrid" IsVisible="True">
-                    <Image Source="loading.gif" IsAnimationPlaying="True"></Image>
+                
+                <Grid x:Name="smallLoadingView" IsVisible="True">
+                    <Image Source="loading.gif" IsAnimationPlaying="True" />
                 </Grid>
-                <Frame x:Name="NoRooms" BackgroundColor="#F3BD21" Padding="24" CornerRadius="10" IsVisible="False" BorderColor="#0D0A0A">
-                    <Label Text="Deja, Jus niekur dar nedalyvaujate 😞"   HorizontalTextAlignment="Center" TextColor="Black"   FontSize="15"/>
+                
+                <Frame x:Name="noRoomsView" BackgroundColor="#F3BD21" Padding="24" CornerRadius="10" IsVisible="False" BorderColor="#0D0A0A">
+                    <Label Text="Deja, Jūs dar nedalyvaujate žaidimo kambariuose 😞" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="15"/>
                 </Frame>
-                <ListView x:Name="MyListView"
+                
+                <ListView x:Name="roomListView"
                     IsVisible="False"
                     ItemTapped="Handle_ItemTapped"	            
                     CachingStrategy="RecycleElement" >
@@ -35,15 +39,17 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="0.2*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Frame Grid.Column="1" BorderColor="#000000" BackgroundColor="#F3BD21" Opacity="0.5" CornerRadius="15"></Frame>
-                                    <Label Grid.Column="1"	Text="{Binding ID}" VerticalOptions="Center" FontSize="20" TextColor="#000000" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" />
+
+                                    <Frame Grid.Column="1" BorderColor="#000000" BackgroundColor="#F3BD21" Opacity="0.5" CornerRadius="15" />
+                                    <Label Grid.Column="1"	Text="{Binding RoomPin}" VerticalOptions="Center" FontSize="20" TextColor="#000000" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" />
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Entry x:Name="GamePin" Placeholder="GamePin"  BackgroundColor="#F3BD21" ></Entry>
-                    <Button Text="Registruotis I nauja gameroom" Clicked="Sign_Click" BackgroundColor="#F3BD21" CornerRadius="15" ></Button>
+
+                <Entry x:Name="gamePin" Placeholder="GamePin"  BackgroundColor="#F3BD21" />
+                <Button Text="Registruotis į naują žaidimo kambarį" Clicked="RoomSignIn_Clicked" BackgroundColor="#F3BD21" CornerRadius="15" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
