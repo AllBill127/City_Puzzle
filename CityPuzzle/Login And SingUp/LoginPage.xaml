@@ -8,12 +8,12 @@
             <Label Text="Sveiki atvykę į CityPuzzle!" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="36"/>
         </Frame>
         <Label Padding="0,0,0,50"></Label>
-        <Entry x:Name="Vartotojo_vardas" Placeholder="Vartotojo vardas"  ClearButtonVisibility="WhileEditing" HorizontalOptions="Fill" BackgroundColor="#F3BD21" ></Entry>
+        <Entry x:Name="username" Placeholder="Vartotojo vardas"  ClearButtonVisibility="WhileEditing" HorizontalOptions="Fill" BackgroundColor="#F3BD21" ></Entry>
         
-        <Entry x:Name="Slaptazodis" Placeholder="Slaptazodis" IsPassword="true" BackgroundColor="#F3BD21" ></Entry>
+        <Entry x:Name="password" Placeholder="Slaptažodis" IsPassword="true" BackgroundColor="#F3BD21" ></Entry>
         <Label Padding="0,0,0,50"></Label>
-        <Button x:Name="Login_Click_Button" Text="Prisijungti" Clicked="Login_Click" BackgroundColor="#F3BD21"  Padding="0,0,0,0"></Button>
-        <Button x:Name="Sign_Click_Button" Text="Registruotis" Clicked="Sign_Click" BackgroundColor="#F3BD21"></Button>
+        <Button x:Name="Login_Click" Text="Prisijungti" Clicked="Login_Clicked" BackgroundColor="#F3BD21"  Padding="0,0,0,0"></Button>
+        <Button x:Name="SignIn_Click" Text="Registruotis" Clicked="SignIn_Clicked" BackgroundColor="#F3BD21"></Button>
 
     </StackLayout>
 

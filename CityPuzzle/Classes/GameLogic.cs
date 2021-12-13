@@ -9,15 +9,15 @@ using Xamarin.Forms.Maps;
 
 namespace CityPuzzle.Classes
 {
-    class GameLogic
+    public class GameLogic
     {
         private const int gifPlayTime = 5000;
 
         private double userLat;
         private double userLng;
-        private static double questLat;
-        private static double questLng;
-        private List<Lazy<Puzzle>> targets;
+        private double questLat;
+        private double questLng;
+        private List<Puzzle> targets;
         private static Puzzle questInProgress;
 
 
@@ -29,12 +29,12 @@ namespace CityPuzzle.Classes
         public event EventHandler<OnQuestStartEventArgs> OnQuestStart;
         public class OnQuestStartEventArgs : EventArgs { public string QuestImg; public string Quest; }
         public event EventHandler<OnQuestCompletedEventArgs> OnQuestCompleted;
-        public class OnQuestCompletedEventArgs : EventArgs { public Puzzle QuestCompleted; public List<Lazy<Puzzle>> QuestsList; }
+        public class OnQuestCompletedEventArgs : EventArgs { public Puzzle QuestCompleted; public List<Puzzle> QuestsList; }
         public event EventHandler OnNoQuestsLoaded;
 
         //========================================== Event trigger methods =================================================
         // OnNoQuestsLoaded trigger method
-        public void StartGame(List<Lazy<Puzzle>> targets)
+        public void StartGame(List<Puzzle> targets)
         {
             this.targets = targets;
 
@@ -69,7 +69,7 @@ namespace CityPuzzle.Classes
 
                 await RevealImg();      // Start the quest completion loop
 
-                App.CurrentUser.QuestsCompleted.Add(new Lazy<Puzzle>(() => target));
+                App.CurrentUser.QuestsCompleted.Add(new CompletedPuzzle() { PuzzleId = target.ID, UserId = App.CurrentUser.ID });
                 OnQuestCompleted?.Invoke(this, new OnQuestCompletedEventArgs { QuestCompleted = questInProgress, QuestsList = targets });
             }
         }
@@ -183,23 +183,23 @@ namespace CityPuzzle.Classes
         }
 
         // Get a random quest that is within given distance and is not already completed by current user
-        private Puzzle GetQuest(List<Lazy<Puzzle>> puzzles)
+        private Puzzle GetQuest(List<Puzzle> puzzles)
         {
             try
             {
-                bool InRange(Lazy<Puzzle> puzzle)
+                bool InRange(Puzzle puzzle)
                 {
-                    double dist = DistanceToPoint(puzzle.Value.Latitude, puzzle.Value.Longitude);
+                    double dist = DistanceToPoint(puzzle.Latitude, puzzle.Longitude);
                     if (dist <= App.CurrentUser.MaxQuestDistance)
                         return true;
                     return false;
                 }
 
-                bool IsCompleted(Lazy<Puzzle> puzzle)
+                bool IsCompleted(Puzzle puzzle)
                 {
                     try
                     {
-                        Lazy<Puzzle> puz = App.CurrentUser.QuestsCompleted.SingleOrDefault(x => x.Value.ID.Equals(puzzle.Value.ID));
+                        CompletedPuzzle puz = App.CurrentUser.QuestsCompleted.SingleOrDefault(x => x.PuzzleId.Equals(puzzle.ID));
                         if (puz == null)
                             return false;
                         else
@@ -218,12 +218,12 @@ namespace CityPuzzle.Classes
                      where !IsCompleted(puzzle)
                      select puzzle)
                     .ToList();
+
                 if (inRange.Count != 0)
                 {
                     var random = new Random();
                     int index = random.Next(inRange.Count);
-                    var target = Sql.FromLazy(inRange[index]);
-                    return target;
+                    return inRange[index];
                 }
                 else
                 {
@@ -236,7 +236,8 @@ namespace CityPuzzle.Classes
             }
 
         }
-        public static Position GetTargetPosition()
+
+        public Position GetTargetPosition()
         {
             Position targetPosition = new Position(questLat,questLng);
             return targetPosition;

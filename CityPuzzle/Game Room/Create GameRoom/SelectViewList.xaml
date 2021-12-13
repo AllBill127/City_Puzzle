@@ -4,8 +4,6 @@
              x:Class="CityPuzzle.SelectPuzzles"
              BackgroundImageSource="logos.png" WidthRequest="600" HeightRequest="200">
     <ContentPage.Content >
-        <StackLayout x:Name="Main">
-        </StackLayout>
-        
+        <StackLayout x:Name="Main" />
     </ContentPage.Content>
 </ContentPage>

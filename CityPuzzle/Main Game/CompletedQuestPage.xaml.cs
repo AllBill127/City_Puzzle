@@ -11,35 +11,41 @@ using Xamarin.Forms.Xaml;
 namespace CityPuzzle
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ComplitedPage : ContentPage
+    public partial class CompletedQuestPage : ContentPage
     {
-        private readonly List<Lazy<Puzzle>> questsList;
+        private readonly List<Puzzle> questsList;
 
-        public ComplitedPage(Puzzle quest, List<Lazy<Puzzle>> questsList)
+        public CompletedQuestPage(Puzzle quest, List<Puzzle> questsList)
         {
             InitializeComponent();
 
             this.questsList = questsList;
-            Sql.SaveComplitedTask(quest);
+
+            var completedPuzzle = new CompletedPuzzle() { UserId = App.CurrentUser.ID, PuzzleId = quest.ID };
+            completedPuzzle.Save();
+
             completedName.Text = quest.Name;
             completedInfo.Text = quest.About;
             completedImg.Source = quest.ImgAdress;
         }
-        private void NewPuzzle_clicked(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new QuestPage(questsList));
-        }
+
         protected override void OnDisappearing()// GAL reiktu tam klase nauja sukurt (Navigation)
         {
             var existingPages = Navigation.NavigationStack.ToList();
             int stackSize = existingPages.Count;
             Navigation.RemovePage(existingPages[existingPages.Count - 1]);
         }
+
         protected override void OnAppearing()
         {
             var existingPages = Navigation.NavigationStack.ToList();
             int stackSize = existingPages.Count;
             Navigation.RemovePage(existingPages[existingPages.Count - 2]);
+        }
+
+        private void NewPuzzle_clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new QuestPage(questsList));
         }
     }
 }
