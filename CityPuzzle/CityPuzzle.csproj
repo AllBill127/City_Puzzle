@@ -13,24 +13,14 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.21" />
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.7.0" />
-    <PackageReference Include="Plugin.RestClient" Version="1.1.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-    <PackageReference Include="System.Interactive.Async" Version="5.0.0" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
     <PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2083" />
-    <PackageReference Include="xunit.assert" Version="2.4.1" />
-    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,26 +30,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Game Room\Create GameRoom\CompleteRoomPage.xaml.cs">
-      <DependentUpon>CompleteRoomPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Game Room\Create GameRoom\SelectViewList.xaml.cs">
-      <DependentUpon>SelectViewList.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Login And SingUp\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="GameMenuPage.xaml.cs">
-      <DependentUpon>GameMenuPage.xaml</DependentUpon>
+    <Compile Update="Side Pages\GamePage.xaml.cs">
+      <DependentUpon>GamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="GameEntryPage.xaml.cs">
+      <DependentUpon>GameEntryPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Side Pages\AddObjectPage.xaml.cs">
       <DependentUpon>AddObjectPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Main Game\CompletedQuestPage.xaml.cs">
-      <DependentUpon>CompletedQuestPage.xaml</DependentUpon>
+    <Compile Update="Side Pages\LookPage.xaml.cs">
+      <DependentUpon>LookPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Game Room\Create GameRoom\CreateRoomPage.xaml.cs">
-      <DependentUpon>CreateRoomPage.xaml</DependentUpon>
+    <Compile Update="Main Game\ComplitedPage.xaml.cs">
+      <DependentUpon>ComplitedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Game Room\Create GameRoom\CreateGamePage.xaml.cs">
+      <DependentUpon>CreateGamePage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Game Room\Create GameRoom\AddPage.xaml.cs">
       <DependentUpon>AddPage.xaml</DependentUpon>
@@ -73,7 +63,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Game Room\Create GameRoom\CompleteRoomPage.xaml">
+    <EmbeddedResource Update="Game Room\Create GameRoom\CompliteCreating.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Game Room\Join GameRoom\EntryGameRoomPage.xaml">
@@ -88,16 +78,22 @@
     <EmbeddedResource Update="Login And SingUp\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="GameMenuPage.xaml">
+    <EmbeddedResource Update="Side Pages\GamePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GameEntryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Side Pages\AddObjectPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Main Game\CompletedQuestPage.xaml">
+    <EmbeddedResource Update="Side Pages\LookPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Game Room\Create GameRoom\CreateRoomPage.xaml">
+    <EmbeddedResource Update="Main Game\ComplitedPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Game Room\Create GameRoom\CreateGamePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Game Room\Create GameRoom\AddPage.xaml">
@@ -106,13 +102,10 @@
     <EmbeddedResource Update="Main Game\QuestPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Game Room\Create GameRoom\SelectViewList.xaml">
+    <EmbeddedResource Update="Game Room\Create GameRoom\SelectPuzzles.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Login And SingUp\SignUpPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Side Pages\SettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

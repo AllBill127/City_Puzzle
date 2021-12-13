@@ -14,8 +14,6 @@ namespace CityPuzzle.Classes
             {
                 return false;
             }
-
-            Console.WriteLine(" SIUNCIU");
             var info = Sql.ReadUsers();
             App.CurrentUser = info.SingleOrDefault(x => x.UserName.ToLower().Equals(name.ToLower()) && PassVer(pass, x.Pass));
             if (App.CurrentUser != null) Sql.SaveCurrentUser(App.CurrentUser);

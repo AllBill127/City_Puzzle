@@ -4,17 +4,16 @@
              x:Class="CityPuzzle.AddPage">
     <ContentPage.Content>
         <StackLayout>
-            <Frame BackgroundColor="#F3BD21" Padding="16" CornerRadius="10">
-                <Label x:Name="PuzzleName" HorizontalOptions="CenterAndExpand" FontSize="24" TextColor="Black" ></Label>
+            <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
+                <Label x:Name="PuzzleName" HorizontalOptions="CenterAndExpand" FontSize="36" TextColor="Black" ></Label>
             </Frame>
-            <Image x:Name="PuzzleImg" WidthRequest="250" HeightRequest="250"></Image>
-            <Frame BackgroundColor="#F3BD21" Padding="16" CornerRadius="10">
+            <Image x:Name="PuzzleImg" WidthRequest="300" HeightRequest="300"></Image>
+            <Frame BackgroundColor="#F3BD21" Padding="24" CornerRadius="10">
                 <Label x:Name="PuzzleInfo" HorizontalOptions="CenterAndExpand" FontSize="18" TextColor="Black" ></Label>
             </Frame>
-            <Button Text="Pridėti" Clicked="AddPuzzle_Clicked" />
-            <Button x:Name="nextButton" Text="Kitas" Clicked="NextPuzzle_Clicked" IsVisible="True" />
-            <Button x:Name="prevButton" Text="Atgal" Clicked="PrevPuzzle_Clicked" IsVisible="True" />
-            <Button Text="Baigti" Clicked="FinishSelecting_Clicked" />
+            <Button Text="Prideti" Clicked="Add_puzzle"></Button>
+            <Button Text="Kitas" Clicked="Next_puzzle"></Button>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
