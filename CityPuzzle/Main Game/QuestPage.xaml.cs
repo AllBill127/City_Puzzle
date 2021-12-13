@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Forms.Maps;
+
 namespace CityPuzzle
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class QuestPage : ContentPage
     {
+        private GameLogic gameLogic = new GameLogic();
         private static object locker = new object();
         private const int revealTime = 10000;
 
@@ -20,33 +23,31 @@ namespace CityPuzzle
         {
             InitializeComponent();
 
-            GameLogic gamelogic = new GameLogic();
-            gamelogic.OnNoQuestsLoaded += NoQuestsLoaded;
-            gamelogic.OnNoLocationFound += CurrentLocationError;
-            gamelogic.OnNoNearbyQuest += NoNearbyQuest;
-            gamelogic.OnQuestStart += QuestStart;
-            gamelogic.OnMaskHide += HideMask;
-            gamelogic.OnRadarChange += ChangeRadar;
-            gamelogic.OnQuestCompleted += QuestCompleted;
+            gameLogic.OnNoQuestsLoaded += NoQuestsLoaded;
+            gameLogic.OnNoLocationFound += CurrentLocationError;
+            gameLogic.OnNoNearbyQuest += NoNearbyQuest;
+            gameLogic.OnQuestStart += QuestStart;
+            gameLogic.OnMaskHide += HideMask;
+            gameLogic.OnRadarChange += ChangeRadar;
+            gameLogic.OnQuestCompleted += QuestCompleted;
 
-            List<Lazy<Puzzle>> allTargets = Sql.ReadPuzzles();
-            gamelogic.StartGame(allTargets);
+            List<Puzzle> allTargets = Sql.ReadPuzzles();
+            gameLogic.StartGame(allTargets);
         }
 
-        public QuestPage(List<Lazy<Puzzle>> targets)
+        public QuestPage(List<Puzzle> targets)
         {
             InitializeComponent();
 
-            GameLogic gamelogic = new GameLogic();
-            gamelogic.OnNoQuestsLoaded += NoQuestsLoaded;
-            gamelogic.OnNoLocationFound += CurrentLocationError;
-            gamelogic.OnNoNearbyQuest += NoNearbyQuest;
-            gamelogic.OnQuestStart += QuestStart;
-            gamelogic.OnMaskHide += HideMask;
-            gamelogic.OnRadarChange += ChangeRadar;
-            gamelogic.OnQuestCompleted += QuestCompleted;
+            gameLogic.OnNoQuestsLoaded += NoQuestsLoaded;
+            gameLogic.OnNoLocationFound += CurrentLocationError;
+            gameLogic.OnNoNearbyQuest += NoNearbyQuest;
+            gameLogic.OnQuestStart += QuestStart;
+            gameLogic.OnMaskHide += HideMask;
+            gameLogic.OnRadarChange += ChangeRadar;
+            gameLogic.OnQuestCompleted += QuestCompleted;
 
-            gamelogic.StartGame(targets);
+            gameLogic.StartGame(targets);
         }
 
         //========================================= Event subscriber methods ===============================================
@@ -108,11 +109,11 @@ namespace CityPuzzle
         private async void QuestCompleted(object sender, GameLogic.OnQuestCompletedEventArgs e)
         {
             await DisplayAlert("Sveikiname!", "Jūs pasiekėte savo tikslą.", "Gerai");
-            await Navigation.PushAsync(new ComplitedPage(e.QuestCompleted, e.QuestsList));      // When loop ends go to quest completed page and send current Quests list used
+            await Navigation.PushAsync(new CompletedQuestPage(e.QuestCompleted, e.QuestsList));
         }
 
         // Shortly reveal whole image and then return masks
-        private void Help_Click(object sender, EventArgs e)
+        private void Help_Clicked(object sender, EventArgs e)
         {
             Thread helpImg = new Thread(HelpImg);
             helpImg.Start();
@@ -120,11 +121,41 @@ namespace CityPuzzle
         }
 
         // Shuffle current masks around
-        private void Shuffle_Click(object sender, EventArgs e)
+        private void Shuffle_Clicked(object sender, EventArgs e)
         {
             Thread shuffleMasks = new Thread(ShuffleMasks);
             shuffleMasks.Start();
             shuffleButton.IsVisible = false;
+        }
+
+        // Display map with pined target location
+        private void ShowMap_Clicked(object sender, EventArgs e)
+        {
+            if (puzzleGrid.IsVisible)
+            {
+                puzzleGrid.IsVisible = false;
+                targetMapGrid.IsVisible = true;
+                SetLocation(gameLogic.GetTargetPosition());
+            }
+            else
+            {
+                puzzleGrid.IsVisible = true;
+                targetMapGrid.IsVisible = false;
+            }
+        }
+
+        private void SetLocation(Position targetPosition)
+        {
+            MapSpan targetSpan = MapSpan.FromCenterAndRadius(targetPosition, Distance.FromKilometers(.5));
+            Pin targetPin = new Pin()
+            {
+                Label = "Puzzle",
+                Position = targetPosition,
+                Type = PinType.Generic
+            };
+
+            map.Pins.Add(targetPin);
+            map.MoveToRegion(targetSpan);
         }
 
 
@@ -159,7 +190,7 @@ namespace CityPuzzle
             {
                 List<Image> masks = new List<Image>() { mask1, mask2, mask3, mask4, mask5, mask6, mask7, mask8, mask9 };
 
-                foreach(var index in masksIndex)
+                foreach (var index in masksIndex)
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
@@ -189,7 +220,7 @@ namespace CityPuzzle
                 int maskCount = masksIndex.Count;
 
                 var random = new Random();
-                for(int i = maskCount; i > 0; --i)
+                for (int i = maskCount; i > 0; --i)
                 {
                     int index = random.Next(indexes.Count);
                     temp.Add(indexes[index]);
@@ -198,7 +229,7 @@ namespace CityPuzzle
 
                 masksIndex = temp;
 
-                for(int i = 0; i < 9; ++i)
+                for (int i = 0; i < 9; ++i)
                 {
                     if (masksIndex.Contains(i))
                     {
