@@ -10,14 +10,14 @@ namespace CityPuzzle.Classes
     public class BadInputdException : Exception
     {
         public Entry Field;
-        public BadInputdException(string message,Entry entry)
+        public BadInputdException(string message, Entry entry)
             : base(message)
         {
             Field = entry;
         }
 
         public BadInputdException(string message, string name, Entry entry)
-             : base("Prasau "+ name+" sudaryti"+ message)
+             : base("Prasau " + name + " sudaryti" + message)
         {
             Field = entry;
         }
@@ -39,12 +39,13 @@ namespace CityPuzzle.Classes
             Field = entry;
         }
     }
+
     [Serializable]
     public class MultiRegistrationException : Exception
     {
         public Room CurrentRoom;
         public MultiRegistrationException(Room room)
-            : base(String.Format("Jus jau registruotas šiame zaidyme. Ar norite testi zaidima "+ room.ID))
+            : base(String.Format("Jus jau registruotas šiame zaidyme. Ar norite testi zaidima " + room.ID))
         {
             CurrentRoom = room;
         }
@@ -61,12 +62,13 @@ namespace CityPuzzle.Classes
     {
         public RoomFullException()
             : base(String.Format("Deja, kambarys yra pilnas "))
-        {}
+        { }
 
         public RoomFullException(string message)
              : base(String.Format(message))
-        {}
+        { }
     }
+
     [Serializable]
     public class RoomNotExistException : Exception
     {
@@ -76,6 +78,63 @@ namespace CityPuzzle.Classes
 
         public RoomNotExistException(string message)
              : base(String.Format(message))
+        { }
+    }
+
+    [Serializable]
+    public class RoomNotFoundException : Exception
+    {
+        public RoomNotFoundException()
+            : base(string.Format("Nepavyksta aptikti kambario su Jūsų žaidimo Pin."))
+        { }
+    }
+
+    [Serializable]
+    public class OwnerNotFoundException : Exception
+    {
+        public OwnerNotFoundException()
+            : base(string.Format("Nepavyksta aptikti kambario kūrėjo duomenų."))
+        { }
+    }
+
+    [Serializable]
+    public class TypeNotExistException : Exception
+    {
+        public TypeNotExistException()
+            : base(String.Format("Error: bad call- GetAdress<T>(T item)"))
+        { }
+    }
+
+    [Serializable]
+    public class APIFailedSaveException : Exception
+    {
+        public APIFailedSaveException()
+            : base(String.Format("Error:failed saved"))
+        { }
+        public APIFailedSaveException(string message)
+            : base(String.Format(message))
+        { }
+    }
+
+    [Serializable]
+    public class APIFailedDeleteException : Exception
+    {
+        public APIFailedDeleteException()
+            : base(String.Format("Error:failed delete"))
+        { }
+        public APIFailedDeleteException(string message)
+            : base(String.Format(message))
+        { }
+    }
+
+    [Serializable]
+    public class APIFailedGetException : Exception
+    {
+        public APIFailedGetException()
+            : base(String.Format("Error:failed Get"))
+        { }
+        public APIFailedGetException(string message)
+            : base(String.Format("Error:failed Get :" + message))
         { }
     }
 }

@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityPuzzleTests", "CityPuzzleTests\CityPuzzleTests.csproj", "{FDB4C47A-A15C-47B3-8703-C34494D64F3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,18 @@ Global
 		{06BB0818-DF06-49D8-96DE-E9D3DBA5BBB5}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{06BB0818-DF06-49D8-96DE-E9D3DBA5BBB5}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{06BB0818-DF06-49D8-96DE-E9D3DBA5BBB5}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Release|iPhone.Build.0 = Release|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using CityPuzzle.Classes;
 using System.IO;
+using CityPuzzle.Rest_Services.Client;
 
 namespace CityPuzzle
 {
@@ -11,35 +12,18 @@ namespace CityPuzzle
         public static string FilePath;
         public static string GamePath;
         public static string ObjectPath;
-                                         
-    public static User CurrentUser { get; set; }
-        public App()
-        {
-            InitializeComponent();
+        public static APICommands WebServices= new APICommands();
+        
+        public static User CurrentUser { get; set; }
 
-            MainPage = new MainPage();
-        }
-     public App(string filePath, string objectPath,string gamePath)
+        public App(string filePath, string objectPath, string gamePath)
         {
             InitializeComponent();
 
             MainPage = new NavigationPage(new LoginPage());
-
             FilePath = filePath;
             GamePath = gamePath;
             ObjectPath = objectPath;
-        }
-
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
         }
     }
 }

@@ -5,14 +5,11 @@
              BackgroundImageSource="logos.pmg" WidthRequest="600" HeightRequest="200">
     <ContentPage.Content>
         <StackLayout>
-
             <Frame BackgroundColor="#D9DE09" Padding="24" CornerRadius="10">
                 <Label Text="Sveiki atvyke i GameRoom " BackgroundColor="#D9DE09" FontAttributes="Bold" FontSize="30" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="#000000" />
             </Frame>
-            <Grid>
-                <Image x:Name="Loading" Source="loading.gif" IsAnimationPlaying="True"></Image>
-            </Grid>
-            <Grid x:Name="RoomInfo" IsVisible="False">
+            
+            <Grid x:Name="roomInfo" IsVisible="False">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.2*" />
                     <RowDefinition Height="0.2*" />
@@ -24,46 +21,46 @@
                     <ColumnDefinition Width="0.6*" />
                     <ColumnDefinition Width="0.2*" />
                 </Grid.ColumnDefinitions>
+                
                 <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="0" Grid.Column="1">
-                    <Label Text="Jūsų čia lauks:"  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                    <Label Text="Jūsų čia lauks:" FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
                 </Frame>
                 <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Row="0" Grid.Column="0">
-                    <Label  Text=" 😋 "  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label Text=" 😋 " FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="0" Grid.Column="2">
-                    <Label  Text=" 😁"  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label Text=" 😁" FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="1" Grid.Column="0">
-                    <Label  Text=" 🧩 "  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label Text=" 🧩 " FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Row="2" Grid.Column="0">
-                    <Label  Text=" 💪 "  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label Text=" 💪 " FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="3" Grid.Column="0">
-                    <Label  Text=" 🏃‍♂ "  FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label Text=" 🏃‍♂ " FontSize="20" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame BackgroundColor="#F9F532" CornerRadius="10"  Grid.Row="1" Grid.Column="1">
-                    <Label  Text="Užduočių - "  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label Text="Užduočių - " FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame BackgroundColor="#D9DE09" CornerRadius="10"  Grid.Row="2" Grid.Column="1">
-                    <Label Text="Kelionės atstumas-"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label Text="Kelionės atstumas-" FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="1" Grid.Column="2">
-                    <Label x:Name="PuzzleCount" Text="0"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label x:Name="puzzleCount" Text="0" FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Row="2" Grid.Column="2">
-                    <Label x:Name="RoadDistance" Text="0"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label x:Name="roadDistance" Text="0" FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame BackgroundColor="#F9F532" CornerRadius="10"  Grid.Row="3" Grid.Column="1">
-                    <Label  Text="Iki pirmos uzduties - "  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label Text="Iki pirmos užduoties - " FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Row="3" Grid.Column="2">
-                    <Label x:Name="RoadDistance2" Text="0"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label x:Name="roadDistance2" Text="0" FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
             </Grid>
 
             <Grid >
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.6*" />
                     <ColumnDefinition Width="0.4*" />
@@ -72,18 +69,18 @@
                     <RowDefinition Height="0.5*" />
                     <RowDefinition Height="0.5*" />
                 </Grid.RowDefinitions>
+
                 <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Column="0" Grid.Row="0">
-                    <Label Text="Uzduotis sukure -"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label Text="Užduotis sukūrė -" FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Column="1" Grid.Row="0">
-                    <Label x:Name="OwnerName" Text="Vardas"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label x:Name="ownerName" Text="Vardas" FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
-
                 <Frame CornerRadius="10" BackgroundColor="#F9F532" Grid.Column="0" Grid.Row="1">
-                    <Label Text="Uzduotis sukure -"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label Text="Kambario Pin -" FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
                 <Frame CornerRadius="10" BackgroundColor="#D9DE09" Grid.Column="1" Grid.Row="1">
-                    <Label x:Name="RoomPinas" Text="Nezinomas"  FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Label x:Name="roomPin" Text="Nežinomas" FontSize="17" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                 </Frame>
             </Grid>
 
@@ -92,10 +89,10 @@
                     <ColumnDefinition Width="0.5*" />
                     <ColumnDefinition Width="0.5*" />
                 </Grid.ColumnDefinitions>
-                <Button Text="Pradėti" BackgroundColor="#F9F532"  Grid.Row="1" CornerRadius="10" Clicked="Start_Click"></Button>
-                <Button Text="Praleisti" BackgroundColor="#D9DE09" Grid.Row="1"  Grid.Column="1" CornerRadius="10" Clicked="Skip_Click"></Button>
-            </Grid>
 
+                <Button Text="Prisijungti" BackgroundColor="#F9F532" Grid.Row="1" CornerRadius="10" Clicked="Start_Clicked" />
+                <Button Text="Išeiti" BackgroundColor="#D9DE09" Grid.Row="1" Grid.Column="1" CornerRadius="10" Clicked="LeaveRoom_Clicked" />
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
