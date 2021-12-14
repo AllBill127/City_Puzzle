@@ -69,6 +69,7 @@ namespace CityPuzzle.Classes
                 RadarThread.Start();
 
                 await RevealImg();      // Start the quest completion loop
+                Console.WriteLine("siunciu " + target.ID+ "0"+App.CurrentUser.ID);
 
                 App.CurrentUser.QuestsCompleted.Add(new CompletedPuzzle() { PuzzleId = target.ID, UserId = App.CurrentUser.ID });
                 OnQuestCompleted?.Invoke(this, new OnQuestCompletedEventArgs { QuestCompleted = questInProgress, QuestsList = targets, Score = score });

@@ -15,7 +15,7 @@ namespace CityPuzzle.Side_Pages
     public partial class PuzzleScoresPage : ContentPage
     {
         private List<Puzzle> allPuzzles = Sql.ReadPuzzles();
-        private List<CompletedPuzzle2> completedPuzzles = ((User)(from user in Sql.ReadUsers() where user.ID == App.CurrentUser.ID select user)).CompletedPuzzles;
+        private List<CompletedPuzzle2> completedPuzzles = Sql.ReadUser(App.CurrentUser.ID).CompletedPuzzles;
 
         public PuzzleScoresPage()
         {

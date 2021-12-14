@@ -18,12 +18,11 @@ namespace CityPuzzle
         public CompletedQuestPage(Puzzle quest, List<Puzzle> questsList, int score)
         {
             InitializeComponent();
-
             this.questsList = questsList;
 
             var completedPuzzle = new CompletedPuzzle() { UserId = App.CurrentUser.ID, PuzzleId = quest.ID };
             var completedPuzzle2 = new CompletedPuzzle2() { UserId = App.CurrentUser.ID, PuzzleId = quest.ID, Score = score };
-            //completedPuzzle2.Save();
+            completedPuzzle2.Save();
             completedPuzzle.Save();
 
             completedName.Text = quest.Name;

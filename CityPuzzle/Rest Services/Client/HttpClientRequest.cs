@@ -16,7 +16,7 @@ namespace CityPuzzle.Rest_Services.Client
         {
             Console.WriteLine("url + objectPath" + url + objectPath);
             return await httpClient.GetStringAsync(url + objectPath);
-            /*Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
+            Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
             Thread timer = new Thread(new ThreadStart(() => Thread.Sleep(3000)));
             timer.Start();
             while (timer.IsAlive)
@@ -28,7 +28,7 @@ namespace CityPuzzle.Rest_Services.Client
                 }
             }
             Console.WriteLine("Canceled");
-            throw new APIFailedGetException("AFTER 3 SEC NO RESPONSE");*/
+            throw new APIFailedGetException("AFTER 3 SEC NO RESPONSE");
         }
         protected async Task<HttpResponseMessage> SendItem(string objectPath, string json)
         {
