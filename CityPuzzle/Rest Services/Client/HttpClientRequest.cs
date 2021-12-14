@@ -14,13 +14,10 @@ namespace CityPuzzle.Rest_Services.Client
 
         protected void SetUrl(string url)
         {
-            Console.WriteLine("url + objectPath" + url + objectPath);
-            return await httpClient.GetStringAsync(url + objectPath);
             this.url = url;
         }
         public async Task<string> SendCommand(string objectPath)
         {
-
             Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
             Thread timer = new Thread(new ThreadStart(() => Thread.Sleep(3000)));
             timer.Start();
