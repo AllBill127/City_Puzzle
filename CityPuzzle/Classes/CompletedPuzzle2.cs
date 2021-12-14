@@ -7,7 +7,7 @@ using System.Text;
 namespace CityPuzzle.Classes
 {
     [DataContract]
-    public class CompletedPuzzle2
+    public class CompletedPuzzle2 : CityPuzzleObjects
     {
         [DataMember]
         public int CompletedPuzzleId { get; set; }
@@ -34,7 +34,7 @@ namespace CityPuzzle.Classes
         {
             try
             {
-                var response = await App.WebServices.SaveObject(this);
+                var response = await ApiCommands.SaveObject(this);
                 Console.WriteLine("Saving is working");
             }
             catch (APIFailedSaveException ex) //reikia pagalvot kaip handlinti(galima mesti toliau ir try kur skaitoma(throw)) 
