@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Serilog;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
-namespace Middleware.WebApi
+namespace CityPuzzleWebSer.WebApi.Middleware
 {
     public class StatisticsMiddleware
     {

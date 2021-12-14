@@ -10,7 +10,7 @@ using System.Net;
 using System.IO;
 using Microsoft.AspNetCore.Http.Extensions;
 
-namespace Middleware.WebApi
+namespace CityPuzzleWebSer.WebApi.Middleware
 {
     public class ErrorHandlingMiddleware
     {

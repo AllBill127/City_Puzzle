@@ -1,0 +1,63 @@
+2021-12-14 14:22:34.580 +02:00 [INF] User profile is available. Using 'C:\Users\Rokas\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-12-14 14:22:34.812 +02:00 [FTL] Application startup exception
+System.InvalidOperationException: Unable to resolve service for type 'Serilog.ILogger' while attempting to activate 'CityPuzzleWebSer.WebApi.Middleware.StatisticsMiddleware'.
+   at Microsoft.Extensions.Internal.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_0.<UseMiddleware>b__0(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+2021-12-14 14:23:38.435 +02:00 [INF] User profile is available. Using 'C:\Users\Rokas\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-12-14 14:23:38.746 +02:00 [FTL] Application startup exception
+System.InvalidOperationException: Unable to resolve service for type 'Serilog.ILogger' while attempting to activate 'CityPuzzleWebSer.WebApi.Middleware.StatisticsMiddleware'.
+   at Microsoft.Extensions.Internal.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_0.<UseMiddleware>b__0(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+2021-12-14 14:27:14.007 +02:00 [INF] User profile is available. Using 'C:\Users\Rokas\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-12-14 14:27:14.347 +02:00 [FTL] Application startup exception
+System.InvalidOperationException: Unable to resolve service for type 'Serilog.ILogger' while attempting to activate 'CityPuzzleWebSer.WebApi.Middleware.StatisticsMiddleware'.
+   at Microsoft.Extensions.Internal.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_0.<UseMiddleware>b__0(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+2021-12-14 14:29:46.776 +02:00 [INF] User profile is available. Using 'C:\Users\Rokas\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-12-14 14:29:47.121 +02:00 [FTL] Application startup exception
+System.InvalidOperationException: Unable to resolve service for type 'Serilog.ILogger' while attempting to activate 'CityPuzzleWebSer.WebApi.Middleware.StatisticsMiddleware'.
+   at Microsoft.Extensions.Internal.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_0.<UseMiddleware>b__0(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+2021-12-14 14:35:01.682 +02:00 [INF] User profile is available. Using 'C:\Users\Rokas\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2021-12-14 14:35:02.027 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2021-12-14 14:35:02.027 +02:00 [INF] Hosting environment: Development
+2021-12-14 14:35:02.027 +02:00 [INF] Content root path: C:\Users\Rokas\Source\Repos\Skestam_Kartu\CityPuzzleWebSer\CityPuzzleWebSer
+2021-12-14 14:35:02.066 +02:00 [INF] Request starting HTTP/2 GET https://localhost:44372/ - -
+2021-12-14 14:37:58.672 +02:00 [INF] Executing endpoint 'CityPuzzleWebSer.Controllers.HomeController.Index (CityPuzzleWebSer)'
+2021-12-14 14:37:58.693 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller CityPuzzleWebSer.Controllers.HomeController (CityPuzzleWebSer).
+2021-12-14 14:37:58.711 +02:00 [INF] Executing ViewResult, running view Index.
+2021-12-14 14:37:58.842 +02:00 [INF] Executed ViewResult - view Index executed in 136.6339ms.
+2021-12-14 14:37:58.844 +02:00 [INF] Executed action CityPuzzleWebSer.Controllers.HomeController.Index (CityPuzzleWebSer) in 150.6502ms
+2021-12-14 14:37:58.844 +02:00 [INF] Executed endpoint 'CityPuzzleWebSer.Controllers.HomeController.Index (CityPuzzleWebSer)'
+2021-12-14 14:37:58.845 +02:00 [INF] It took 173 ms to perform this action Index in this controller Home
+2021-12-14 14:37:58.854 +02:00 [INF] Request finished HTTP/2 GET https://localhost:44372/ - - - 200 - text/html;+charset=utf-8 176789.4963ms
+2021-12-14 14:37:58.863 +02:00 [INF] Request starting HTTP/2 GET https://localhost:44372/css/site.css - -
+2021-12-14 14:37:58.863 +02:00 [INF] Request starting HTTP/2 GET https://localhost:44372/lib/jquery/dist/jquery.min.js - -
+2021-12-14 14:37:58.863 +02:00 [INF] Request starting HTTP/2 GET https://localhost:44372/lib/bootstrap/dist/css/bootstrap.min.css - -
+2021-12-14 14:37:58.897 +02:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\Rokas\Source\Repos\Skestam_Kartu\CityPuzzleWebSer\CityPuzzleWebSer\wwwroot\css\site.css'
+2021-12-14 14:37:58.901 +02:00 [INF] Request finished HTTP/2 GET https://localhost:44372/css/site.css - - - 200 1417 text/css 37.6815ms
+2021-12-14 14:37:58.906 +02:00 [INF] Request starting HTTP/2 GET https://localhost:44372/lib/bootstrap/dist/js/bootstrap.bundle.min.js - -
+2021-12-14 14:37:58.909 +02:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Users\Rokas\Source\Repos\Skestam_Kartu\CityPuzzleWebSer\CityPuzzleWebSer\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2021-12-14 14:37:58.913 +02:00 [INF] Request finished HTTP/2 GET https://localhost:44372/lib/bootstrap/dist/css/bootstrap.min.css - - - 200 155764 text/css 49.5817ms
+2021-12-14 14:37:58.917 +02:00 [INF] Request starting HTTP/2 GET https://localhost:44372/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0 - -
+2021-12-14 14:37:58.918 +02:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\Rokas\Source\Repos\Skestam_Kartu\CityPuzzleWebSer\CityPuzzleWebSer\wwwroot\js\site.js'
+2021-12-14 14:37:58.918 +02:00 [INF] Request finished HTTP/2 GET https://localhost:44372/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0 - - - 200 230 application/javascript 1.5082ms
+2021-12-14 14:37:58.932 +02:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Users\Rokas\Source\Repos\Skestam_Kartu\CityPuzzleWebSer\CityPuzzleWebSer\wwwroot\lib\jquery\dist\jquery.min.js'
+2021-12-14 14:37:58.934 +02:00 [INF] Request finished HTTP/2 GET https://localhost:44372/lib/jquery/dist/jquery.min.js - - - 200 89478 application/javascript 71.0917ms
+2021-12-14 14:37:58.949 +02:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Users\Rokas\Source\Repos\Skestam_Kartu\CityPuzzleWebSer\CityPuzzleWebSer\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2021-12-14 14:37:58.950 +02:00 [INF] Request finished HTTP/2 GET https://localhost:44372/lib/bootstrap/dist/js/bootstrap.bundle.min.js - - - 200 78641 application/javascript 44.0987ms
+2021-12-14 14:37:59.001 +02:00 [INF] Request starting HTTP/2 GET https://localhost:44372/favicon.ico - -
+2021-12-14 14:37:59.006 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\Rokas\Source\Repos\Skestam_Kartu\CityPuzzleWebSer\CityPuzzleWebSer\wwwroot\favicon.ico'
+2021-12-14 14:37:59.007 +02:00 [INF] Request finished HTTP/2 GET https://localhost:44372/favicon.ico - - - 200 5430 image/x-icon 5.2226ms
