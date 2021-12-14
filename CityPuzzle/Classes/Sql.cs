@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using CityPuzzle.Rest_Services.Client;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -53,10 +54,13 @@ namespace CityPuzzle.Classes
             return taskFindUserRooms.Result;
         }
 
-        // -------------------------------------------------Rooms--------------------------------------------------------------
+        // -------------------------------------------------Change db--------------------------------------------------------------
 
-
-
+        public static void ChangeDb(string conn)
+        {
+            ConnString connString = new ConnString() { Conn = conn, Token = "CityPuzzle" };
+            connString.ChangeConn();
+        }
 
         //-------------------------------------------------Local User-----------------------------------------------------------------------
         public static SimpleUser GetCurrentUser()

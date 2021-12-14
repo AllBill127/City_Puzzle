@@ -54,6 +54,7 @@ namespace CityPuzzle.Classes.Tests
         {
             APICommands WebServices = new APICommands("http://localhost:5000/api/");
             puzzle.ChangeService(WebServices);
+            Sql.ChangeDb("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=LocalCityPuzzleDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;");
             Thread save = new Thread(() => puzzle.Save());
             save.Start();
             save.Join();

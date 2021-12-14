@@ -14,8 +14,6 @@ namespace CityPuzzle.Rest_Services.Client
 
         protected void SetUrl(string url)
         {
-            Console.WriteLine("url + objectPath" + url + objectPath);
-            return await httpClient.GetStringAsync(url + objectPath);
             this.url = url;
         }
         public async Task<string> SendCommand(string objectPath)
@@ -74,6 +72,8 @@ namespace CityPuzzle.Rest_Services.Client
                 return "Tasks";
             if (typeParameterType == typeof(CompletedPuzzle2))
                 return "CompletedPuzzles";
+            if (typeParameterType == typeof(ConnString))
+                return "ChangeConectionString";
             throw new Classes.TypeNotExistException();
         }
     }
