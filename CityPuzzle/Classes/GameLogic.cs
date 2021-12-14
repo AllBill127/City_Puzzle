@@ -22,7 +22,6 @@ namespace CityPuzzle.Classes
         private Puzzle questInProgress;
         private int score = maxScore;
 
-
         public delegate void RadarChangeEventDelegate(string s);
         public event RadarChangeEventDelegate OnRadarChange;
         public event EventHandler OnMaskHide;
