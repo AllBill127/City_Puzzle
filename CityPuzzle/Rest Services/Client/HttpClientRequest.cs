@@ -1,4 +1,4 @@
-﻿using CityPuzzle.Classes;
+using CityPuzzle.Classes;
 using System;
 using System.Net.Http;
 using System.Text;

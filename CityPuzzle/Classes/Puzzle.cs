@@ -34,6 +34,7 @@ namespace CityPuzzle.Classes
             try
             {
                 ApiCommands.DeleteObject(adress);
+
                 Console.WriteLine("Delete is working");
             }
             catch (APIFailedDeleteException ex)
@@ -51,6 +52,7 @@ namespace CityPuzzle.Classes
             try
             {
                 var response = await ApiCommands.SaveObject(this);
+
                 ID = response.ID;
                 Console.WriteLine("Saving is working");
             }

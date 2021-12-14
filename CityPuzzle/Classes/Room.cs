@@ -60,6 +60,7 @@ namespace CityPuzzle.Classes
             try
             {
                 ApiCommands.DeleteObject(adress);
+
                 Console.WriteLine("Delete is working");
             }
             catch (APIFailedDeleteException ex)
