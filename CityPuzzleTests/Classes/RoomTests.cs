@@ -33,54 +33,37 @@ namespace CityPuzzle.Classes.Tests
         }
 
         [Theory]
-        [MemberData(nameof(SaveUser))]
-        public void setUserSaveTest(User user)
-        {
-            APICommands WebServices = new APICommands("http://localhost:5000/api/");
-            user.ChangeService(WebServices);
-            Thread save=new Thread(()=>user.Save());
-            save.Start();
-            save.Join();
-            while (user.ID == 0)
-                Thread.Sleep(100);
-            Task<List<User>> obTask = Task.Run(() => WebServices.GetUsers());
-            obTask.Wait();
-            List<User> useiai = obTask.Result;
-            Assert.True(useiai.Any(rt => rt.ID == user.ID));
-        }
-        [Theory]
-        [MemberData(nameof(SavePuzzles))]
-        public void setPuzzleSaveTest(Puzzle puzzle)
-        {
-            APICommands WebServices = new APICommands("http://localhost:5000/api/");
-            puzzle.ChangeService(WebServices);
-            Sql.ChangeDb("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=LocalCityPuzzleDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;");
-            Thread save = new Thread(() => puzzle.Save());
-            save.Start();
-            save.Join();
-            while (puzzle.ID == 0)
-                Thread.Sleep(100);
-            Task<List<Puzzle>> obTask = Task.Run(() => WebServices.GetPuzzles());
-            obTask.Wait();
-            List<Puzzle> puzles = obTask.Result;
-            Assert.True(puzles.Any(rt => rt.ID == puzzle.ID));
-        }
-        [Theory]
-        [MemberData(nameof(SaveRooms))]
-        public void setRoomSaveTest(Room room)
+        [MemberData(nameof(GetRooms))]
+        public void SaveTest(Room room)
         {
             APICommands WebServices = new APICommands("http://localhost:5000/api/");
             room.ChangeService(WebServices);
+
             var list = new List<int>() { 8, 3, 2 };
+            
             Thread save = new Thread(() => room.Save(list));
             save.Start();
             save.Join();
             while (room.ID == 0)
                 Thread.Sleep(100);
+
             Task<List<Room>> obTask = Task.Run(() => WebServices.GetRooms());
             obTask.Wait();
             List<Room> allRooms = obTask.Result;
+
             Assert.True(allRooms.Any(rt => rt.ID == room.ID));
+        }
+
+        public static IEnumerable<object[]> GetUsers
+        {
+            get
+            {
+                return new[]
+                {
+                    new object[] { new User(new UserVerifier()) { ID = 1478 } },
+                    new object[] { new User(new UserVerifier()) { ID = 1410 } }
+                };
+            }
         }
 
         public static IEnumerable<object[]> GetPuzzles
@@ -94,46 +77,15 @@ namespace CityPuzzle.Classes.Tests
                 };
             }
         }
-        public static IEnumerable<object[]> SaveRooms
-        {
-            get
-            {
-                return new[]
-                {
-                    new object[] { new Room() { Owner=10,RoomSize=100,RoomPin="Test Room" } },
-                };
-            }
-        }
-        public static IEnumerable<object[]> SavePuzzles
-        {
-            get
-            {
-                return new[]
-                {
-                    new object[] { new Puzzle() { Name="Test_Puzzles", About= "Test_Puzzle", ImgAdress= "Test_Puzzle", Latitude=55.00, Longitude=100, Quest= "Test_Puzzle" } },
-                };
-            }
-        }
-        public static IEnumerable<object[]> SaveUser
-        {
-            get
-            {
-                return new[]
-                {
-                    new object[] { new User() { Name = "Test7", LastName = "Test1", Email = "Test1", MaxQuestDistance = 10, Pass = "kazkas", UserName = "Test1" } },
-                    new object[] { new User() { Name = "Test8", LastName = "Test2", Email = "Test2", MaxQuestDistance = 10, Pass = "kazkas", UserName = "Test2" } }
-                };
-            }
-        }
 
-        public static IEnumerable<object[]> GetUsers
+        public static IEnumerable<object[]> GetRooms
         {
             get
             {
                 return new[]
                 {
-                    new object[] { new User(new UserVerifier()) { ID = 1478 } },
-                    new object[] { new User(new UserVerifier()) { ID = 1410 } }
+                    new object[] { new Room() { Owner=10, RoomSize=100, RoomPin = "Test Room" } },
+                    new object[] { new Room() { Owner=9, RoomSize=111, RoomPin = "Test Room 2" } }
                 };
             }
         }
