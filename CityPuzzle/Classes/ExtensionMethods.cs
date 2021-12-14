@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using static CityPuzzle.Classes.Structs;
 
@@ -28,7 +29,7 @@ namespace CityPuzzle.Classes
                     break;
 
                 temp.Username = user.UserName;
-                temp.Score = user.QuestsCompleted.Count;
+                temp.Score = user.CompletedPuzzles.Aggregate(0, (score, next) => score += next.Score);  // user.QuestsCompleted.Count;
                 temp.Index = j;
 
                 TopUsers.Add(temp);

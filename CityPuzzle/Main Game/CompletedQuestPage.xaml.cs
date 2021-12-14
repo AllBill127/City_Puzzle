@@ -15,18 +15,21 @@ namespace CityPuzzle
     {
         private readonly List<Puzzle> questsList;
 
-        public CompletedQuestPage(Puzzle quest, List<Puzzle> questsList)
+        public CompletedQuestPage(Puzzle quest, List<Puzzle> questsList, int score)
         {
             InitializeComponent();
 
             this.questsList = questsList;
 
             var completedPuzzle = new CompletedPuzzle() { UserId = App.CurrentUser.ID, PuzzleId = quest.ID };
+            var completedPuzzle2 = new CompletedPuzzle2() { UserId = App.CurrentUser.ID, PuzzleId = quest.ID, Score = score };
+            //completedPuzzle2.Save();
             completedPuzzle.Save();
 
             completedName.Text = quest.Name;
             completedInfo.Text = quest.About;
             completedImg.Source = quest.ImgAdress;
+            completedScore.Text = "Score: " + score.ToString();
         }
 
         protected override void OnDisappearing()// GAL reiktu tam klase nauja sukurt (Navigation)

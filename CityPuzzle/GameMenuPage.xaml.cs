@@ -5,7 +5,7 @@ using Xamarin.Forms.Xaml;
 using System.Net;
 using CityPuzzle.Classes;
 using CityPuzzle.Game_Room.Join_GameRoom;
-
+using CityPuzzle.Side_Pages;
 
 namespace CityPuzzle
 {
@@ -44,7 +44,12 @@ namespace CityPuzzle
 
         private void Settings_Clicked(object sender, EventArgs e)
         {
-            //Navigation.PushAsync(new SettingsPage());
+            Navigation.PushAsync(new SettingsPage());
+        }
+
+        private void PuzzleScores_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new PuzzleScoresPage());
         }
     }
 

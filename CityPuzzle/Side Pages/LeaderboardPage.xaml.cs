@@ -3,6 +3,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using static CityPuzzle.Classes.Structs;
@@ -12,19 +13,11 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LeaderboardPage : ContentPage
     {
-        LeaderboardLogic lbLogic = new LeaderboardLogic();
+        private LeaderboardLogic lbLogic = new LeaderboardLogic();
 
         public LeaderboardPage()
         {
             InitializeComponent();
-
-            // Form a top10 list with specified comparer and cast items in to new format with index
-            List<UserInfo> top10 = Sql.ReadUsers().Top10Cast(new PointsComparer(), (user, index) => new UserInfo
-            {
-                Username = user.UserName,
-                Score = user.QuestsCompleted.Count,
-                Index = index
-            });
 
             lbLogic.OnPageChange += UpdatePage;
 
@@ -55,7 +48,7 @@ namespace CityPuzzle
             List<UserInfo> top10 = Sql.ReadUsers().Top10Cast(new PointsComparer(), (user, index) => new UserInfo
             {
                 Username = user.UserName,
-                Score = user.QuestsCompleted.Count,
+                Score = user.CompletedPuzzles.Aggregate(0, (score, next) => score += next.Score),   //user.QuestsCompleted.Count,
                 Index = index
             });
 

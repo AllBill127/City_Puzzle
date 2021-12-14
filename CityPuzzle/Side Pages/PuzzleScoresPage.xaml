@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CityPuzzle.Side_Pages.PuzzleScoresPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="PuzzleScores"
+                ItemsSource="{Binding Items}"
+                ItemTapped="Handle_ItemTapped"
+                CachingStrategy="RecycleElement"
+                RowHeight="50"
+                SeparatorColor="#F3BD21">
+
+                <ListView.Header>
+                    <StackLayout>
+                        <Frame BackgroundColor="#F3BD21" Padding="10" CornerRadius="10">
+                            <Label Text="Puzzle Scores" HorizontalTextAlignment="Center" TextColor="Black"   FontSize="20"/>
+                        </Frame>
+                    </StackLayout>
+                </ListView.Header>
+
+                <!--Custom View Cells-->
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+
+                                <Frame Padding="1" CornerRadius="20">
+                                    <Image Grid.Column="0" Source="{Binding ImgAdress}"
+                                        HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="20" WidthRequest="20" />
+                                </Frame>
+                                <Label Grid.Column="1" Text="{Binding PuzzleName}" 
+                                    HorizontalOptions="Center" VerticalOptions="Center"
+                                    HorizontalTextAlignment="Center" TextColor="Black" FontSize="18" />
+                                <Label Grid.Column="2" Text="{Binding Score}" 
+                                    HorizontalOptions="Center" VerticalOptions="Center"
+                                    HorizontalTextAlignment="Center" TextColor="Black" FontSize="14" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
