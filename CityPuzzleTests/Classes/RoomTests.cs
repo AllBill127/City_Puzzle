@@ -32,7 +32,6 @@ namespace CityPuzzle.Classes.Tests
             Assert.True(room.RoomTasks.Any(rt => rt.PuzzleId == puzzle.ID && rt.RoomId == room.ID));
         }
 
-
         [Theory]
         [MemberData(nameof(SaveUser))]
         public void setUserSaveTest(User user)

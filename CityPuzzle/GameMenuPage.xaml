@@ -73,8 +73,6 @@
         </Grid>
 
         <Button x:Name="addPuzzleButton" Text="Pridėti užduotį" Clicked="AddPuzzle_Clicked" BackgroundColor="#F3BD21"></Button>
-        <Button x:Name="test" Text="Pridėti užduotį" Clicked="test_Clicked" BackgroundColor="#F3BD21"></Button>
-
     </StackLayout>
     
     <NavigationPage.TitleView>
