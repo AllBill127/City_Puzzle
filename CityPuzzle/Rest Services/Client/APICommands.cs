@@ -392,5 +392,11 @@ namespace CityPuzzle.Rest_Services.Client
                 throw new APIFailedDeleteException();
         }
 
+
+        public void ChangeDbSring(string conn)
+        {
+
+        }
+
     }
 }
