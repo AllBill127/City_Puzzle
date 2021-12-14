@@ -6,8 +6,6 @@
    
              x:Class="CityPuzzle.QuestPage">
     <ContentPage.Content>
-
-
         <Grid>
             <Image x:Name="radar" Source="Vidutine.gif" IsAnimationPlaying="True" />
             <Grid >
@@ -68,7 +66,7 @@
                 <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
             
-            <Button Image="map_icon.png" AbsoluteLayout.LayoutFlags="PositionProportional" Grid.Column="3"  Clicked="ShowMap_Clicked" CornerRadius="20"/>
+            <Button x:Name="showMapButton" Image="map_icon.png" AbsoluteLayout.LayoutFlags="PositionProportional" Grid.Column="3"  Clicked="ShowMap_Clicked" CornerRadius="20"/>
         </Grid>
     </NavigationPage.TitleView>
 </ContentPage>

@@ -9,10 +9,11 @@ using BCryptNet = BCrypt.Net.BCrypt;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using CityPuzzle.Rest_Services.Client;
 
 namespace CityPuzzle.Classes
 {
-    public class User :IEquatable<User>
+    public class User : CityPuzzleObjects,IEquatable<User>
     {
         [Key]
         [DataMember]
@@ -33,6 +34,9 @@ namespace CityPuzzle.Classes
         public int MaxQuestDistance { get; set; }
         [IgnoreDataMember]
         public List<CompletedPuzzle> QuestsCompleted = new List<CompletedPuzzle>();
+
+        // Updated List of completed puzzles
+        public List<CompletedPuzzle2> CompletedPuzzles = new List<CompletedPuzzle2>();
 
         private readonly IUserVerifier _verifier;
 
@@ -69,7 +73,7 @@ namespace CityPuzzle.Classes
             return _verifier.CheckHashPass(name, pass);
         }
 
-        public bool Equals(User other)
+        /*public bool Equals(User other)
         {
             if (this == null || other == null)
                 return false;
@@ -77,14 +81,32 @@ namespace CityPuzzle.Classes
                 return true;
             else
                 return false;
+        }*/
+
+        // Updated equals method for completed puzzles
+        public bool Equals(User other)
+        {
+            if (this == null || other == null)
+                return false;
+            else
+            {
+                int thisScore = this.CompletedPuzzles.Aggregate(0, (score, next) => score += next.Score);
+                int otherScore = other.CompletedPuzzles.Aggregate(0, (score, next) => score += next.Score);
+
+                if (otherScore == thisScore)
+                    return true;
+                else
+                    return false;
+            }
         }
+
         public void Delete()
         {
             string adress = "Users/" + this.ID;
 
             try
             {
-                App.WebServices.DeleteObject(adress);
+                ApiCommands.DeleteObject(adress);
                 Console.WriteLine("Delete is working");
             }
             catch (APIFailedDeleteException ex)
@@ -101,7 +123,7 @@ namespace CityPuzzle.Classes
         {
             try
             {
-                var response = await App.WebServices.SaveObject(this);
+                var response = await ApiCommands.SaveObject(this);
                 ID = response.ID;
                 Console.WriteLine("Saving is working");
             }

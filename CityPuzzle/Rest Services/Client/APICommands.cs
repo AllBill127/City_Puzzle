@@ -17,6 +17,11 @@ namespace CityPuzzle.Rest_Services.Client
         private static List<Puzzle> puzzles;
         private static List<RoomTask> roomTasks;
 
+        public APICommands() { }
+        public APICommands(string url) {
+            this.SetUrl(url);
+        }
+
         //Komandos su Participant
         public async Task<List<Participant>> GetParticipants()
         {
@@ -54,6 +59,10 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
             }
+            catch (Exception ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
         }
         //Komandos su CompletedPuzzle
         public async Task<List<CompletedPuzzle>> GetTasks()
@@ -80,7 +89,29 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 var json = await SendCommand("Tasks/" + userId);
                 var _tasks = JsonConvert.DeserializeObject<List<CompletedPuzzle>>(json);
-                tasks = new List<CompletedPuzzle>(_tasks);
+                var tasks = new List<CompletedPuzzle>(_tasks);
+                return tasks;
+            }
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
+            catch (SerializationException ex)
+            {
+                throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
+        }
+        public async Task<List<CompletedPuzzle2>> CompletedPuzzle2(int userId)
+        {
+            try
+            {
+                var json = await SendCommand("CompletedPuzzles/" + userId);
+                var _tasks = JsonConvert.DeserializeObject<List<CompletedPuzzle2>>(json);
+                var tasks = new List<CompletedPuzzle2>(_tasks);
                 return tasks;
             }
             catch (System.Net.Http.HttpRequestException ex)
@@ -108,15 +139,15 @@ namespace CityPuzzle.Rest_Services.Client
                 {
                     try
                     {
-                        a.QuestsCompleted = await GetUserComplitedTasks(a.ID);
+                        a.CompletedPuzzles = await CompletedPuzzle2(a.ID);
                     }
                     catch (System.Net.Http.HttpRequestException ex)
                     {
-                        a.QuestsCompleted = new List<CompletedPuzzle>();
+                        a.CompletedPuzzles = new List<CompletedPuzzle2>();
                     }
                     catch (APIFailedGetException ex)
                     {
-                        a.QuestsCompleted = new List<CompletedPuzzle>();
+                        a.CompletedPuzzles = new List<CompletedPuzzle2>();
                     }
                 }
                 return users;
@@ -239,6 +270,10 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
             }
+            catch (Exception ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
         }
         //Komandos su Puzzle
         public async Task<List<Puzzle>> GetPuzzles()
@@ -315,6 +350,10 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
             }
+            catch (Exception ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
         }
         //Komandos su Savinti
         public async Task<T> SaveObject<T>(T item)//pabaigtas
@@ -322,8 +361,11 @@ namespace CityPuzzle.Rest_Services.Client
             Type typeParameterType = typeof(T);
             try
             {
+                Console.WriteLine("1");
                 string jsonItem = Serialize(item);
+                Console.WriteLine("2");
                 var response = await SendItem(GetAdress(item), jsonItem);
+                Console.WriteLine("4");
                 if (response.IsSuccessStatusCode)
                 {
 
@@ -357,12 +399,6 @@ namespace CityPuzzle.Rest_Services.Client
         {
             DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(T));
             string serializedObject = JsonConvert.SerializeObject(item);
-            //string output = string.Empty;
-            //using (var ms = new MemoryStream())
-            //{
-            //    js.WriteObject(ms, item);
-            //    output = Encoding.Unicode.GetString(ms.ToArray());
-            //}
             return serializedObject;
         }
         public async void DeleteObject(String adress)

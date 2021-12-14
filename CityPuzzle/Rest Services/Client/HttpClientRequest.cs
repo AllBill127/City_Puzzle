@@ -1,4 +1,4 @@
-﻿using CityPuzzle.Classes;
+using CityPuzzle.Classes;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -9,35 +9,39 @@ namespace CityPuzzle.Rest_Services.Client
 {
     public class HttpClientRequest
     {
-        private const string url = "http://10.0.2.2:5000/api/";
+        private string url = "http://10.0.2.2:5000/api/";
         static HttpClient httpClient = new HttpClient();
 
+        protected void SetUrl(string url)
+        {
+            this.url = url;
+        }
         public async Task<string> SendCommand(string objectPath)
         {
-            Console.WriteLine("url + objectPath" + url + objectPath);
-            return await httpClient.GetStringAsync(url + objectPath);
-            /*Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
+
+            Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
             Thread timer = new Thread(new ThreadStart(() => Thread.Sleep(3000)));
             timer.Start();
             while (timer.IsAlive)
             {
                 if (sendcommand.IsCompleted)
                 {
-                    timer.Abort();
+                    //timer.Abort();
                     return sendcommand.Result;
                 }
             }
             Console.WriteLine("Canceled");
-            throw new APIFailedGetException("AFTER 3 SEC NO RESPONSE");*/
+            throw new APIFailedGetException("AFTER 3 SEC NO RESPONSE");
         }
         protected async Task<HttpResponseMessage> SendItem(string objectPath, string json)
         {
-
+            Console.WriteLine("3");
             HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");           
-            var result = await httpClient.PostAsync(url + objectPath, content).ConfigureAwait(true);
+            var result = await httpClient.PostAsync(url + objectPath, content);
+            Console.WriteLine("3.1");
             if (result.IsSuccessStatusCode)
             {
-                Console.WriteLine("Complited" + result);
+                Console.WriteLine("3.2");
                 var tokenJson = await result.Content.ReadAsStringAsync();
             }
             else
@@ -66,6 +70,10 @@ namespace CityPuzzle.Rest_Services.Client
                 return "Users";
             if (typeParameterType == typeof(CompletedPuzzle))
                 return "Tasks";
+            if (typeParameterType == typeof(CompletedPuzzle2))
+                return "CompletedPuzzles";
+            if (typeParameterType == typeof(ConnString))
+                return "ChangeConectionString";
             throw new Classes.TypeNotExistException();
         }
     }

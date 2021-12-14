@@ -83,8 +83,9 @@
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
-            
-            <Button Image="settings.png" AbsoluteLayout.LayoutFlags="PositionProportional" Grid.Column="3"  Clicked="Settings_Clicked" CornerRadius="20"/>
+
+            <Button x:Name="puzzleScoresButton" Image="settings.png" AbsoluteLayout.LayoutFlags="PositionProportional" Grid.Column="2"  Clicked="PuzzleScores_Clicked" CornerRadius="20"/>
+            <Button x:Name="settingsButton" Image="settings.png" AbsoluteLayout.LayoutFlags="PositionProportional" Grid.Column="3"  Clicked="Settings_Clicked" CornerRadius="20"/>
         </Grid>
     </NavigationPage.TitleView>
 </ContentPage>

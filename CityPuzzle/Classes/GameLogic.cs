@@ -12,24 +12,25 @@ namespace CityPuzzle.Classes
     public class GameLogic
     {
         private const int gifPlayTime = 5000;
+        private const int maxScore = 200;
 
         private double userLat;
         private double userLng;
         private double questLat;
         private double questLng;
         private List<Puzzle> targets;
-        private static Puzzle questInProgress;
+        private Puzzle questInProgress;
+        private int score = maxScore;
 
-
-        public delegate void RadarChangeEventDelegate(string s);    // Custom delegate for event
-        public event RadarChangeEventDelegate OnRadarChange;        // Custom event               
+        public delegate void RadarChangeEventDelegate(string s);
+        public event RadarChangeEventDelegate OnRadarChange;
         public event EventHandler OnMaskHide;
         public event EventHandler OnNoLocationFound;
         public event EventHandler OnNoNearbyQuest;
         public event EventHandler<OnQuestStartEventArgs> OnQuestStart;
         public class OnQuestStartEventArgs : EventArgs { public string QuestImg; public string Quest; }
         public event EventHandler<OnQuestCompletedEventArgs> OnQuestCompleted;
-        public class OnQuestCompletedEventArgs : EventArgs { public Puzzle QuestCompleted; public List<Puzzle> QuestsList; }
+        public class OnQuestCompletedEventArgs : EventArgs { public Puzzle QuestCompleted; public List<Puzzle> QuestsList; public int Score; }
         public event EventHandler OnNoQuestsLoaded;
 
         //========================================== Event trigger methods =================================================
@@ -52,7 +53,7 @@ namespace CityPuzzle.Classes
         private async void ShowQuest()
         {
             await UpdateCurrentLocation();
-            Puzzle target = GetQuest(this.targets);
+            Puzzle target = GetQuest(targets);
             if (target == null)      // when no nearby quests are found. Suggest creating a new one and exit to meniu
             {
                 OnNoNearbyQuest?.Invoke(this, EventArgs.Empty);
@@ -68,9 +69,10 @@ namespace CityPuzzle.Classes
                 RadarThread.Start();
 
                 await RevealImg();      // Start the quest completion loop
+                Console.WriteLine("siunciu " + target.ID+ "0"+App.CurrentUser.ID);
 
                 App.CurrentUser.QuestsCompleted.Add(new CompletedPuzzle() { PuzzleId = target.ID, UserId = App.CurrentUser.ID });
-                OnQuestCompleted?.Invoke(this, new OnQuestCompletedEventArgs { QuestCompleted = questInProgress, QuestsList = targets });
+                OnQuestCompleted?.Invoke(this, new OnQuestCompletedEventArgs { QuestCompleted = questInProgress, QuestsList = targets, Score = score });
             }
         }
 
@@ -211,11 +213,29 @@ namespace CityPuzzle.Classes
                     }
                 }
 
+                // Updated function with completed puzzle score
+                bool IsCompleted2(Puzzle puzzle)
+                {
+                    try
+                    {
+                        // TO DO: make better boundaries for score. currently failing more can result in bigger score
+                        CompletedPuzzle2 puz = App.CurrentUser.CompletedPuzzles.SingleOrDefault(x => x.PuzzleId.Equals(puzzle.ID) && x.Score == maxScore);
+                        if (puz == null)
+                            return false;
+                        else
+                            return true;
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        return true;
+                    }
+                }
+
                 //Linq query
                 var inRange =
                     (from puzzle in puzzles
                      where InRange(puzzle)
-                     where !IsCompleted(puzzle)
+                     where !IsCompleted2(puzzle)
                      select puzzle)
                     .ToList();
 
@@ -239,8 +259,13 @@ namespace CityPuzzle.Classes
 
         public Position GetTargetPosition()
         {
-            Position targetPosition = new Position(questLat,questLng);
+            Position targetPosition = new Position(questLat, questLng);
             return targetPosition;
+        }
+
+        public void ChangeScore(int difference)
+        {
+            score += difference;
         }
 
         /*
