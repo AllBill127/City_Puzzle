@@ -62,6 +62,7 @@ namespace CityPuzzle.Classes
             connString.ChangeConn();
         }
 
+
         //-------------------------------------------------Local User-----------------------------------------------------------------------
         public static SimpleUser GetCurrentUser()
         {
