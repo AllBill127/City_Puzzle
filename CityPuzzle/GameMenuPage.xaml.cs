@@ -6,7 +6,6 @@ using System.Net;
 using CityPuzzle.Classes;
 using CityPuzzle.Game_Room.Join_GameRoom;
 
-
 namespace CityPuzzle
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -47,5 +46,4 @@ namespace CityPuzzle
             //Navigation.PushAsync(new SettingsPage());
         }
     }
-
 }

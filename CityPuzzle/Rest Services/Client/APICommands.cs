@@ -17,6 +17,11 @@ namespace CityPuzzle.Rest_Services.Client
         private static List<Puzzle> puzzles;
         private static List<RoomTask> roomTasks;
 
+        public APICommands() { }
+        public APICommands(string url) {
+            this.SetUrl(url);
+        }
+
         //Komandos su Participant
         public async Task<List<Participant>> GetParticipants()
         {
@@ -53,6 +58,10 @@ namespace CityPuzzle.Rest_Services.Client
             catch (SerializationException ex)
             {
                 throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new APIFailedGetException(ex.Message);
             }
         }
         //Komandos su CompletedPuzzle
@@ -239,6 +248,10 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
             }
+            catch (Exception ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
         }
         //Komandos su Puzzle
         public async Task<List<Puzzle>> GetPuzzles()
@@ -315,6 +328,10 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 throw new APIFailedGetException("DeserializeObject error: " + ex.Message);
             }
+            catch (Exception ex)
+            {
+                throw new APIFailedGetException(ex.Message);
+            }
         }
         //Komandos su Savinti
         public async Task<T> SaveObject<T>(T item)//pabaigtas
@@ -322,8 +339,11 @@ namespace CityPuzzle.Rest_Services.Client
             Type typeParameterType = typeof(T);
             try
             {
+                Console.WriteLine("1");
                 string jsonItem = Serialize(item);
+                Console.WriteLine("2");
                 var response = await SendItem(GetAdress(item), jsonItem);
+                Console.WriteLine("4");
                 if (response.IsSuccessStatusCode)
                 {
 
