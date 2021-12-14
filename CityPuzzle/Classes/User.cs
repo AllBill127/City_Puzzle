@@ -9,10 +9,11 @@ using BCryptNet = BCrypt.Net.BCrypt;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using CityPuzzle.Rest_Services.Client;
 
 namespace CityPuzzle.Classes
 {
-    public class User :IEquatable<User>
+    public class User : CityPuzzleObjects,IEquatable<User>
     {
         [Key]
         [DataMember]
@@ -105,7 +106,7 @@ namespace CityPuzzle.Classes
 
             try
             {
-                App.WebServices.DeleteObject(adress);
+                ApiCommands.DeleteObject(adress);
                 Console.WriteLine("Delete is working");
             }
             catch (APIFailedDeleteException ex)
@@ -122,7 +123,7 @@ namespace CityPuzzle.Classes
         {
             try
             {
-                var response = await App.WebServices.SaveObject(this);
+                var response = await ApiCommands.SaveObject(this);
                 ID = response.ID;
                 Console.WriteLine("Saving is working");
             }

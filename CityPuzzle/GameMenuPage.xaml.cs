@@ -7,6 +7,7 @@ using CityPuzzle.Classes;
 using CityPuzzle.Game_Room.Join_GameRoom;
 using CityPuzzle.Side_Pages;
 
+
 namespace CityPuzzle
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -52,5 +53,4 @@ namespace CityPuzzle
             Navigation.PushAsync(new PuzzleScoresPage());
         }
     }
-
 }

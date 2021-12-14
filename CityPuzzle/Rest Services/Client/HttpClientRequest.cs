@@ -1,4 +1,4 @@
-﻿using CityPuzzle.Classes;
+using CityPuzzle.Classes;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -9,13 +9,18 @@ namespace CityPuzzle.Rest_Services.Client
 {
     public class HttpClientRequest
     {
-        private const string url = "http://10.0.2.2:5000/api/";
+        private string url = "http://10.0.2.2:5000/api/";
         static HttpClient httpClient = new HttpClient();
 
-        public async Task<string> SendCommand(string objectPath)
+        protected void SetUrl(string url)
         {
             Console.WriteLine("url + objectPath" + url + objectPath);
             return await httpClient.GetStringAsync(url + objectPath);
+            this.url = url;
+        }
+        public async Task<string> SendCommand(string objectPath)
+        {
+
             Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
             Thread timer = new Thread(new ThreadStart(() => Thread.Sleep(3000)));
             timer.Start();
@@ -23,7 +28,7 @@ namespace CityPuzzle.Rest_Services.Client
             {
                 if (sendcommand.IsCompleted)
                 {
-                    timer.Abort();
+                    //timer.Abort();
                     return sendcommand.Result;
                 }
             }
@@ -32,12 +37,13 @@ namespace CityPuzzle.Rest_Services.Client
         }
         protected async Task<HttpResponseMessage> SendItem(string objectPath, string json)
         {
-
+            Console.WriteLine("3");
             HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");           
-            var result = await httpClient.PostAsync(url + objectPath, content).ConfigureAwait(true);
+            var result = await httpClient.PostAsync(url + objectPath, content);
+            Console.WriteLine("3.1");
             if (result.IsSuccessStatusCode)
             {
-                Console.WriteLine("Complited" + result);
+                Console.WriteLine("3.2");
                 var tokenJson = await result.Content.ReadAsStringAsync();
             }
             else
