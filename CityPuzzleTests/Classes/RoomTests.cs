@@ -34,7 +34,7 @@ namespace CityPuzzle.Classes.Tests
 
         [Theory]
         [MemberData(nameof(GetRooms))]
-        public void setRoomSaveTest(Room room)
+        public void SaveTest(Room room)
         {
             APICommands WebServices = new APICommands("http://localhost:5000/api/");
             room.ChangeService(WebServices);

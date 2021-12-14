@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using CityPuzzle.Rest_Services.Client;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -16,6 +17,12 @@ namespace CityPuzzle.Classes
         public static List<User> ReadUsers()
         {
             Task<List<User>> obTask = Task.Run(() => App.WebServices.GetUsers());
+            obTask.Wait();
+            return obTask.Result;
+        }
+        public static User ReadUser(int id)
+        {
+            Task<User> obTask = Task.Run(() => App.WebServices.GetUser(id));
             obTask.Wait();
             return obTask.Result;
         }
@@ -47,59 +54,14 @@ namespace CityPuzzle.Classes
             return taskFindUserRooms.Result;
         }
 
-        // -------------------------------------------------Rooms--------------------------------------------------------------
-        public static void SaveParticipants(string roomId, int userID)
+        // -------------------------------------------------Change db--------------------------------------------------------------
+
+        public static void ChangeDb(string conn)
         {
-            using (SqlConnection conn = new SqlConnection(ConnStr))
-            {
-                conn.Open();
-                var command = new SqlCommand("INSERT INTO Participants (RoomPin,UserID) VALUES (@RoomPin,@UserID)", conn);
-                command.Parameters.AddWithValue("@RoomPin", roomId);
-                command.Parameters.AddWithValue("@UserID", userID);
-                command.ExecuteNonQuery();
-                conn.Close();
-            }
+            ConnString connString = new ConnString() { Conn = conn, Token = "CityPuzzle" };
+            connString.ChangeConn();
         }
-        public static List<string> FindParticipantRoomsIDs(int userID)
-        {
-            using (SqlConnection conn = new SqlConnection(ConnStr))
-            {
-                SqlCommand command;
-                SqlDataReader dataReader;
-                string sql = "Select RoomPin from Rooms where Owner=@UserID";
-                conn.Open();
-                command = new SqlCommand(sql, conn);
-                command.Parameters.AddWithValue("@UserID", userID);
-                dataReader = command.ExecuteReader();
-                List<string> roomPins = new List<string>();
-                while (dataReader.Read())
-                {
-                    roomPins.Add(dataReader.GetString(0));
-                }
-                conn.Close();
-                return roomPins;
-            }
-        }
-        public static List<int> FindRoomParticipantsID(int roomID)
-        {
-            using (SqlConnection conn = new SqlConnection(ConnStr))
-            {
-                SqlCommand command;
-                SqlDataReader dataReader;
-                string sql = "Select UserID from Participants where RoomPin=@RoomPin";
-                conn.Open();
-                command = new SqlCommand(sql, conn);
-                command.Parameters.AddWithValue("@RoomPin", roomID);
-                dataReader = command.ExecuteReader();
-                List<int> participantsID = new List<int>();
-                while (dataReader.Read())
-                {
-                    participantsID.Add(dataReader.GetInt32(0));
-                }
-                conn.Close();
-                return participantsID;
-            }
-        }
+
 
         //-------------------------------------------------Local User-----------------------------------------------------------------------
         public static SimpleUser GetCurrentUser()

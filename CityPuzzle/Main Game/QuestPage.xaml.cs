@@ -15,6 +15,10 @@ namespace CityPuzzle
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class QuestPage : ContentPage
     {
+        private const int showMapScoreDiff = -75;
+        private const int helpScoreDiff = -50;
+        private const int shuffleScoreDiff = -25;
+
         private GameLogic gameLogic = new GameLogic();
         private static object locker = new object();
         private const int revealTime = 10000;
@@ -109,12 +113,15 @@ namespace CityPuzzle
         private async void QuestCompleted(object sender, GameLogic.OnQuestCompletedEventArgs e)
         {
             await DisplayAlert("Sveikiname!", "Jūs pasiekėte savo tikslą.", "Gerai");
-            await Navigation.PushAsync(new CompletedQuestPage(e.QuestCompleted, e.QuestsList));
+            Console.WriteLine("iveikiau");
+
+            await Navigation.PushAsync(new CompletedQuestPage(e.QuestCompleted, e.QuestsList, e.Score));
         }
 
         // Shortly reveal whole image and then return masks
         private void Help_Clicked(object sender, EventArgs e)
         {
+            gameLogic.ChangeScore(helpScoreDiff);
             Thread helpImg = new Thread(HelpImg);
             helpImg.Start();
             helpButton.IsVisible = false;
@@ -123,6 +130,7 @@ namespace CityPuzzle
         // Shuffle current masks around
         private void Shuffle_Clicked(object sender, EventArgs e)
         {
+            gameLogic.ChangeScore(shuffleScoreDiff);
             Thread shuffleMasks = new Thread(ShuffleMasks);
             shuffleMasks.Start();
             shuffleButton.IsVisible = false;
@@ -141,6 +149,9 @@ namespace CityPuzzle
             {
                 puzzleGrid.IsVisible = true;
                 targetMapGrid.IsVisible = false;
+
+                gameLogic.ChangeScore(showMapScoreDiff);
+                showMapButton.IsVisible = false;
             }
         }
 

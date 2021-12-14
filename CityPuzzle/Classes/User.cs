@@ -35,6 +35,9 @@ namespace CityPuzzle.Classes
         [IgnoreDataMember]
         public List<CompletedPuzzle> QuestsCompleted = new List<CompletedPuzzle>();
 
+        // Updated List of completed puzzles
+        public List<CompletedPuzzle2> CompletedPuzzles = new List<CompletedPuzzle2>();
+
         private readonly IUserVerifier _verifier;
 
         public User(IUserVerifier ver) 
@@ -70,7 +73,7 @@ namespace CityPuzzle.Classes
             return _verifier.CheckHashPass(name, pass);
         }
 
-        public bool Equals(User other)
+        /*public bool Equals(User other)
         {
             if (this == null || other == null)
                 return false;
@@ -78,7 +81,25 @@ namespace CityPuzzle.Classes
                 return true;
             else
                 return false;
+        }*/
+
+        // Updated equals method for completed puzzles
+        public bool Equals(User other)
+        {
+            if (this == null || other == null)
+                return false;
+            else
+            {
+                int thisScore = this.CompletedPuzzles.Aggregate(0, (score, next) => score += next.Score);
+                int otherScore = other.CompletedPuzzles.Aggregate(0, (score, next) => score += next.Score);
+
+                if (otherScore == thisScore)
+                    return true;
+                else
+                    return false;
+            }
         }
+
         public void Delete()
         {
             string adress = "Users/" + this.ID;
