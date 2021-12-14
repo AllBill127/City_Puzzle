@@ -14,7 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityPuzzleTests", "CityPuzzleTests\CityPuzzleTests.csproj", "{FDB4C47A-A15C-47B3-8703-C34494D64F3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityPuzzleTests", "CityPuzzleTests\CityPuzzleTests.csproj", "{FDB4C47A-A15C-47B3-8703-C34494D64F3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityPuzzle_IntegrationTests", "CityPuzzle_IntegrationTests\CityPuzzle_IntegrationTests.csproj", "{670B83B1-330D-4436-BA72-A15F1A7D3B5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,6 +94,18 @@ Global
 		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Release|iPhone.Build.0 = Release|Any CPU
 		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{FDB4C47A-A15C-47B3-8703-C34494D64F3E}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Release|iPhone.Build.0 = Release|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{670B83B1-330D-4436-BA72-A15F1A7D3B5A}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
