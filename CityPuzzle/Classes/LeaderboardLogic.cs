@@ -22,7 +22,7 @@ namespace CityPuzzle.Classes
             lbUsers = Sql.ReadUsers().CastToLeaderboard(new PointsComparer(), (user, index) => new UserInfo
             {
                 Username = user.UserName,
-                Score = user.QuestsCompleted.Count,
+                Score = user.CompletedPuzzles.Aggregate(0, (score, next) => score += next.Score),   //user.QuestsCompleted.Count,
                 Index = index
             });
         }
