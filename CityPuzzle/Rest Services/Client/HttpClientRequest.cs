@@ -66,6 +66,8 @@ namespace CityPuzzle.Rest_Services.Client
                 return "Users";
             if (typeParameterType == typeof(CompletedPuzzle))
                 return "Tasks";
+            if (typeParameterType == typeof(CompletedPuzzle2))
+                return "CompletedPuzzles";
             throw new Classes.TypeNotExistException();
         }
     }

@@ -9,8 +9,8 @@ namespace CityPuzzle.Classes
     [DataContract]
     public class CompletedPuzzle2
     {
-        //[Key] [DataMember]
-        //public CompletedPuzzleId;
+        [DataMember]
+        public int CompletedPuzzleId { get; set; }
         [DataMember]
         public int UserId;
         [DataMember]
@@ -29,5 +29,23 @@ namespace CityPuzzle.Classes
             PuzzleId = puzzleId;
             Score = score;
         }
+
+        public async void Save()
+        {
+            try
+            {
+                var response = await App.WebServices.SaveObject(this);
+                Console.WriteLine("Saving is working");
+            }
+            catch (APIFailedSaveException ex) //reikia pagalvot kaip handlinti(galima mesti toliau ir try kur skaitoma(throw)) 
+            {
+                Console.WriteLine("APIFailedSaveException Error" + ex);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: else " + ex);
+            }
+        }
+
     }
 }
