@@ -11,15 +11,14 @@ namespace CityPuzzle
     {
         public static string FilePath;
         public static string GamePath;
-        public static string ObjectPath;
-        public static APICommands WebServices= new APICommands();
+        public static string ObjectPath;                       //API URL                     // DB CONN
+        public static APICommands WebServices= new APICommands("http://10.0.2.2:5000/api/", "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TestsDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;");
         
         public static User CurrentUser { get; set; }
 
         public App(string filePath, string objectPath, string gamePath)
         {
             InitializeComponent();
-
             MainPage = new NavigationPage(new LoginPage());
             FilePath = filePath;
             GamePath = gamePath;

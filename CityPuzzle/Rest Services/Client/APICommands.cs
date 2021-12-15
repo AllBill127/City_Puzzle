@@ -21,6 +21,11 @@ namespace CityPuzzle.Rest_Services.Client
         public APICommands(string url) {
             this.SetUrl(url);
         }
+        public APICommands(string url,string conn)
+        {
+            this.SetUrl(url);
+            Sql.ChangeDb(conn);
+        }
 
         //Komandos su Participant
         public async Task<List<Participant>> GetParticipants()

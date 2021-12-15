@@ -37,7 +37,7 @@ namespace CityPuzzle.Rest_Services.Client
             Console.WriteLine("3");
             HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");           
             var result = await httpClient.PostAsync(url + objectPath, content);
-            Console.WriteLine("3.1");
+            Console.WriteLine("3.1"+ url+ objectPath+" "+ json);
             if (result.IsSuccessStatusCode)
             {
                 Console.WriteLine("3.2");
