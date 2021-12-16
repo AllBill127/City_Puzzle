@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CityPuzzle.Classes
 {
-    public class Sql
+    public /*static*/ class Sql
     {
         public static List<User> ReadUsers()
         {
@@ -17,6 +17,7 @@ namespace CityPuzzle.Classes
             obTask.Wait();
             return obTask.Result;
         }
+
         public static User ReadUser(int id)
         {
             Task<User> obTask = Task.Run(() => App.WebServices.GetUser(id));
@@ -32,6 +33,7 @@ namespace CityPuzzle.Classes
             obTask.Wait();
             return obTask.Result;
         }
+
         public static List<Room> ReadRooms()
         {
             Task<List<Room>> obTask = Task.Run(() => App.WebServices.GetRooms());

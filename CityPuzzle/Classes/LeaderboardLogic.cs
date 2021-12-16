@@ -9,6 +9,7 @@ namespace CityPuzzle.Classes
 {
     public class LeaderboardLogic
     {
+        private const int pageSize = 10;
         private List<UserInfo> lbUsers = null;
         private int pageNr = 0;
         private IEnumerable<UserInfo> pageList = null;
@@ -32,22 +33,22 @@ namespace CityPuzzle.Classes
             if (pageNr == 0)
             {
                 pageNr++;
-                pageList = lbUsers.Take(10);
+                pageList = lbUsers.Take(pageSize);
             }
             else if (pageNr > 1 && !direction)
             {
                 pageNr--;
-                pageList = lbUsers.Skip((pageNr - 1) * 10).Take(10);
+                pageList = lbUsers.Skip((pageNr - 1) * pageSize).Take(pageSize);
             }
-            else if (pageNr < lbUsers.Count / 10 && direction)
+            else if (pageNr < lbUsers.Count / pageSize && direction)
             {
                 pageNr++;
-                pageList = lbUsers.Skip((pageNr - 1) * 10).Take(10);
+                pageList = lbUsers.Skip((pageNr - 1) * pageSize).Take(pageSize);
             }
-            else if (pageNr == lbUsers.Count / 10 && direction)
+            else if (pageNr == lbUsers.Count / pageSize && direction)
             {
                 pageNr++;
-                pageList = lbUsers.Skip((pageNr - 1) * 10).Take(lbUsers.Count % 10);
+                pageList = lbUsers.Skip((pageNr - 1) * pageSize).Take(lbUsers.Count % pageSize);
             }
             else
                 return;

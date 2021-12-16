@@ -36,6 +36,7 @@ namespace CityPuzzle.Classes
         public List<CompletedPuzzle> QuestsCompleted = new List<CompletedPuzzle>();
 
         // Updated List of completed puzzles
+        [IgnoreDataMember]
         public List<CompletedPuzzle2> CompletedPuzzles = new List<CompletedPuzzle2>();
 
         private readonly IUserVerifier _verifier;
