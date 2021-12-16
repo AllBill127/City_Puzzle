@@ -12,5 +12,12 @@ namespace CityPuzzle.Classes
             public int Score { get; set; }
             public string Username { get; set; }
         }
+
+        public struct PuzzleScoreInfo
+        {
+            public string PuzzleName { get; set; }
+            public string ImgAdress { get; set; }
+            public int Score { get; set; }
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static CityPuzzle.Classes.Structs;
 
 namespace CityPuzzle.Side_Pages
 {
@@ -30,14 +31,14 @@ namespace CityPuzzle.Side_Pages
                 groupedPuzzles,
                 puzzle => puzzle.ID,
                 gPuzzle => gPuzzle.PuzzleId,
-                (puzzle, gPuzzle) => new
+                (puzzle, gPuzzle) => new PuzzleScoreInfo()
                 {
                     PuzzleName = puzzle.Name,
                     ImgAdress = puzzle.ImgAdress,
                     Score = gPuzzle.Scores.Sum()
                 });
 
-            PuzzleScores.ItemsSource = puzzleScores;
+            PuzzleScores.ItemsSource = new ObservableCollection<PuzzleScoreInfo>(puzzleScores);
         }
 
         private void Handle_ItemTapped(object sender, EventArgs e)
