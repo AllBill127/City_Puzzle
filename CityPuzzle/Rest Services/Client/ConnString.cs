@@ -19,7 +19,6 @@ namespace CityPuzzle.Rest_Services.Client
             try
             {
                 var response = await ApiCommands.SaveObject(this);
-                Console.WriteLine("ChangeConn is working");
             }
             catch (APIFailedSaveException ex)
             {

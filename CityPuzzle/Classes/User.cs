@@ -40,13 +40,13 @@ namespace CityPuzzle.Classes
 
         private readonly IUserVerifier _verifier;
 
-        public User(IUserVerifier ver) 
+        public User(IUserVerifier ver) : base() 
         {
             _verifier = ver;
         }
-        public User() { }
+        public User() : base() { }
         
-        public User(string userName,string pass) 
+        public User(string userName,string pass) : base()
         {
             UserName = userName;
             Pass = pass;
@@ -69,7 +69,6 @@ namespace CityPuzzle.Classes
 
         public bool CheckHachedPassword(string name, string pass)
         {
-            Console.WriteLine("TIKRINU useri");
             return _verifier.CheckHashPass(name, pass);
         }
 
@@ -107,7 +106,6 @@ namespace CityPuzzle.Classes
             try
             {
                 ApiCommands.DeleteObject(adress);
-                Console.WriteLine("Delete is working");
             }
             catch (APIFailedDeleteException ex)
             {
@@ -125,7 +123,6 @@ namespace CityPuzzle.Classes
             {
                 var response = await ApiCommands.SaveObject(this);
                 ID = response.ID;
-                Console.WriteLine("Saving is working");
             }
             catch (APIFailedSaveException ex) //reikia pagalvot kaip handlinti(galima mesti toliau ir try kur skaitoma(throw)) 
             {

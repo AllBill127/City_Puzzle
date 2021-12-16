@@ -113,8 +113,6 @@ namespace CityPuzzle
         private async void QuestCompleted(object sender, GameLogic.OnQuestCompletedEventArgs e)
         {
             await DisplayAlert("Sveikiname!", "Jūs pasiekėte savo tikslą.", "Gerai");
-            Console.WriteLine("iveikiau");
-
             await Navigation.PushAsync(new CompletedQuestPage(e.QuestCompleted, e.QuestsList, e.Score));
         }
 

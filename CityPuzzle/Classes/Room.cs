@@ -39,8 +39,7 @@ namespace CityPuzzle.Classes
             {
                 UserId = user.ID,
                 RoomId = ID
-            }
-            );
+            });
         }
 
         public void SetTask(Puzzle puzzle)
@@ -60,8 +59,6 @@ namespace CityPuzzle.Classes
             try
             {
                 ApiCommands.DeleteObject(adress);
-
-                Console.WriteLine("Delete is working");
             }
             catch (APIFailedDeleteException ex)
             {
@@ -78,7 +75,7 @@ namespace CityPuzzle.Classes
             {
                 var response = await ApiCommands.SaveObject(this);
                 ID = response.ID;
-                Console.WriteLine("Saving Room is working");
+
                 foreach(int puzzleId in puzzleIds)
                 {
                     RoomTask rt = new RoomTask()
