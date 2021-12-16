@@ -35,7 +35,7 @@ namespace CityPuzzle.Classes
             try
             {
                 var response = await ApiCommands.SaveObject(this);
-                Console.WriteLine("Saving is working");
+                CompletedPuzzleId = response.CompletedPuzzleId;
             }
             catch (APIFailedSaveException ex) //reikia pagalvot kaip handlinti(galima mesti toliau ir try kur skaitoma(throw)) 
             {

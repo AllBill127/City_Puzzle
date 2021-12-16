@@ -85,7 +85,6 @@ namespace CityPuzzle.Game_Room.Join_GameRoom
                 AskIfContinueRoom(userRooms[e.ItemIndex]);
             }
             roomListView.SelectedItem = null;
-            Console.WriteLine(" " + e.Item);
         }
 
         private async void RoomSignIn_Clicked(object sender, EventArgs e)

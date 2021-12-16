@@ -9,47 +9,47 @@ namespace CityPuzzle.Rest_Services.Client
 {
     public class HttpClientRequest
     {
-        private string url = "http://10.0.2.2:5000/api/";
+        private static string defaultUrl = "http://10.0.2.2:5000/api/";
         static HttpClient httpClient = new HttpClient();
 
         protected void SetUrl(string url)
         {
-            this.url = url;
+            HttpClientRequest.defaultUrl = url;
         }
         public async Task<string> SendCommand(string objectPath)
         {
-            Task<string> sendcommand = httpClient.GetStringAsync(url + objectPath);
+            Task<string> sendcommand = httpClient.GetStringAsync(defaultUrl + objectPath);
             Thread timer = new Thread(new ThreadStart(() => Thread.Sleep(3000)));
             timer.Start();
+            //Console.WriteLine("SendCommand with:\n    DB URL: " + defaultUrl + "\n    Object: " + objectPath);
             while (timer.IsAlive)
             {
                 if (sendcommand.IsCompleted)
                 {
-                    //timer.Abort();
+                    timer.Abort();
                     return sendcommand.Result;
                 }
             }
-            Console.WriteLine("Canceled");
-            throw new APIFailedGetException("AFTER 3 SEC NO RESPONSE");
+            Console.WriteLine("SendCommands Canceled after 3s");
+            throw new APIFailedGetException("No response from data base after 3s");
         }
         protected async Task<HttpResponseMessage> SendItem(string objectPath, string json)
         {
-            Console.WriteLine("3");
             HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");           
-            var result = await httpClient.PostAsync(url + objectPath, content);
-            Console.WriteLine("3.1");
+            var result = await httpClient.PostAsync(defaultUrl + objectPath, content);
+            Console.WriteLine("\nSendItem to "+ defaultUrl + objectPath);
             if (result.IsSuccessStatusCode)
             {
-                Console.WriteLine("3.2");
                 var tokenJson = await result.Content.ReadAsStringAsync();
+                Console.WriteLine("\nObject saved to " + objectPath + " table in data base " + defaultUrl);
             }
             else
-                throw new APIFailedSaveException("Status Code is bad");             
+                throw new APIFailedSaveException("Saving object to data base failed");             
             return result;
         }
         protected async Task<HttpResponseMessage> DeleateItem(string objectPath)
         {
-            var content = await httpClient.DeleteAsync(url + objectPath);
+            var content = await httpClient.DeleteAsync(defaultUrl + objectPath);
             return content;
         }
 

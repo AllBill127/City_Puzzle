@@ -9,7 +9,12 @@ namespace CityPuzzle.Classes
     public class CityPuzzleObjects
     {
         [IgnoreDataMember]
-        protected static APICommands ApiCommands = App.WebServices;
+        protected static APICommands ApiCommands;
+
+        public CityPuzzleObjects()
+        { 
+            ApiCommands = App.WebServices; 
+        }
 
         public void ChangeService(APICommands api)
         {

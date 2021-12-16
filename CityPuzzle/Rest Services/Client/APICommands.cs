@@ -21,6 +21,11 @@ namespace CityPuzzle.Rest_Services.Client
         public APICommands(string url) {
             this.SetUrl(url);
         }
+        public APICommands(string url,string conn)
+        {
+            this.SetUrl(url);
+            Sql.ChangeDb(conn);
+        }
 
         //Komandos su Participant
         public async Task<List<Participant>> GetParticipants()
@@ -105,7 +110,7 @@ namespace CityPuzzle.Rest_Services.Client
                 throw new APIFailedGetException(ex.Message);
             }
         }
-        public async Task<List<CompletedPuzzle2>> CompletedPuzzle2(int userId)
+        public async Task<List<CompletedPuzzle2>> GetUserCompletedPuzzles(int userId)
         {
             try
             {
@@ -139,7 +144,7 @@ namespace CityPuzzle.Rest_Services.Client
                 {
                     try
                     {
-                        a.CompletedPuzzles = await CompletedPuzzle2(a.ID);
+                        a.CompletedPuzzles = await GetUserCompletedPuzzles(a.ID);
                     }
                     catch (System.Net.Http.HttpRequestException ex)
                     {
@@ -171,6 +176,7 @@ namespace CityPuzzle.Rest_Services.Client
                 try
                 {
                     user.QuestsCompleted = await GetUserComplitedTasks(UserId);
+                    user.CompletedPuzzles = await GetUserCompletedPuzzles(UserId);
                 }
                 catch (System.Net.Http.HttpRequestException ex)
                 {
@@ -283,7 +289,6 @@ namespace CityPuzzle.Rest_Services.Client
                 var json = await SendCommand("Puzzles");
                 var _puzzles = JsonConvert.DeserializeObject<List<Puzzle>>(json);
                 puzzles = new List<Puzzle>(_puzzles);
-                Console.WriteLine("SKAITYTI BAIGTA");
                 return puzzles;
             }
             catch (System.Net.Http.HttpRequestException ex)
@@ -361,14 +366,11 @@ namespace CityPuzzle.Rest_Services.Client
             Type typeParameterType = typeof(T);
             try
             {
-                Console.WriteLine("1");
                 string jsonItem = Serialize(item);
-                Console.WriteLine("2");
                 var response = await SendItem(GetAdress(item), jsonItem);
-                Console.WriteLine("4");
                 if (response.IsSuccessStatusCode)
                 {
-
+                    Console.WriteLine("Object Saved");
                     var responseItem = JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
                     return responseItem;
                 }
@@ -411,12 +413,5 @@ namespace CityPuzzle.Rest_Services.Client
             else
                 throw new APIFailedDeleteException();
         }
-
-
-        public void ChangeDbSring(string conn)
-        {
-
-        }
-
     }
 }

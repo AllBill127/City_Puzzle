@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 
 namespace CityPuzzle.Classes
 {
-    public class Sql
+    public /*static*/ class Sql
     {
-        public static string ConnStr = "Server = tcp:citypuzzle.database.windows.net,1433; Initial Catalog = CityPuzzle; " +
-            "Persist Security Info = False; User ID = citypuzzle; Password = User123*; MultipleActiveResultSets = False; " +
-            "Encrypt = True; TrustServerCertificate = False; Connection Timeout=30;";
-
         public static List<User> ReadUsers()
         {
             Task<List<User>> obTask = Task.Run(() => App.WebServices.GetUsers());
+            obTask.ConfigureAwait(false);
             obTask.Wait();
             return obTask.Result;
         }
+
         public static User ReadUser(int id)
         {
             Task<User> obTask = Task.Run(() => App.WebServices.GetUser(id));
+            obTask.ConfigureAwait(false);
             obTask.Wait();
             return obTask.Result;
         }
@@ -30,12 +29,15 @@ namespace CityPuzzle.Classes
         public static List<Puzzle> ReadPuzzles()
         {
             Task<List<Puzzle>> obTask = Task.Run(() => App.WebServices.GetPuzzles());
+            obTask.ConfigureAwait(false);
             obTask.Wait();
             return obTask.Result;
         }
+
         public static List<Room> ReadRooms()
         {
             Task<List<Room>> obTask = Task.Run(() => App.WebServices.GetRooms());
+            obTask.ConfigureAwait(false);
             obTask.Wait();
             return obTask.Result;
         }
@@ -55,13 +57,11 @@ namespace CityPuzzle.Classes
         }
 
         // -------------------------------------------------Change db--------------------------------------------------------------
-
         public static void ChangeDb(string conn)
         {
             ConnString connString = new ConnString() { Conn = conn, Token = "CityPuzzle" };
             connString.ChangeConn();
         }
-
 
         //-------------------------------------------------Local User-----------------------------------------------------------------------
         public static SimpleUser GetCurrentUser()

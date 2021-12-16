@@ -22,7 +22,6 @@ namespace CityPuzzle.Classes
             try
             {
                 var response = await ApiCommands.SaveObject(this);
-                Console.WriteLine("Saving is working");
             }
             catch (APIFailedSaveException ex) //reikia pagalvot kaip handlinti(galima mesti toliau ir try kur skaitoma(throw)) 
             {
@@ -41,7 +40,6 @@ namespace CityPuzzle.Classes
             try
             {
                 App.WebServices.DeleteObject(adress);
-                Console.WriteLine("Delete is working");
             }
             catch (APIFailedDeleteException ex)
             {
